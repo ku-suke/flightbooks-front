@@ -5,8 +5,8 @@
         <Sidebar />
       </el-aside>
       <el-container>
-        <el-header class="App__Header">
-          <Header :user="presenter.currentUser" @signOut="signOut"/>
+        <el-header class="App__Header" height="72px">
+          <Header :user="presenter.currentUser" :isAuthenticating="presenter.isAuthenticating" @signOut="signOut"/>
         </el-header>
         <main>
           <router-view/>
@@ -20,7 +20,7 @@
 import Vue from "vue";
 import firebase from "firebase";
 import presenter, { IPresenter, IPresenterState } from "./presenter";
-import Header from "@/containers/header/index.vue";
+import Header from "@/containers/Header/index.vue";
 import Sidebar from '@/containers/Sidebar/index.vue'
 import UserRepository from "@/repositories/UserRepository";
 
@@ -53,7 +53,7 @@ export default Vue.extend({
 </script>
 
 
-<style scoped>
+<style>
 body {
   margin: 0;
 }
@@ -79,7 +79,6 @@ main {
 }
 
 .App__Sidebar {
-  width: 260px;
   height: 100%;
 }
 </style>

@@ -10,5 +10,11 @@ export const mutations: MutationTree<UserState> = {
   [Types.SIGN_OUT]: state => {
     const { user } = initialState();
     state.user = user;
+  },
+  [Types.START_AUTHENTICATION]: state => {
+    state.isAuthenticating = true
+  },
+  [Types.FINISH_AUTHENTICATION]: state => {
+    state.isAuthenticating = false
   }
 };

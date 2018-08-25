@@ -7,10 +7,12 @@ export interface IPresenter {
 
 export interface IPresenterState {
   currentUser: User | null;
+  isAuthenticating: boolean
 }
 
 export default ({ userRepository }: IPresenter): IPresenterState => {
   return {
-    currentUser: userRepository.getCurrentUser()
+    currentUser: userRepository.getCurrentUser(),
+    isAuthenticating: userRepository.isAuthenticating()
   };
 };

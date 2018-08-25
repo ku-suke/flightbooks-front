@@ -1,13 +1,6 @@
 <template>
   <div class="Header">
     <div class="Hedaer__Left">
-      <div class="Header__Logo">
-        <router-link to="/">Admin Tool</router-link>
-      </div>
-      <div class="Header__Nav">
-        <router-link to="/museums">museums</router-link>
-        <router-link to="/unregistered">unregistered</router-link>
-      </div>
     </div>
     <div class="Header__Right">
       <div class="Header__Actions">
@@ -16,7 +9,7 @@
         </template>
         <template v-else>
           {{ user }}
-          <el-button round @click="$router.push('/signin')">Sign In</el-button>
+          <el-button round :loading="isAuthenticating" @click="$router.push('/signin')">Sign In</el-button>
         </template>
       </div>
     </div>
@@ -31,7 +24,11 @@ export default Vue.extend({
   props: {
     user: {
       type: Object as () => User,
-      default: null
+      default: null,
+    },
+    isAuthenticating: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -48,7 +45,7 @@ export default Vue.extend({
   justify-content: space-between;
   align-items: center;
   padding: 0 10%;
-  height: 64px;
+  height: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   background-color: #e4002b;
   color: #fff;

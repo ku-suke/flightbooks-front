@@ -7,4 +7,8 @@ export default class UserRepository {
   getCurrentUser(): User | null {
     return store.state.user.user;
   }
+
+  isAuthenticating(): boolean {
+    return store.state.user.isAuthenticating
+  }
 }
