@@ -1,0 +1,55 @@
+{
+  "name": "flightbooks-front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e"
+  },
+  "dependencies": {
+    "element-ui": "^2.4.4",
+    "firebase": "^5.2.0",
+    "moment": "^2.22.2",
+    "register-service-worker": "^1.0.0",
+    "uuid": "^3.3.2",
+    "vue": "^2.5.16",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.1.4",
+    "@types/uuid": "^3.4.3",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.4",
+    "@vue/cli-plugin-e2e-cypress": "^3.0.0-rc.4",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.4",
+    "@vue/cli-plugin-pwa": "^3.0.0-rc.4",
+    "@vue/cli-plugin-typescript": "^3.0.0-rc.4",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.4",
+    "@vue/cli-service": "^3.0.0-rc.4",
+    "@vue/eslint-config-prettier": "^3.0.0-rc.4",
+    "@vue/eslint-config-typescript": "^3.0.0-rc.4",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-core": "7.0.0-bridge.0",
+    "lint-staged": "^7.2.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "ts-jest": "^23.0.0",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "vue-cli-service lint",
+      "git add"
+    ],
+    "*.vue": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}
