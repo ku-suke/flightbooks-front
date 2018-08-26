@@ -1,17 +1,17 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <main class="Home">
+    <BookListContainer />
+  </main>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import BookListContainer from '@/containers/Book/List/index.vue'
 
 export default Vue.extend({
   name: "home",
   components: {
-    HelloWorld
+    BookListContainer
   }
 });
 </script>

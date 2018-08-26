@@ -3,9 +3,23 @@
     <div class="Hedaer__Left">
     </div>
     <div class="Header__Right">
+        <!-- <el-button round @click="handleSignOut">Sign Out</el-button> -->
       <div class="Header__Actions">
         <template v-if="user">
-          <el-button round @click="handleSignOut">Sign Out</el-button>
+          <el-dropdown :hide-on-click="false">
+            <span class="el-dropdown-link">
+              {{ user.email }}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu class="Header__DropdownMenu" slot="dropdown">
+              <el-dropdown-item>設定</el-dropdown-item>
+              <el-dropdown-item>支払い</el-dropdown-item>
+              <el-dropdown-item>通知</el-dropdown-item>
+              <el-dropdown-item disabled>Pro</el-dropdown-item>
+              <el-dropdown-item divided>
+                <el-button type="text" @click="handleSignOut">ログアウト</el-button>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </template>
         <template v-else>
           {{ user }}
@@ -33,6 +47,7 @@ export default Vue.extend({
   },
   methods: {
     handleSignOut() {
+      console.log('handleSignOut called')
       this.$emit("signOut");
     }
   }
@@ -44,10 +59,9 @@ export default Vue.extend({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10%;
+  padding: 0 3%;
   height: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-  background-color: #e4002b;
+  background-color: #070707;
   color: #fff;
 }
 
@@ -84,5 +98,18 @@ export default Vue.extend({
 
 .Header__Nav > a:hover {
   text-decoration: underline;
+}
+
+.Header__Actions {
+  color: #fff;
+}
+
+.el-dropdown-link {
+  color: #fff;
+  font-size: 16px;
+}
+
+.Header__DropdownMenu {
+  min-width: 100px;
 }
 </style>

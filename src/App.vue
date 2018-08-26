@@ -1,16 +1,14 @@
 <template>
   <div id="app" class="App">
-    <el-container>
-      <el-aside class="App__Sidebar" width="260px">
-        <Sidebar />
-      </el-aside>
+    <el-container class="App__Container">
+      <el-header class="App__Header" height="64px">
+        <Header :user="presenter.currentUser" :isAuthenticating="presenter.isAuthenticating" @signOut="signOut"/>
+      </el-header>
       <el-container>
-        <el-header class="App__Header" height="72px">
-          <Header :user="presenter.currentUser" :isAuthenticating="presenter.isAuthenticating" @signOut="signOut"/>
-        </el-header>
-        <main>
-          <router-view/>
-        </main>
+        <template v-if="presenter.isAuthenticating">
+          <h2>読み込み中だお</h2>
+        </template>
+        <router-view v-else/>
       </el-container>
     </el-container>
   </div>
@@ -73,12 +71,17 @@ main {
   color: #2c3e50;
 }
 
+.App__Container {
+  min-height: 100vh;
+}
+
 .App__Header {
   padding: 0;
   z-index: 10;
 }
 
 .App__Sidebar {
+  min-height: 100vh;
   height: 100%;
 }
 </style>
