@@ -26,7 +26,7 @@
           <FormBlock label="技術カテゴリ">
             <baseInput/>
           </FormBlock>
-          <el-button type="primary" native-type="submit" :disabled="!verified" round>追加</el-button>
+          <el-button type="primary" native-type="submit" :disabled="!verified" :loading="isRegistering" round>追加</el-button>
         </form>
       </template>
     </Modal>
@@ -64,6 +64,7 @@ import Book from "@/components/Modules/Book.vue";
 interface IData {
   project: IBook;
   showModal: boolean;
+  isRegistering: boolean;
 }
 
 export default Vue.extend({
@@ -77,9 +78,10 @@ export default Vue.extend({
     return {
       project: {
         title: "",
-        genre: 0
+        genre: 0,
       },
-      showModal: false
+      showModal: false,
+      isRegistering: false
     };
   },
   computed: {
@@ -97,6 +99,7 @@ export default Vue.extend({
   },
   methods: {
     async register() {
+      this.isRegistering = true
       const bookEntity = new BookEntity({
         ...this.project,
         userId: this.presenter.userId
@@ -107,6 +110,9 @@ export default Vue.extend({
       };
       const usecase = new RegisterBookUseCase(params);
       const identifier = await usecase.execute(bookEntity);
+      this.isRegistering = false
+      this.showModal = false
+      await this.loadContainer()
     },
     async removeItem(identifier: string) {
       const result1 = window.confirm(
@@ -126,16 +132,19 @@ export default Vue.extend({
       const usecase = new RemoveBookUseCase(params);
       await usecase.execute(identifier);
       location.reload(true);
+    },
+    async loadContainer() {
+      const params: ILoadContainerUseCase = {
+        bookRepository: new BookRepository(),
+        userId: this.presenter.userId,
+        errorService: new ErrorService({ context: "LoadContainerUseCase" })
+      };
+      const usecase = new LoadContainerUseCase(params);
+      await usecase.execute();
     }
   },
   async mounted() {
-    const params: ILoadContainerUseCase = {
-      bookRepository: new BookRepository(),
-      userId: this.presenter.userId,
-      errorService: new ErrorService({ context: "LoadContainerUseCase" })
-    };
-    const usecase = new LoadContainerUseCase(params);
-    await usecase.execute();
+    await this.loadContainer()
   }
 });
 </script>
