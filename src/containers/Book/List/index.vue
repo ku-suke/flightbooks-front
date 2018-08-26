@@ -11,7 +11,7 @@
           </div>
           <div class="BookList__EmptyText">新規プロジェクトを作成</div>
         </button>
-        <Book v-for="book in presenter.books" class="BookList__Project" :book="book" :key="book.identifier" />
+        <Book v-for="book in presenter.books" class="BookList__Project" :book="book" :key="book.identifier" @remove="removeItem" />
       </div>
     </div>
     <Modal v-show="showModal" @close="showModal = false">
@@ -39,12 +39,16 @@ import Vue from 'vue'
 import Presenter, { PresenterParams, IPresenter } from './presenter'
 
 import { IBook } from '@/entities/Book'
-import RegisterBookUseCase, { IRegisterMuseumUseCase } from '@/usecases/RegisterBookUseCase'
 import BookEntity from '@/entities/Book'
 import BookRepository from '@/repositories/BookRepository'
 import UserRepository from '@/repositories/UserRepository'
 import ErrorService from '@/services/ErrorService'
+
+// Use Case
+import RegisterBookUseCase, { IRegisterMuseumUseCase } from '@/usecases/RegisterBookUseCase'
+import RemoveBookUseCase, { IRemoveBookUseCase } from '@/usecases/RemoveBookUseCase'
 import LoadContainerUseCase, { ILoadContainerUseCase } from './LoadContainerUseCase'
+
 
 // components
 import Modal from '@/components/Base/Modal.vue'
@@ -96,6 +100,21 @@ export default Vue.extend({
       }
       const usecase = new RegisterBookUseCase(params)
       const identifier = await usecase.execute(bookEntity)
+    },
+    async removeItem(identifier: string) {
+      const result1 = window.confirm('このプロジェクトを削除してもよろしいですか？\n(この操作は取り消せません)')
+      if (!result1) return
+
+      const result2 = window.confirm('本当にプロジェクトを削除してもよろしいですか？\n(この操作は取り消せません)')
+      if (!result2) return
+
+      const params: IRemoveBookUseCase = {
+        bookRepository: new BookRepository,
+        errorService: new ErrorService({ context: 'RemoveBook usecase' })
+      }
+      const usecase = new RemoveBookUseCase(params)
+      await usecase.execute(identifier)
+      location.reload(true)
     }
   },
   async mounted() {

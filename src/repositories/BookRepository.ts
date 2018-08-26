@@ -5,7 +5,7 @@ import {
   StoreItems,
   ResetItems,
   StoreItem,
-  ResetItem
+  ResetItem,
 } from "@/store/modules/book/types";
 import BookEntity, { IBook } from "@/entities/Book";
 
@@ -55,6 +55,15 @@ export default class BookRepository {
     // fetch item againt then update local store
     const item = await this.fetchItem(identifier);
     this.saveItem(item);
+  }
+  
+  async removeItem(identifier: string) {
+    try {
+    const ref = firebase.firestore().collection(collection).doc(identifier)
+    await ref.delete()
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   saveItems(items: IBook[]) {

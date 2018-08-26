@@ -1,13 +1,18 @@
 <template>
-  <a class="Book">
-    <div class="Book__Thumbnail">
-      <img :src="book.props.thumbanilUrl || 'https://images-na.ssl-images-amazon.com/images/I/5191wb7GxtL._SX350_BO1,204,203,200_.jpg'" alt="">
-    </div>
-    <div class="Book__Info">
-      <div class="Book__Title">{{ book.props.title }}</div>
-      <div class="Book__UpdatedAt">作成日: {{ updatedAt }}</div>
-    </div>
-  </a>
+  <transition name="book">
+    <a class="Book">
+      <div class="Book__Thumbnail">
+        <img :src="book.props.thumbanilUrl || 'https://images-na.ssl-images-amazon.com/images/I/5191wb7GxtL._SX350_BO1,204,203,200_.jpg'" alt="">
+      </div>
+      <div class="Book__Info">
+        <div class="Book__Title">{{ book.props.title }}</div>
+        <div class="Book__UpdatedAt">作成日: {{ updatedAt }}</div>
+      </div>
+      <div class="Book__Remove" @click="handleRemove">
+        <el-button type="danger" icon="el-icon-close" circle />
+      </div>
+    </a>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -28,6 +33,11 @@ export default Vue.extend({
 
       return updatedAt ? formatDate(updatedAt) : ''
     }
+  },
+  methods: {
+    handleRemove() {
+      this.$emit('remove', this.book.props.identifier)
+    }
   }
 })
 </script>
@@ -39,6 +49,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 
 .Book:hover > .Book__Thumbnail {
@@ -75,5 +86,25 @@ export default Vue.extend({
   color: #ddd;
   font-size: 12px;
   font-weight: bold;
+}
+
+.Book__Remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  display: none;
+  transition: .5s;
+}
+
+.Book:hover > .Book__Remove {
+  display: block;
+}
+
+.book-enter-active, .book-leave-active {
+  transition: opacity 1s;
+}
+.book-enter, .book-leave-to {
+  opacity: 0;
 }
 </style>
