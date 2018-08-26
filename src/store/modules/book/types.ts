@@ -1,10 +1,11 @@
 import { IBook } from "@/entities/Book";
 
 export enum Types {
-  STORE_ITEMS = "museum/store_items",
-  RESET_ITEMS = "museum/reset_items",
-  STORE_ITEM = "museum/store_item",
-  RESET_ITEM = "museum/reset_item"
+  STORE_ITEMS = "book/store_items",
+  RESET_ITEMS = "book/reset_items",
+  STORE_ITEM = "book/store_item",
+  RESET_ITEM = "book/reset_item",
+  REMOVE_ITEM = 'book/remove_item'
 }
 
 export class StoreItems implements FluxStandardAction {
@@ -25,4 +26,9 @@ export class StoreItem implements FluxStandardAction {
 export class ResetItem implements FluxStandardAction {
   type = Types.RESET_ITEM;
   payload = null;
+}
+
+export class RemoveItem implements FluxStandardAction {
+  type = Types.REMOVE_ITEM
+  constructor(public payload: string){} // should be identifier
 }
