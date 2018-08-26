@@ -19,10 +19,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import firebase from "firebase";
+import firebase, { User } from "firebase";
 import Input from '@/components/Base/Input.vue'
 import FormBlock from '@/components/Base/FormBlock.vue'
 import Button, { Type as ButtonType, Size as ButtonSize } from '@/components/Base/Button.vue'
+import { Rootstate } from '@/store'
 
 export default Vue.extend({
   components: {
@@ -43,6 +44,20 @@ export default Vue.extend({
   computed: {
     verified(): boolean {
       return this.email.length > 0 && this.password.length > 0 && !this.loading;
+    },
+    state(): Rootstate {
+      return this.$store.state
+    },
+    currentUser(): User | null {
+      return this.state.user.user
+    }
+  },
+  watch: {
+    currentUser: {
+      immediate: true,
+      handler(newVal, _) {
+        if (newVal) this.redirect()
+      }
     }
   },
   methods: {
@@ -52,14 +67,19 @@ export default Vue.extend({
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
-          user => {
-            alert("Success!");
-            this.$router.push("/");
-          },
+          user => this.redirect(),
           err => {
             alert(err.message);
           }
         );
+    },
+    redirect() {
+      const redirect = this.$route.query.redirect
+      if (redirect) {
+        this.$router.push(redirect)
+      } else {
+        this.$router.push("/");
+      }
     }
   }
 });

@@ -107,6 +107,7 @@ export default Vue.extend({
 .el-dropdown-link {
   color: #fff;
   font-size: 16px;
+  cursor: pointer;
 }
 
 .Header__DropdownMenu {
