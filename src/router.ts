@@ -3,9 +3,6 @@ import Router from "vue-router";
 import Home from "./pages/Home.vue";
 import About from "./pages/About.vue";
 import Signin from "./pages/Signin.vue";
-import MuseumList from "@/pages/MuseumList.vue";
-import MuseumDetail from "@/pages/museum/detail.vue";
-import Unregistered from "@/pages/Unregistered.vue"
 import store from "@/store";
 
 Vue.use(Router);
@@ -30,30 +27,6 @@ let router = new Router({
         checkAuth: true
       }
     },
-    {
-      path: "/museums",
-      name: "museums",
-      component: MuseumList,
-      meta: {
-        requireAuth: true
-      }
-    },
-    {
-      path: "/museums/:id",
-      name: "museum",
-      component: MuseumDetail,
-      meta: {
-        requireAuth: false
-      }
-    },
-    {
-      path: "/unregistered",
-      name: "unregistered",
-      component: Unregistered,
-      meta: {
-        requireAuth: true
-      }
-    }
   ]
 });
 
