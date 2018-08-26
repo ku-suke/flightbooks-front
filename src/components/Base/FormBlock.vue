@@ -35,6 +35,7 @@ export default Vue.extend({
   align-items: stretch;
   color: #070707;
   margin-bottom: 16px;
+  width: 100%;
 }
 .FormBlock__Label {
   display: flex;

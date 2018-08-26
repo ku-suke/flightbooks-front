@@ -71,6 +71,7 @@ export default Vue.extend({
   outline: none;
   border: 1px solid #dadbe3;
   border-radius: 4px;
+  transition: .3s;
 }
 .Input::-webkit-input-placeholder {
   color: #dadbe3;
@@ -79,6 +80,7 @@ export default Vue.extend({
   opacity: 0.7;
 }
 .Input:focus {
+  background-color: #fff;
   outline-color: ##41424e;
 }
 .Input[pattern]:valid {
