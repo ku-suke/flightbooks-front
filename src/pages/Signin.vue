@@ -1,45 +1,53 @@
 <template>
-  <div class="Signin">
+  <main class="Signin">
     <el-card class="Signin__Card">
       <div slot="header" class="clearfix">
-        <span>Sign In</span>
+        <span>ログイン</span>
       </div>
-      <div class="Signin__Form">
-        <el-form @submit.native.prevent="signin">
-          <el-form-item label="Email">
-            <el-input v-model="email" />
-          </el-form-item>
-          <el-form-item label="Password">
-            <el-input v-model="password" type="password" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" native-type="submit" :disabled="!verified" round>Signin</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <form class="Signin__Form" @submit.prevent="signin">
+        <FormBlock label="メールアドレス">
+          <Input v-model="email" placeholder="j.smith@example.com" />
+        </FormBlock>
+        <FormBlock label="パスワード">
+          <Input v-model="password" type="password" />
+        </FormBlock>
+        <Button text="ログイン" nativeType="submit" :type="ButtonType.Primary" :disabled="!verified" :loading="loading" />
+      </form>
     </el-card>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import firebase from "firebase";
+import Input from '@/components/Base/Input.vue'
+import FormBlock from '@/components/Base/FormBlock.vue'
+import Button, { Type as ButtonType, Size as ButtonSize } from '@/components/Base/Button.vue'
 
 export default Vue.extend({
+  components: {
+    Button,
+    Input,
+    FormBlock
+  },
   name: "Signin",
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      ButtonType,
+      ButtonSize,
+      loading: false
     };
   },
   computed: {
     verified(): boolean {
-      return this.email.length > 0 && this.password.length > 0;
+      return this.email.length > 0 && this.password.length > 0 && !this.loading;
     }
   },
   methods: {
-    signin() {
+    async signin() {
+      this.loading = true
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
@@ -67,5 +75,11 @@ export default Vue.extend({
 
 .Signin__Card {
   width: 400px;
+}
+
+.Signin__Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
