@@ -54,6 +54,7 @@ import RemoveBookUseCase, {
 import LoadContainerUseCase, {
   ILoadContainerUseCase
 } from "./LoadContainerUseCase";
+import DestroyContainerUseCase, { IDestroyContainerUseCase } from './DestroyContainerUseCase'
 
 // components
 import Modal from "@/components/Base/Modal.vue";
@@ -145,6 +146,12 @@ export default Vue.extend({
   },
   async mounted() {
     await this.loadContainer()
+  },
+  async destroyed() {
+    const params: IDestroyContainerUseCase = {
+      bookRepository: new BookRepository()
+    };
+    await new DestroyContainerUseCase(params).execute();
   }
 });
 </script>
