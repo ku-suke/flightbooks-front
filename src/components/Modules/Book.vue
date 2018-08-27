@@ -1,6 +1,6 @@
 <template>
   <transition name="book">
-    <a class="Book">
+    <router-link class="Book" :to="{name: 'project', params: {id: book.props.identifier}}">
       <div class="Book__Thumbnail">
         <img :src="book.props.thumbanilUrl || 'https://images-na.ssl-images-amazon.com/images/I/5191wb7GxtL._SX350_BO1,204,203,200_.jpg'" alt="">
       </div>
@@ -11,7 +11,7 @@
       <div class="Book__Remove" @click="handleRemove">
         <el-button type="danger" icon="el-icon-close" circle />
       </div>
-    </a>
+    </router-link>
   </transition>
 </template>
 
@@ -50,6 +50,8 @@ export default Vue.extend({
   flex-direction: column;
   align-items: center;
   position: relative;
+  text-decoration: none;
+  color: #070707;
 }
 
 .Book:hover > .Book__Thumbnail {
