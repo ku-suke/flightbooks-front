@@ -52,7 +52,20 @@ export default class BookRepository {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // fetch item againt then update local store
+    // fetch item again then update local store
+    const item = await this.fetchItem(identifier);
+    this.saveItem(item);
+  }
+
+  async updateContent(identifier: string, content: string) {
+    const ref = firebase.firestore().collection(collection).doc(identifier)
+
+    await ref.update({
+      content,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+
+    // fetch item again then update local store
     const item = await this.fetchItem(identifier);
     this.saveItem(item);
   }

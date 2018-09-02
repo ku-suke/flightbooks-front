@@ -13,7 +13,7 @@
     </div>
     <div class="BookDetail__Center">
       <MarkdownEditor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig"/>
-      <button @click="save">Save</button>
+      <button @click="updateContent">Save</button>
     </div>
     <div class="BookDetail__Right">
       ここに画像管理UI(TBD)
@@ -35,6 +35,7 @@ import Presenter, { PresenterParams, IPresenter } from "./presenter";
 import LoadContainerUseCase, {
   ILoadContainerUseCase
 } from "./LoadContainerUseCase";
+import UpdateContentUseCase, { IUpdateContentUseCase } from '@/usecases/UpdateContentUseCase'
 
 interface IData {
   showModal: boolean;
@@ -82,10 +83,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    save() {
-      alert("Saved!!")
-      alert(this.content)
-    },
     async loadItem() {
       const params: ILoadContainerUseCase = {
         bookRepository: new BookRepository,
@@ -95,6 +92,16 @@ export default Vue.extend({
 
       const usecase = new LoadContainerUseCase(params)
       await usecase.execute()
+    },
+    async updateContent() {
+      const params: IUpdateContentUseCase = {
+        bookRepository: new BookRepository(),
+        errorService: new ErrorService({ context: 'UpdateContent UseCase' }),
+        projectId: this.id
+      }
+
+      const usecase = new UpdateContentUseCase(params)
+      await usecase.execute(this.editorContent)
     }
   },
   async mounted() {
