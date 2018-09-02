@@ -36,6 +36,7 @@ import LoadContainerUseCase, {
   ILoadContainerUseCase
 } from "./LoadContainerUseCase";
 import UpdateContentUseCase, { IUpdateContentUseCase } from '@/usecases/UpdateContentUseCase'
+import DestroyContainerUseCase, { IDestroyContainerUseCase } from './DestroyContainerUseCase'
 
 interface IData {
   showModal: boolean;
@@ -106,6 +107,12 @@ export default Vue.extend({
   },
   async mounted() {
     await this.loadItem()
+  },
+  async destroyed() {
+    const params: IDestroyContainerUseCase = {
+      bookRepository: new BookRepository()
+    };
+    await new DestroyContainerUseCase(params).execute();
   }
 });
 </script>
