@@ -29,6 +29,8 @@ import editorConfig from "@/utils/editorConfig"
 import BookRepository from '@/repositories/BookRepository'
 import ErrorService from '@/services/ErrorService'
 
+import Presenter, { PresenterParams, IPresenter } from "./presenter";
+
 // Use Case
 import LoadContainerUseCase, {
   ILoadContainerUseCase
@@ -63,6 +65,15 @@ export default Vue.extend({
       content: "",
       editorConfig
     };
+  },
+  computed: {
+    presenter(): IPresenter {
+      const params: PresenterParams = {
+        bookRepository: new BookRepository,
+      }
+
+      return Presenter(params)
+    }
   },
   methods: {
     save() {

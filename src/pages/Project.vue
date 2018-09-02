@@ -1,6 +1,6 @@
 <template>
   <main class="Project">
-    <BookDetailContainer />
+    <BookDetailContainer :id="$route.params.id" />
   </main>
 </template>
 
