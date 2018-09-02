@@ -1,17 +1,23 @@
 <template>
-  <main class="Home">
-    <BookListContainer />
+  <main class="Project">
+    <BookDetailContainer />
   </main>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import BookListContainer from '@/containers/Book/List/index.vue'
+import BookDetailContainer from '@/containers/Book/Detail/index.vue'
 
 export default Vue.extend({
-  name: "home",
+  name: "project",
   components: {
-    BookListContainer
+    BookDetailContainer
   }
 });
 </script>
+
+<style scoped>
+.Project {
+  padding: 0;
+}
+</style>
