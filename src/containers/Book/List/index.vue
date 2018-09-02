@@ -80,6 +80,7 @@ export default Vue.extend({
       project: {
         title: "",
         genre: 0,
+        content: ""
       },
       showModal: false,
       isRegistering: false

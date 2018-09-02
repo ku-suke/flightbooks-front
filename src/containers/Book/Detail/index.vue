@@ -12,7 +12,7 @@
       </el-collapse>
     </div>
     <div class="BookDetail__Center">
-      <MarkdownEditor v-model="content" class="BookDetail__Editor" :configs="editorConfig"/>
+      <MarkdownEditor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig"/>
       <button @click="save">Save</button>
     </div>
     <div class="BookDetail__Right">
@@ -37,11 +37,10 @@ import LoadContainerUseCase, {
 } from "./LoadContainerUseCase";
 
 interface IData {
-  project: IBook;
   showModal: boolean;
   isRegistering: boolean;
-  content: string;
-  editorConfig: any
+  editorConfig: any,
+  editorContent: string
 }
 
 export default Vue.extend({
@@ -56,14 +55,10 @@ export default Vue.extend({
   },
   data(): IData {
     return {
-      project: {
-        title: "",
-        genre: 0,
-      },
       showModal: false,
       isRegistering: false,
-      content: "",
-      editorConfig
+      editorConfig,
+      editorContent: ''
     };
   },
   computed: {
@@ -73,6 +68,17 @@ export default Vue.extend({
       }
 
       return Presenter(params)
+    }
+  },
+  watch: {
+    'presenter.content': {
+      immediate: true,
+      handler(val, oldVal) {
+        // Copy to component state
+        if (val) {
+          this.editorContent = val
+        }
+      }
     }
   },
   methods: {
@@ -92,7 +98,6 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    console.log('mounting')
     await this.loadItem()
   }
 });

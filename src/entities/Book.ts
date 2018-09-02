@@ -8,6 +8,7 @@ export interface IBook {
   createdAt?: firebase.firestore.Timestamp;
   updatedAt?: firebase.firestore.Timestamp;
   thumbanilUrl?: string;
+  content: string
 }
 
 export default class BookEntity {

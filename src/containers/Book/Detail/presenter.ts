@@ -7,10 +7,13 @@ export interface PresenterParams {
 
 export interface IPresenter {
   book: BookEntity
+  content: string
 }
 
 export default ({ bookRepository }: PresenterParams): IPresenter => {
+  const item = bookRepository.getItem()
   return {
-    book: new BookEntity(bookRepository.getItem())
+    book: item ? new BookEntity(item) : null,
+    content: item ? item.content : ''
   }
 }
