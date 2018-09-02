@@ -26,6 +26,13 @@ import Vue from "vue";
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { IBook } from "@/entities/Book";
 import editorConfig from "@/utils/editorConfig"
+import BookRepository from '@/repositories/BookRepository'
+import ErrorService from '@/services/ErrorService'
+
+// Use Case
+import LoadContainerUseCase, {
+  ILoadContainerUseCase
+} from "./LoadContainerUseCase";
 
 interface IData {
   project: IBook;
@@ -38,6 +45,12 @@ interface IData {
 export default Vue.extend({
   components: {
     MarkdownEditor
+  },
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
   },
   data(): IData {
     return {
@@ -55,7 +68,21 @@ export default Vue.extend({
     save() {
       alert("Saved!!")
       alert(this.content)
+    },
+    async loadItem() {
+      const params: ILoadContainerUseCase = {
+        bookRepository: new BookRepository,
+        errorService: new ErrorService({context: 'LoadContainer UseCase'}),
+        projectId: this.id
+      }
+
+      const usecase = new LoadContainerUseCase(params)
+      await usecase.execute()
     }
+  },
+  async mounted() {
+    console.log('mounting')
+    await this.loadItem()
   }
 });
 </script>
@@ -89,11 +116,5 @@ export default Vue.extend({
 
 .BookDetail__Editor > .CodeMirror, .BookDetail__Editor > .CodeMirror-scroll {
   min-height: 500px;
-}
-</style>
-
-<style>
-.CodeMirror-scroll {
-  min-height: 70vh;
 }
 </style>
