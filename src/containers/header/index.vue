@@ -1,6 +1,9 @@
 <template>
   <div class="Header">
     <div class="Hedaer__Left">
+      <router-link class="Header__Logo" to="/">
+        <img src="/logo.png" />
+      </router-link>
     </div>
     <div class="Header__Right">
         <!-- <el-button round @click="handleSignOut">Sign Out</el-button> -->
@@ -61,7 +64,7 @@ export default Vue.extend({
   align-items: center;
   padding: 0 3%;
   height: 100%;
-  background-color: #070707;
+  background-color: #004F99;
   color: #fff;
 }
 
@@ -71,21 +74,18 @@ export default Vue.extend({
 }
 
 .Header__Logo {
-  font-size: 32px;
-  font-weight: bold;
-  margin-right: 32px;
-  line-height: 1;
+  width: 200px;
 }
 
-.Header__Logo > a {
-  color: #fff;
-  text-decoration: none;
-  transition: 0.3s;
+.Header__Logo:hover > img {
+  opacity: .6;
 }
 
-.Header__Logo > a:hover {
-  color: #262626;
+.Header__Logo > img {
+  width: 100%;
+  transition: .3s;
 }
+
 
 .Header__Nav > a {
   font-size: 18px;
