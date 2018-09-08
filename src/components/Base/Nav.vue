@@ -1,7 +1,12 @@
 <template>
   <div class="Nav" :class="{ '-isExpanded': isExpanded }">
     <button class="Nav__Header" @click="isExpanded = !isExpanded">
-      <i class="el-icon-arrow-right Nav__Icon" /> {{ label }}
+      <div class="Nav__Title">
+        <i class="el-icon-arrow-right Nav__Icon" /> {{ label }}
+      </div>
+      <div class="Nav__Menu" v-if="$slots['menu']">
+        <slot name="menu" />
+      </div>
     </button>
     <div class="Nav__Body" v-show="isExpanded">
       <slot/>
@@ -38,6 +43,8 @@ export default Vue.extend({
 }
 
 .Nav__Header {
+  display: flex;
+  justify-content: space-between;
   height: 48px;
   line-height: 48px;
   width: 100%;
