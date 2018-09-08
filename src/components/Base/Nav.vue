@@ -48,10 +48,15 @@ export default Vue.extend({
   text-align: left;
   transition: .3s;
   font-weight: 500;
+  outline: none;
 }
 
 .Nav__Header:hover {
   cursor: pointer;
+}
+
+.Nav__Header:hover,
+.Nav__Header:focus {
   background-color: rgba(0, 79, 153, 0.492);
 }
 
