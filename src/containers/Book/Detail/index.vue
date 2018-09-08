@@ -12,8 +12,7 @@
       </el-collapse>
     </div>
     <div class="BookDetail__Center">
-      <MarkdownEditor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig"/>
-      <button @click="updateContent">Save</button>
+      <Editor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig" @save="updateContent"/>
     </div>
     <div class="BookDetail__Right">
       ここに画像管理UI(TBD)
@@ -23,11 +22,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
 import { IBook } from "@/entities/Book";
 import editorConfig from "@/utils/editorConfig"
 import BookRepository from '@/repositories/BookRepository'
 import ErrorService from '@/services/ErrorService'
+import Editor from '@/components/Modules/Editor.vue'
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
 
@@ -47,7 +46,7 @@ interface IData {
 
 export default Vue.extend({
   components: {
-    MarkdownEditor
+    Editor
   },
   props: {
     id: {
