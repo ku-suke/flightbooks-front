@@ -1,15 +1,7 @@
 <template>
   <div class="BookDetail">
     <div class="BookDetail__Left">
-      <el-collapse class="BookDetail__GeneralMenu">
-        <el-collapse-item title="設定" name="1">
-          <div>プロジェクト設定</div>
-          <div>出版設定</div>
-        </el-collapse-item>
-        <el-collapse-item title="ページ一覧" name="2">
-          <div>ここに目次</div>
-        </el-collapse-item>
-      </el-collapse>
+      <BookNav />
     </div>
     <div class="BookDetail__Center">
       <Editor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig" @save="updateContent"/>
@@ -27,6 +19,7 @@ import editorConfig from "@/utils/editorConfig"
 import BookRepository from '@/repositories/BookRepository'
 import ErrorService from '@/services/ErrorService'
 import Editor from '@/components/Modules/Editor.vue'
+import BookNav from '@/components/Modules/BookNav.vue'
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
 
@@ -46,7 +39,8 @@ interface IData {
 
 export default Vue.extend({
   components: {
-    Editor
+    Editor,
+    BookNav
   },
   props: {
     id: {
@@ -126,7 +120,7 @@ export default Vue.extend({
 .BookDetail__Left {
   flex: 2;
   height: 100vh;
-  background-color: #eee;
+  background-color: #2E3235;
 }
 
 .BookDetail__Center {
@@ -140,9 +134,5 @@ export default Vue.extend({
 
 .BookDetail__Editor {
   text-align: left;
-}
-
-.BookDetail__Editor > .CodeMirror, .BookDetail__Editor > .CodeMirror-scroll {
-  min-height: 500px;
 }
 </style>

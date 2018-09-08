@@ -77,5 +77,6 @@ export default Vue.extend({
   background-color: #f4f4f4 !important;
   border-radius: 8px !important;
   margin: 0 16px !important;
+  min-height: 500px !important;
 }
 </style>
