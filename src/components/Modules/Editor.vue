@@ -1,26 +1,30 @@
 <template>
   <div class="Editor">
-    <MarkdownEditor :value="editorContent" class="BookDetail__Editor" :configs="configs" @input="handleInput"/>
-    <button @click="handleSave">Save</button>
+    <MarkdownEditor :value="editorContent" :configs="configs" @input="handleInput"/>
+    <Button class="Editor__Save" text="保存" :size="ButtonSize.Small" @click="handleSave"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
+import Button, { Size as ButtonSize } from '@/components/Base/Button.vue'
 
 interface IData {
-  editorContent: string
+  editorContent: string,
+  ButtonSize: typeof ButtonSize
 }
 
 export default Vue.extend({
   data(): IData {
     return {
-      editorContent: ''
+      editorContent: '',
+      ButtonSize
     }
   },
   components: {
-    MarkdownEditor
+    MarkdownEditor,
+    Button
   },
   props: {
     value: {
@@ -54,3 +58,24 @@ export default Vue.extend({
 })
 </script>
 
+<style>
+.Editor {
+  position: relative;
+}
+
+.Editor__Save {
+  position: absolute;
+  top: 8px;
+  right: 0;
+}
+
+.editor-toolbar {
+  border: none !important;
+}
+
+.CodeMirror {
+  background-color: #f4f4f4 !important;
+  border-radius: 8px !important;
+  margin: 0 16px !important;
+}
+</style>

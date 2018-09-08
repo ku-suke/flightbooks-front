@@ -131,7 +131,6 @@ export default Vue.extend({
 
 .BookDetail__Center {
   flex: 6;
-  padding: 40px 20px;
 }
 
 .BookDetail__Right {
