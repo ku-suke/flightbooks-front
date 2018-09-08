@@ -19,7 +19,7 @@ import editorConfig from "@/utils/editorConfig"
 import BookRepository from '@/repositories/BookRepository'
 import ErrorService from '@/services/ErrorService'
 import Editor from '@/components/Modules/Editor.vue'
-import BookNav from '@/components/Modules/BookNav.vue'
+import BookNav from '@/containers/Book/Detail/Nav/index.vue'
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
 

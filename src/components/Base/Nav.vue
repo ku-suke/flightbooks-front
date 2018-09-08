@@ -45,6 +45,7 @@ export default Vue.extend({
 .Nav__Header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 48px;
   line-height: 48px;
   width: 100%;
@@ -67,16 +68,20 @@ export default Vue.extend({
   background-color: rgba(0, 79, 153, 0.492);
 }
 
-.Nav__Header > .Nav__Icon {
+.Nav__Header > .Nav__Title > .Nav__Icon {
   transition: .3s;
 }
 
-.Nav.-isExpanded > .Nav__Header > .Nav__Icon {
+.Nav.-isExpanded > .Nav__Header > .Nav__Title > .Nav__Icon {
   transform: rotate(90deg)
 }
 
 .Nav__Body > *:nth-child(n) {
   padding: 0 0 0 16px;
+}
+
+.Nav__Menu {
+  padding-right: 8px;
 }
 
 </style>
