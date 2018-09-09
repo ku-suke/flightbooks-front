@@ -1,20 +1,24 @@
 import BaseUseCase from '@/usecases/BaseUseCase'
 import BookRepository from '@/repositories/BookRepository'
+import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
 import ErrorService from '@/services/ErrorService';
 
 export interface ILoadContainerUseCase {
   bookRepository: BookRepository
+  projectTreeRepository: ProjectTreeRepository
   projectId: string
   errorService: ErrorService
 }
 
 export default class LoadContainerUseCase implements BaseUseCase {
   bookRepository: BookRepository
+  projectTreeRepository: ProjectTreeRepository
   projectId: string
   errorService: ErrorService
 
-  constructor({ bookRepository, projectId, errorService }: ILoadContainerUseCase) {
+  constructor({ bookRepository, projectTreeRepository, projectId, errorService }: ILoadContainerUseCase) {
     this.bookRepository = bookRepository
+    this.projectTreeRepository = projectTreeRepository
     this.projectId = projectId
     this.errorService = errorService
   }
@@ -23,6 +27,11 @@ export default class LoadContainerUseCase implements BaseUseCase {
     try {
       const item = await this.bookRepository.fetchItem(this.projectId)
       this.bookRepository.saveItem(item)
+
+      // Fetch Project Tree
+      const ref = item.projectTree
+      const projectTree = await this.projectTreeRepository.fetchItemByRef(ref)
+      this.projectTreeRepository.storeData(projectTree)
     } catch (error) {
       await this.errorService.handle(error)
       throw new Error(error)

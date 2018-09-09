@@ -17,6 +17,7 @@ import Vue from "vue";
 import { IBook } from "@/entities/Book";
 import editorConfig from "@/utils/editorConfig"
 import BookRepository from '@/repositories/BookRepository'
+import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
 import ErrorService from '@/services/ErrorService'
 import Editor from '@/components/Modules/Editor.vue'
 import BookNav from '@/containers/Book/Detail/Nav/index.vue'
@@ -80,6 +81,7 @@ export default Vue.extend({
     async loadItem() {
       const params: ILoadContainerUseCase = {
         bookRepository: new BookRepository,
+        projectTreeRepository: new ProjectTreeRepository(),
         errorService: new ErrorService({context: 'LoadContainer UseCase'}),
         projectId: this.id
       }
@@ -103,7 +105,8 @@ export default Vue.extend({
   },
   async destroyed() {
     const params: IDestroyContainerUseCase = {
-      bookRepository: new BookRepository()
+      bookRepository: new BookRepository(),
+      projectTreeRepository: new ProjectTreeRepository()
     };
     await new DestroyContainerUseCase(params).execute();
   }
