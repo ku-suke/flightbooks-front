@@ -4,7 +4,13 @@ import PageTreeEntity from '@/entities/PageTree'
 const dummyChapterTree = (title: string) => new ChapterTreeEntity({ title })
 
 export interface IProjectTree {
-  identifier?: string;
+  identifier: Identifier;
+  chapters: {
+    allIds: Identifier[],
+    byIds: {
+      [key: string]: ChapterTreeEntity
+    }
+  }
 }
 
 export default class ProjectTreeEntity {
