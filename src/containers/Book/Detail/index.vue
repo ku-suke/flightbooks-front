@@ -1,7 +1,7 @@
 <template>
   <div class="BookDetail">
     <div class="BookDetail__Left">
-      <BookNav />
+      <BookNav :book="presenter.book" />
     </div>
     <div class="BookDetail__Center">
       <Editor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig" @save="updateContent"/>
@@ -22,14 +22,12 @@ import ErrorService from '@/services/ErrorService'
 import Editor from '@/components/Modules/Editor.vue'
 import BookNav from '@/containers/Book/Detail/Nav/index.vue'
 
-import Presenter, { PresenterParams, IPresenter } from "./presenter";
+import Presenter, { IPresenter } from "./presenter";
 
 // Use Case
-import LoadContainerUseCase, {
-  ILoadContainerUseCase
-} from "./LoadContainerUseCase";
-import UpdateContentUseCase, { IUpdateContentUseCase } from '@/usecases/UpdateContentUseCase'
-import DestroyContainerUseCase, { IDestroyContainerUseCase } from './DestroyContainerUseCase'
+import LoadContainerUseCase from "./LoadContainerUseCase";
+import UpdateContentUseCase from '@/usecases/UpdateContentUseCase'
+import DestroyContainerUseCase from './DestroyContainerUseCase'
 
 interface IData {
   showModal: boolean;
@@ -59,11 +57,9 @@ export default Vue.extend({
   },
   computed: {
     presenter(): IPresenter {
-      const params: PresenterParams = {
+      return Presenter({
         bookRepository: new BookRepository,
-      }
-
-      return Presenter(params)
+      })
     }
   },
   watch: {
@@ -79,24 +75,20 @@ export default Vue.extend({
   },
   methods: {
     async loadItem() {
-      const params: ILoadContainerUseCase = {
+      const usecase = new LoadContainerUseCase({
         bookRepository: new BookRepository,
         projectTreeRepository: new ProjectTreeRepository(),
         errorService: new ErrorService({context: 'LoadContainer UseCase'}),
         projectId: this.id
-      }
-
-      const usecase = new LoadContainerUseCase(params)
+      })
       await usecase.execute()
     },
     async updateContent() {
-      const params: IUpdateContentUseCase = {
+      const usecase = new UpdateContentUseCase({
         bookRepository: new BookRepository(),
         errorService: new ErrorService({ context: 'UpdateContent UseCase' }),
         projectId: this.id
-      }
-
-      const usecase = new UpdateContentUseCase(params)
+      })
       await usecase.execute(this.editorContent)
     }
   },
@@ -104,11 +96,10 @@ export default Vue.extend({
     await this.loadItem()
   },
   async destroyed() {
-    const params: IDestroyContainerUseCase = {
+    await new DestroyContainerUseCase({
       bookRepository: new BookRepository(),
       projectTreeRepository: new ProjectTreeRepository()
-    };
-    await new DestroyContainerUseCase(params).execute();
+    }).execute();
   }
 });
 </script>
