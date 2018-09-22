@@ -6,6 +6,8 @@ import {
 } from "@/store/modules/projectTree/types";
 import ProjectTreeEntity, { IProjectTree } from "@/entities/ProjectTree";
 
+const projectTreeCollection = "projectTree";
+
 export default class ProjectTreeRepository {
   constructor() {}
 
@@ -14,6 +16,33 @@ export default class ProjectTreeRepository {
     const item = snapshot.data();
 
     return item as IProjectTree;
+  }
+
+  async fetchItem(identifier: string): Promise<IProjectTree> {
+    const snapshot = await firebase
+      .firestore()
+      .collection(projectTreeCollection)
+      .doc(identifier)
+      .get();
+    const item = snapshot.data()!;
+
+    return item as IProjectTree;
+  }
+
+  async save(item: ProjectTreeEntity) {
+
+    const itemProps = item.getProps()
+    const identifier = itemProps.identifier
+    const serialized = {
+      ...itemProps,
+    }
+
+    const ref = firebase.firestore().collection(projectTreeCollection).doc(identifier)
+    await ref.update(serialized)
+
+    // fetch item again then update local store
+    const latestItem = await this.fetchItem(identifier)
+    this.storeData(latestItem)
   }
 
   storeData(data: IProjectTree) {
