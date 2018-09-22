@@ -1,33 +1,38 @@
-import ChapterTreeEntity from '@/entities/ChapterTree'
-import PageTreeEntity from '@/entities/PageTree'
-
-const dummyChapterTree = (title: string) => new ChapterTreeEntity({ title })
+import uuid from 'uuid/v4'
+import ChapterEntity, { IChapter } from '@/entities/Chapter'
 
 export interface IProjectTree {
   identifier: Identifier;
-  chapters: {
-    allIds: Identifier[],
-    byIds: {
-      [key: string]: ChapterTreeEntity
-    }
-  }
+  owner: string;
+  chapters?: IChapter[]
 }
 
 export default class ProjectTreeEntity {
-  props: IProjectTree
-  chapters: ChapterTreeEntity[] = []
+  private props: IProjectTree
+  private chapters: ChapterEntity[] = []
 
   constructor(params: IProjectTree) {
-    this.props = params
-    this.chapters.push(dummyChapterTree('第1章'))
-    this.chapters.push(dummyChapterTree('第2章'))
-    this.chapters.push(dummyChapterTree('第3章'))
-    this.chapters[0].chapters.push(dummyChapterTree('第1節'))
-    this.chapters[0].pages.push(new PageTreeEntity({ title: '1ページ' }))
+    this.props = {
+      chapters: [],
+      ...params,
+    }
   }
 
-  registerChapter(title: string) {
-    const chapter = new ChapterTreeEntity({ title })
-    this.chapters.push(chapter)
+  getProps() {
+    return this.props
+  }
+
+  getChapters(): ChapterEntity[] {
+    return this.props.chapters.map(chapter => new ChapterEntity(chapter))
+  }
+
+  registerChapter({ name }: { name: string }) {
+    const chapterEntity = new ChapterEntity({
+      name,
+      owner: this.props.owner,
+      identifier: uuid()
+    })
+
+    this.props.chapters.push(chapterEntity.getProps())
   }
 }
