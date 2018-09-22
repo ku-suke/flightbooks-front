@@ -4,7 +4,7 @@ import {
   StoreData,
   ResetData,
 } from "@/store/modules/projectTree/types";
-import { IProjectTree } from "@/entities/ProjectTree";
+import ProjectTreeEntity, { IProjectTree } from "@/entities/ProjectTree";
 
 export default class ProjectTreeRepository {
   constructor() {}
@@ -22,5 +22,9 @@ export default class ProjectTreeRepository {
 
   resetData() {
     store.commit(new ResetData());
+  }
+
+  getData() {
+    return new ProjectTreeEntity(store.state.projectTree.data)
   }
 }

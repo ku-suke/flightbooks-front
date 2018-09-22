@@ -106,7 +106,7 @@ export default class BookRepository {
   async registerItem(entity: BookEntity): Promise<string> {
     const identifier = uuidv4()
     const book: IBook = {
-      ...entity.props,
+      ...entity.getProps(),
       createdAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
       identifier,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp
