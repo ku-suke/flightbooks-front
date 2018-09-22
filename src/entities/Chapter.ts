@@ -1,18 +1,26 @@
-import firebase from "firebase";
-
 export interface IChapter {
-  identifier?: string;
-  title: string;
-  bookId: string;
-  parentId: string;
-  createdAt?: firebase.firestore.Timestamp;
-  updatedAt?: firebase.firestore.Timestamp;
+  identifier?: Identifier
+  name: any
+  isRenaming?: boolean
+  owner: string
+  chapters?:  IChapter[]
 }
 
 export default class ChapterEntity {
-  props: IChapter
+  private props: IChapter
 
   constructor(params: IChapter) {
-    this.props = params
+    this.props = {
+      chapters: [],
+      ...params
+    }
+  }
+
+  getProps(): IChapter {
+    return this.props
+  }
+
+  getChapters(): ChapterEntity[] {
+    return this.props.chapters.map(chapter => new ChapterEntity(chapter))
   }
 }
