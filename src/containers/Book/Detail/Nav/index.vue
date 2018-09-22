@@ -30,7 +30,7 @@
       </Nav>
       <Nav label="チャプター管理">
         <div slot="menu">
-          <ChapterMenu />
+          <ChapterMenu @addChapter="registerChapter" />
         </div>
         <ChapterTree v-for="chapter in presenter.projectTree.chapters" :data="chapter" :key="chapter.props.title" />
       </Nav>
@@ -50,6 +50,9 @@ import Presenter, { PresenterParams, IPresenter } from "./presenter";
 import FetchProjectTreeUseCase from '@/usecases/projectTree/FetchProjectTreeUseCase'
 import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
 import ErrorService from '@/services/ErrorService'
+
+// Use Case
+import RegisterChapterUseCase from '@/usecases/RegisterChapterUseCase'
 
 export default Vue.extend({
   components: {
@@ -79,6 +82,15 @@ export default Vue.extend({
       })
 
       await usecase.execute()
+    },
+    async registerChapter(name: string) {
+      const usecase = new RegisterChapterUseCase({
+        projectTreeEntity: this.presenter.projectTree,
+        projectTreeRepository: new ProjectTreeRepository(),
+        errorService: new ErrorService({ context: 'Registering chapter' })
+      })
+
+      await usecase.execute(name)
     }
   },
   watch: {
