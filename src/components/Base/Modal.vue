@@ -61,9 +61,10 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #666;
 }
 .Modal__Body {
-  padding: calc(8px * 3) calc(8px * 6);
+  padding: 0 calc(8px * 6);
 }
 .Modal__Footer {
   display: flex;
@@ -74,6 +75,7 @@ export default Vue.extend({
 .modal-enter-active, .modal-leave-active {
   transition: opacity .5s;
 }
+
 .modal-enter, .modal-leave-to {
   opacity: 0;
 }
