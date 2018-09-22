@@ -27,11 +27,6 @@ export default class LoadContainerUseCase implements BaseUseCase {
     try {
       const item = await this.bookRepository.fetchItem(this.projectId)
       this.bookRepository.saveItem(item)
-
-      // Fetch Project Tree
-      const ref = item.projectTree
-      const projectTree = await this.projectTreeRepository.fetchItemByRef(ref)
-      this.projectTreeRepository.storeData(projectTree)
     } catch (error) {
       await this.errorService.handle(error)
       throw new Error(error)
