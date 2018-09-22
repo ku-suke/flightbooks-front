@@ -1,6 +1,6 @@
 <template>
   <div class="ChapterMenu">
-    <button class="ChapterMenu__Item" title="チャプターを追加">
+    <button class="ChapterMenu__Item" title="チャプターを追加" @click="addChapter">
       <i class="el-icon-tickets" />
     </button>
   </div>
@@ -9,7 +9,11 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  
+  methods: {
+    addChapter() {
+      this.$emit('addChapter', 'hoge')
+    }
+  }
 })
 </script>
 
