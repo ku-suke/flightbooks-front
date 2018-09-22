@@ -40,12 +40,16 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import BookEntity from '@/entities/Book'
 import Nav from '@/components/Base/Nav.vue'
 import NavItem from '@/components/Base/NavItem.vue'
 import ChapterMenu from '@/components/Modules/ChapterMenu.vue'
 import ChapterTree from '@/components/Modules/Tree/ChapterTree.vue'
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
+import FetchProjectTreeUseCase from '@/usecases/projectTree/FetchProjectTreeUseCase'
+import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
+import ErrorService from '@/services/ErrorService'
 
 export default Vue.extend({
   components: {
@@ -54,12 +58,37 @@ export default Vue.extend({
     ChapterMenu,
     ChapterTree
   },
-  computed: {
-    presenter(): IPresenter {
-      const params: PresenterParams = {}
-      return Presenter(params)
+  props: {
+    book: {
+      type: Object as () => BookEntity
     }
   },
+  computed: {
+    presenter(): IPresenter {
+      return Presenter({
+        projectTreeRepository: new ProjectTreeRepository()
+      })
+    }
+  },
+  methods: {
+    async fetch() {
+      const usecase = new FetchProjectTreeUseCase({
+        projectTreeRepository: new ProjectTreeRepository(),
+        ref: this.book.getProps().projectTree,
+        errorService: new ErrorService({ context: 'Fetching projectTree' })
+      })
+
+      await usecase.execute()
+    }
+  },
+  watch: {
+    book: {
+      async handler(val: BookEntity) {
+        if (!val) return
+        await this.fetch()
+      }
+    }
+  }
 })
 </script>
 
