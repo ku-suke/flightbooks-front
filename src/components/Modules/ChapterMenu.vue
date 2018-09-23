@@ -80,7 +80,13 @@ export default Vue.extend({
 }
 
 .ChapterMenu__Item svg {
+  display: none;
   fill: #fff;
+}
+
+.ChapterMenu__Item:hover svg,
+.ChapterMenu__Item:focus svg {
+  display: block;
 }
 
 .ChapterMenu__Form {
