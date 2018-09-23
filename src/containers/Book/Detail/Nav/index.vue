@@ -32,7 +32,7 @@
         <div slot="menu">
           <ChapterMenu @addChapter="registerChapter" />
         </div>
-        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :data="chapter" :key="chapter.props.title" />
+        <ChapterTree v-for="chapter in presenter.projectTree.getChapters()" :data="chapter" :key="chapter.getProps().identifier" />
       </Nav>
     </div>
   </div>

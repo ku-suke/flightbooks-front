@@ -1,9 +1,9 @@
 <template>
-  <Nav :label="data.props.title">
+  <Nav :label="data.getProps().name">
     <div slot="menu">
       <ChapterMenu />
     </div>
-    <ChapterTree v-for="chapter in data.chapters" :data="chapter" :key="chapter.props.title" />
+    <Chapter v-for="chapter in data.chapters" :data="chapter" :key="chapter.props.title" />
     <PageTree v-for="page in data.pages" :key="page.props.title" :data="page" />
   </Nav>
 </template>
@@ -14,7 +14,7 @@ import Nav from '@/components/Base/Nav.vue'
 import ChapterMenu from '@/components/Modules/ChapterMenu.vue'
 import PageTree from '@/components/Modules/Tree/PageTree.vue'
 
-import ChapterTreeEntity from '@/entities/ChapterTree'
+import ChapterEntity from '@/entities/Chapter'
 
 export default Vue.extend({
   components: {
@@ -22,10 +22,10 @@ export default Vue.extend({
     ChapterMenu,
     PageTree
   },
-  name: 'ChapterTree',
+  name: 'Chapter',
   props: {
     data: {
-      type: Object as () => ChapterTreeEntity,
+      type: Object as () => ChapterEntity,
       required: true
     }
   }

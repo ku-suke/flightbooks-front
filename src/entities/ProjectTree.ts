@@ -9,7 +9,6 @@ export interface IProjectTree {
 
 export default class ProjectTreeEntity {
   private props: IProjectTree
-  private chapters: ChapterEntity[] = []
 
   constructor(params: IProjectTree) {
     this.props = {
