@@ -30,7 +30,7 @@
       </Nav>
       <Nav label="チャプター管理">
         <div slot="menu">
-          <ChapterMenu @addChapter="registerChapter" />
+          <ProjectTreeMenu @addChapter="registerChapter" />
         </div>
         <ChapterTree v-for="chapter in presenter.projectTree.getChapters()" :data="chapter" :key="chapter.getProps().identifier" />
       </Nav>
@@ -43,7 +43,7 @@ import Vue from 'vue'
 import BookEntity from '@/entities/Book'
 import Nav from '@/components/Base/Nav.vue'
 import NavItem from '@/components/Base/NavItem.vue'
-import ChapterMenu from '@/components/Modules/ChapterMenu.vue'
+import ProjectTreeMenu from '@/components/Modules/ProjectTreeMenu.vue'
 import ChapterTree from '@/components/Modules/Tree/ChapterTree.vue'
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
@@ -58,7 +58,7 @@ export default Vue.extend({
   components: {
     Nav,
     NavItem,
-    ChapterMenu,
+    ProjectTreeMenu,
     ChapterTree
   },
   props: {
