@@ -1,21 +1,22 @@
 <template>
   <div class="Nav" :class="{ '-isExpanded': isExpanded }">
-    <button class="Nav__Header" @click="isExpanded = !isExpanded">
+    <button class="Nav__Header" :style="nestStyle" @click="isExpanded = !isExpanded">
       <div class="Nav__Title">
         <i class="el-icon-arrow-right Nav__Icon" /> {{ label }}
       </div>
-      <div class="Nav__Menu" v-if="$slots['menu']">
-        <slot name="menu" />
-      </div>
     </button>
+    <div class="Nav__Menu" v-if="$slots['menu']">
+      <slot name="menu" />
+    </div>
     <div class="Nav__Body" v-show="isExpanded">
-      <slot/>
+      <slot />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { VNode } from "vue";
+import uuid from 'uuid/v4'
 
 interface IData {
   isExpanded: boolean;
@@ -31,8 +32,19 @@ export default Vue.extend({
     label: {
       type: String,
       required: true
-    }
-  }
+    },
+    nestLevel: {
+      type: Number,
+      default: 0
+    },
+  },
+  computed: {
+    nestStyle(): any {
+      return {
+        'padding-left': `${ (this.nestLevel * 16) + 4 }px`
+      }
+    },
+  },
 });
 </script>
 
@@ -40,6 +52,7 @@ export default Vue.extend({
 .Nav {
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .Nav__Header {
@@ -76,11 +89,9 @@ export default Vue.extend({
   transform: rotate(90deg);
 }
 
-.Nav__Body > *:nth-child(n) {
-  padding: 0 0 0 16px;
-}
-
 .Nav__Menu {
-  padding-right: 8px;
+  position: absolute;
+  right: 14px;
+  top: 14px;
 }
 </style>

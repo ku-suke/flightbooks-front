@@ -29,6 +29,10 @@ export default class ProjectTreeEntity {
     return this._props.chapters.map(chapter => new ChapterEntity(chapter));
   }
 
+  get pages(): PageEntity[] {
+    return this._props.pages.map(page => new PageEntity(page));
+  }
+
   registerChapter({ name, parentId }: { name: string; parentId: string }) {
     const chapterEntity = new ChapterEntity({
       name,

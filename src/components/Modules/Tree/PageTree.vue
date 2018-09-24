@@ -1,24 +1,28 @@
 <template>
-  <NavItem>
-    {{ data.props.title }}
+  <NavItem :label="data.props.name" :nestLevel="nestLevel">
+    <div slot="menu">
+    </div>
   </NavItem>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import NavItem from "@/components/Base/NavItem.vue";
-
-import PageTreeEntity from "@/entities/PageTree";
+import PageEntity from '@/entities/Page'
 
 export default Vue.extend({
   components: {
-    NavItem
+    NavItem,
   },
   props: {
     data: {
-      type: Object as () => PageTreeEntity,
+      type: Object as () => PageEntity,
       required: true
-    }
+    },
+    nestLevel: {
+      type: Number,
+      default: 0
+    },
   }
 });
 </script>
