@@ -1,9 +1,12 @@
+import PageEntity, { IPage } from '@/entities/Page'
+
 export interface IChapter {
   identifier?: Identifier;
   name: any;
   isRenaming?: boolean;
   owner: string;
   chapters?: IChapter[];
+  pages?: IPage[]
 }
 
 export default class ChapterEntity {
@@ -12,6 +15,7 @@ export default class ChapterEntity {
   constructor(params: IChapter) {
     this._props = {
       chapters: [],
+      pages: [],
       ...params
     };
   }
@@ -22,5 +26,9 @@ export default class ChapterEntity {
 
   get chapters(): ChapterEntity[] {
     return this._props.chapters.map(chapter => new ChapterEntity(chapter));
+  }
+
+  get pages(): PageEntity[] {
+    return this._props.pages.map(page => new PageEntity(page));
   }
 }
