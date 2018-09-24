@@ -8,30 +8,47 @@ export interface IProjectTree {
 }
 
 export default class ProjectTreeEntity {
-  private props: IProjectTree
+  private _props: IProjectTree
 
   constructor(params: IProjectTree) {
-    this.props = {
+    this._props = {
       chapters: [],
       ...params,
     }
   }
 
-  getProps() {
-    return this.props
+  get props() {
+    return this._props
   }
 
-  getChapters(): ChapterEntity[] {
-    return this.props.chapters.map(chapter => new ChapterEntity(chapter))
+  get chapters(): ChapterEntity[] {
+    return this._props.chapters.map(chapter => new ChapterEntity(chapter))
   }
 
-  registerChapter({ name }: { name: string }) {
+  registerChapter({ name, parentId }: { name: string, parentId: string }) {
     const chapterEntity = new ChapterEntity({
       name,
-      owner: this.props.owner,
+      owner: this._props.owner,
       identifier: uuid()
     })
 
-    this.props.chapters.push(chapterEntity.getProps())
+    const pushToParent = (chapters: IChapter[]): IChapter[]=> {
+      return chapters.reduce((prev, chapter) => {
+        if (chapter.identifier === parentId) {
+          chapter.chapters.push(chapterEntity.props)
+        } else {
+          chapter.chapters = pushToParent(chapter.chapters)
+        }
+        prev.push(chapter)
+        return prev
+      }, [])
+    }
+
+    if (this._props.identifier === parentId) {
+      this._props.chapters.push(chapterEntity.props)
+      return
+    } else {
+      this._props.chapters = pushToParent(this._props.chapters)
+    }
   }
 }
