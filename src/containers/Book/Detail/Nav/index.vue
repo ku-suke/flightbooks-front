@@ -17,7 +17,6 @@
           </NavItem>
           <Nav label="設定">
             <div slot="menu">
-              <ChapterMenu />
             </div>
             <NavItem>
               プロジェクト設定
@@ -30,29 +29,29 @@
       </Nav>
       <Nav label="チャプター管理">
         <div slot="menu">
-          <ProjectTreeMenu @addChapter="registerChapter" />
+          <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" :identifier="presenter.projectTree.props.identifier" />
         </div>
-        <ChapterTree v-for="chapter in presenter.projectTree.getChapters()" :data="chapter" :key="chapter.getProps().identifier" />
+        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :data="chapter" :key="chapter.props.identifier" @addChapter="registerChapter"/>
       </Nav>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import BookEntity from '@/entities/Book'
-import Nav from '@/components/Base/Nav.vue'
-import NavItem from '@/components/Base/NavItem.vue'
-import ProjectTreeMenu from '@/components/Modules/ProjectTreeMenu.vue'
-import ChapterTree from '@/components/Modules/Tree/ChapterTree.vue'
+import Vue from "vue";
+import BookEntity from "@/entities/Book";
+import Nav from "@/components/Base/Nav.vue";
+import NavItem from "@/components/Base/NavItem.vue";
+import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
+import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
-import FetchProjectTreeUseCase from '@/usecases/projectTree/FetchProjectTreeUseCase'
-import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
-import ErrorService from '@/services/ErrorService'
+import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
+import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+import ErrorService from "@/services/ErrorService";
 
 // Use Case
-import RegisterChapterUseCase from '@/usecases/RegisterChapterUseCase'
+import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
 
 export default Vue.extend({
   components: {
@@ -70,7 +69,7 @@ export default Vue.extend({
     presenter(): IPresenter {
       return Presenter({
         projectTreeRepository: new ProjectTreeRepository()
-      })
+      });
     }
   },
   methods: {
@@ -78,30 +77,36 @@ export default Vue.extend({
       const usecase = new FetchProjectTreeUseCase({
         projectTreeRepository: new ProjectTreeRepository(),
         ref: this.book.getProps().projectTree,
-        errorService: new ErrorService({ context: 'Fetching projectTree' })
-      })
+        errorService: new ErrorService({ context: "Fetching projectTree" })
+      });
 
-      await usecase.execute()
+      await usecase.execute();
     },
-    async registerChapter(name: string) {
+    async registerChapter({
+      name,
+      parentId
+    }: {
+      name: string;
+      parentId: string;
+    }) {
       const usecase = new RegisterChapterUseCase({
         projectTreeEntity: this.presenter.projectTree,
         projectTreeRepository: new ProjectTreeRepository(),
-        errorService: new ErrorService({ context: 'Registering chapter' })
-      })
+        errorService: new ErrorService({ context: "Registering chapter" })
+      });
 
-      await usecase.execute(name)
+      await usecase.execute({ name, parentId });
     }
   },
   watch: {
     book: {
       async handler(val: BookEntity) {
-        if (!val) return
-        await this.fetch()
+        if (!val) return;
+        await this.fetch();
       }
     }
   }
-})
+});
 </script>
 
 
@@ -109,6 +114,6 @@ export default Vue.extend({
 .BookNavi {
   height: 100%;
   width: 100%;
-  background-color: #2E3235;
+  background-color: #2e3235;
 }
 </style>

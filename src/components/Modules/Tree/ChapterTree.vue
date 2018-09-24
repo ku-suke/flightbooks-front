@@ -1,33 +1,41 @@
 <template>
-  <Nav :label="data.getProps().name">
+  <Nav :label="data.props.name">
     <div slot="menu">
-      <ChapterMenu />
+      <ChapterMenu :identifier="data.props.identifier" @addChapter="handleAddChapter" @renameChapter="handleRenameChapter" />
     </div>
-    <Chapter v-for="chapter in data.chapters" :data="chapter" :key="chapter.props.title" />
+    <ChapterTree v-for="chapter in data.chapters" :data="chapter" :key="chapter.props.identifier" @addChapter="handleAddChapter"/>
     <PageTree v-for="page in data.pages" :key="page.props.title" :data="page" />
   </Nav>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Nav from '@/components/Base/Nav.vue'
-import ChapterMenu from '@/components/Modules/ChapterMenu.vue'
-import PageTree from '@/components/Modules/Tree/PageTree.vue'
+import Vue from "vue";
+import Nav from "@/components/Base/Nav.vue";
+import ChapterMenu from "@/components/Modules/ChapterMenu.vue";
+import PageTree from "@/components/Modules/Tree/PageTree.vue";
 
-import ChapterEntity from '@/entities/Chapter'
+import ChapterEntity from "@/entities/Chapter";
 
 export default Vue.extend({
+  name: "ChapterTree",
   components: {
     Nav,
     ChapterMenu,
     PageTree
   },
-  name: 'Chapter',
   props: {
     data: {
       type: Object as () => ChapterEntity,
       required: true
     }
+  },
+  methods: {
+    handleAddChapter({ name, parentId }: { name: string; parentId: string }) {
+      this.$emit("addChapter", { name, parentId });
+    },
+    handleRenameChapter(name: string) {
+      this.$emit("renameChapter", name);
+    }
   }
-})
+});
 </script>
