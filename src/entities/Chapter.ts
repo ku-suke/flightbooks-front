@@ -7,20 +7,20 @@ export interface IChapter {
 }
 
 export default class ChapterEntity {
-  private props: IChapter
+  private _props: IChapter
 
   constructor(params: IChapter) {
-    this.props = {
+    this._props = {
       chapters: [],
       ...params
     }
   }
 
-  getProps(): IChapter {
-    return this.props
+  get props(): IChapter {
+    return this._props
   }
 
   getChapters(): ChapterEntity[] {
-    return this.props.chapters.map(chapter => new ChapterEntity(chapter))
+    return this._props.chapters.map(chapter => new ChapterEntity(chapter))
   }
 }
