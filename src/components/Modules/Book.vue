@@ -16,30 +16,30 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import BookEntity from '@/entities/Book'
-import { formatDate } from '@/utils/formatter'
+import Vue from "vue";
+import BookEntity from "@/entities/Book";
+import { formatDate } from "@/utils/formatter";
 
 export default Vue.extend({
   props: {
     book: {
       type: Object as () => BookEntity,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     updatedAt(): string {
-      const updatedAt = this.book.props.updatedAt
+      const updatedAt = this.book.props.updatedAt;
 
-      return updatedAt ? formatDate(updatedAt) : ''
+      return updatedAt ? formatDate(updatedAt) : "";
     }
   },
   methods: {
     handleRemove() {
-      this.$emit('remove', this.book.props.identifier)
+      this.$emit("remove", this.book.props.identifier);
     }
   }
-})
+});
 </script>
 
 <style scoped>
@@ -55,13 +55,13 @@ export default Vue.extend({
 }
 
 .Book:hover > .Book__Thumbnail {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .Book__Thumbnail {
   height: 160px;
   width: 100%;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .Book__Thumbnail > img {
@@ -76,7 +76,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start
+  align-items: flex-start;
 }
 
 .Book__Title {
@@ -96,17 +96,19 @@ export default Vue.extend({
   right: 0;
   transform: translate(50%, -50%);
   display: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .Book:hover > .Book__Remove {
   display: block;
 }
 
-.book-enter-active, .book-leave-active {
+.book-enter-active,
+.book-leave-active {
   transition: opacity 1s;
 }
-.book-enter, .book-leave-to {
+.book-enter,
+.book-leave-to {
   opacity: 0;
 }
 </style>

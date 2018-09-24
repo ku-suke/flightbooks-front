@@ -9,6 +9,6 @@ export default class UserRepository {
   }
 
   isAuthenticating(): boolean {
-    return store.state.user.isAuthenticating
+    return store.state.user.isAuthenticating;
   }
 }

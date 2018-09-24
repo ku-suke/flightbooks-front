@@ -36,16 +36,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 import Modal from "@/components/Base/Modal.vue";
 import FormBlock from "@/components/Base/FormBlock.vue";
 import BaseInput from "@/components/Base/Input.vue";
-import Icon from '@/components/Base/Icon.vue'
+import Icon from "@/components/Base/Icon.vue";
 
 interface IData {
-  showRegisterChapterModal: boolean,
-  showRenameChapterModal: boolean,
-  newChapterName: string
+  showRegisterChapterModal: boolean;
+  showRenameChapterModal: boolean;
+  newChapterName: string;
 }
 
 export default Vue.extend({
@@ -55,29 +55,37 @@ export default Vue.extend({
     BaseInput,
     Icon
   },
+  props: {
+    identifier: {
+      type: String,
+      required: true
+    }
+  },
   data(): IData {
     return {
       showRegisterChapterModal: false,
       showRenameChapterModal: false,
-      newChapterName: ''
-    }
+      newChapterName: ""
+    };
   },
   methods: {
     addChapter() {
-      this.$emit('addChapter', this.newChapterName)
-      this.newChapterName = ''
-      this.showRegisterChapterModal = false
+      const name = this.newChapterName;
+      const parentId = this.identifier;
+      this.$emit("addChapter", { name, parentId });
+      this.newChapterName = "";
+      this.showRegisterChapterModal = false;
     },
     openRenameModal() {
-      this.showRenameChapterModal = true
+      this.showRenameChapterModal = true;
     },
     renameChapter() {
-      this.$emit('renameChapter', this.newChapterName)
-      this.newChapterName = ''
-      this.showRenameChapterModal = false
+      this.$emit("renameChapter", this.newChapterName);
+      this.newChapterName = "";
+      this.showRenameChapterModal = false;
     }
-  },
-})
+  }
+});
 </script>
 
 <style scoped>
@@ -92,7 +100,7 @@ export default Vue.extend({
   outline: none;
   background-color: transparent;
   color: #fff;
-  transition: .3s;
+  transition: 0.3s;
   border: none;
 }
 
@@ -102,7 +110,7 @@ export default Vue.extend({
 
 .ChapterMenu__Item:hover,
 .ChapterMenu__Item:focus {
-  box-shadow: 0px 0px 0px 2px rgba(85,85,85,1);
+  box-shadow: 0px 0px 0px 2px rgba(85, 85, 85, 1);
 }
 
 .ChapterMenu__Item svg {
@@ -120,5 +128,4 @@ export default Vue.extend({
   flex-direction: column;
   align-items: center;
 }
-
 </style>

@@ -1,1 +1,1 @@
-declare type Identifier = string
+declare type Identifier = string;

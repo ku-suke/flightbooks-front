@@ -54,7 +54,9 @@ import RemoveBookUseCase, {
 import LoadContainerUseCase, {
   ILoadContainerUseCase
 } from "./LoadContainerUseCase";
-import DestroyContainerUseCase, { IDestroyContainerUseCase } from './DestroyContainerUseCase'
+import DestroyContainerUseCase, {
+  IDestroyContainerUseCase
+} from "./DestroyContainerUseCase";
 
 // components
 import Modal from "@/components/Base/Modal.vue";
@@ -75,7 +77,7 @@ export default Vue.extend({
     BaseInput,
     Book
   },
-  data(): IData {
+  data() {
     return {
       project: {
         title: "",
@@ -101,7 +103,7 @@ export default Vue.extend({
   },
   methods: {
     async register() {
-      this.isRegistering = true
+      this.isRegistering = true;
       const bookEntity = new BookEntity({
         ...this.project,
         userId: this.presenter.userId
@@ -112,9 +114,9 @@ export default Vue.extend({
       };
       const usecase = new RegisterBookUseCase(params);
       const identifier = await usecase.execute(bookEntity);
-      this.isRegistering = false
-      this.showModal = false
-      await this.loadContainer()
+      this.isRegistering = false;
+      this.showModal = false;
+      await this.loadContainer();
     },
     async removeItem(identifier: string) {
       const result1 = window.confirm(
@@ -146,7 +148,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    await this.loadContainer()
+    await this.loadContainer();
   },
   async destroyed() {
     const params: IDestroyContainerUseCase = {

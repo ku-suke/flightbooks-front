@@ -5,7 +5,7 @@ export enum Types {
   RESET_ITEMS = "book/reset_items",
   STORE_ITEM = "book/store_item",
   RESET_ITEM = "book/reset_item",
-  REMOVE_ITEM = 'book/remove_item'
+  REMOVE_ITEM = "book/remove_item"
 }
 
 export class StoreItems implements FluxStandardAction {
@@ -29,6 +29,6 @@ export class ResetItem implements FluxStandardAction {
 }
 
 export class RemoveItem implements FluxStandardAction {
-  type = Types.REMOVE_ITEM
-  constructor(public payload: string){} // should be identifier
+  type = Types.REMOVE_ITEM;
+  constructor(public payload: string) {} // should be identifier
 }

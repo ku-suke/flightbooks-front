@@ -15,17 +15,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 
 interface IData {
-  isExpanded: boolean
+  isExpanded: boolean;
 }
 
 export default Vue.extend({
   data(): IData {
     return {
       isExpanded: false
-    }
+    };
   },
   props: {
     label: {
@@ -33,7 +33,7 @@ export default Vue.extend({
       required: true
     }
   }
-})
+});
 </script>
 
 <style scoped>
@@ -54,7 +54,7 @@ export default Vue.extend({
   color: #fff;
   font-size: 16px;
   text-align: left;
-  transition: .3s;
+  transition: 0.3s;
   font-weight: 500;
   outline: none;
 }
@@ -69,11 +69,11 @@ export default Vue.extend({
 }
 
 .Nav__Header > .Nav__Title > .Nav__Icon {
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .Nav.-isExpanded > .Nav__Header > .Nav__Title > .Nav__Icon {
-  transform: rotate(90deg)
+  transform: rotate(90deg);
 }
 
 .Nav__Body > *:nth-child(n) {
@@ -83,6 +83,4 @@ export default Vue.extend({
 .Nav__Menu {
   padding-right: 8px;
 }
-
 </style>
-

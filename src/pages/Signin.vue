@@ -20,10 +20,13 @@
 <script lang="ts">
 import Vue from "vue";
 import firebase, { User } from "firebase";
-import Input from '@/components/Base/Input.vue'
-import FormBlock from '@/components/Base/FormBlock.vue'
-import Button, { Type as ButtonType, Size as ButtonSize } from '@/components/Base/Button.vue'
-import { Rootstate } from '@/store'
+import Input from "@/components/Base/Input.vue";
+import FormBlock from "@/components/Base/FormBlock.vue";
+import Button, {
+  Type as ButtonType,
+  Size as ButtonSize
+} from "@/components/Base/Button.vue";
+import { Rootstate } from "@/store";
 
 export default Vue.extend({
   components: {
@@ -46,23 +49,23 @@ export default Vue.extend({
       return this.email.length > 0 && this.password.length > 0 && !this.loading;
     },
     state(): Rootstate {
-      return this.$store.state
+      return this.$store.state;
     },
     currentUser(): User | null {
-      return this.state.user.user
+      return this.state.user.user;
     }
   },
   watch: {
     currentUser: {
       immediate: true,
       handler(newVal, _) {
-        if (newVal) this.redirect()
+        if (newVal) this.redirect();
       }
     }
   },
   methods: {
     async signin() {
-      this.loading = true
+      this.loading = true;
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
@@ -74,9 +77,9 @@ export default Vue.extend({
         );
     },
     redirect() {
-      const redirect = this.$route.query.redirect
+      const redirect = this.$route.query.redirect;
       if (redirect) {
-        this.$router.push(redirect)
+        this.$router.push(redirect);
       } else {
         this.$router.push("/");
       }

@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./pages/Home.vue";
 import About from "./pages/About.vue";
-import Project from './pages/Project.vue'
+import Project from "./pages/Project.vue";
 import Signin from "./pages/Signin.vue";
 import store from "@/store";
 
@@ -46,7 +46,7 @@ let router = new Router({
       meta: {
         checkAuth: true
       }
-    },
+    }
   ]
 });
 

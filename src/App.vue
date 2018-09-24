@@ -19,7 +19,7 @@ import Vue from "vue";
 import firebase from "firebase";
 import presenter, { IPresenter, IPresenterState } from "./presenter";
 import Header from "@/containers/Header/index.vue";
-import Sidebar from '@/containers/Sidebar/index.vue'
+import Sidebar from "@/containers/Sidebar/index.vue";
 import UserRepository from "@/repositories/UserRepository";
 
 export default Vue.extend({

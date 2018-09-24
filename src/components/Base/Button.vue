@@ -6,25 +6,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export enum Type {
-  Primary = 'primary',
-  Secondary = 'secondary',
-  Destructive = 'destructive'
+  Primary = "primary",
+  Secondary = "secondary",
+  Destructive = "destructive"
 }
 
 export enum Size {
-  Small = 'small',
-  Midium = 'midium',
-  Large = 'large'
+  Small = "small",
+  Midium = "midium",
+  Large = "large"
 }
 
 export default Vue.extend({
   props: {
     nativeType: {
       type: String,
-      default: 'button'
+      default: "button"
     },
     disabled: {
       type: Boolean,
@@ -61,7 +61,7 @@ export default Vue.extend({
   },
   methods: {
     handleClick(): void {
-      this.$emit('click');
+      this.$emit("click");
     }
   }
 });
@@ -77,7 +77,7 @@ export default Vue.extend({
   cursor: pointer;
   border: none;
   border-radius: 4px;
-  transition: .3s;
+  transition: 0.3s;
 }
 .Button.-autoWidth {
   width: 100%;
@@ -117,7 +117,7 @@ export default Vue.extend({
   background: #070707;
 }
 .Button.-primary:hover {
-  opacity: .6;
+  opacity: 0.6;
 }
 .Button.-primary:active {
   background: #070707;

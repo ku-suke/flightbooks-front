@@ -7,7 +7,7 @@ export interface IPresenter {
 
 export interface IPresenterState {
   currentUser: User | null;
-  isAuthenticating: boolean
+  isAuthenticating: boolean;
 }
 
 export default ({ userRepository }: IPresenter): IPresenterState => {

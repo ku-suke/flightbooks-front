@@ -3,5 +3,6 @@ export default {
   autosave: {
     enabled: true,
     delay: 3000
-  }
+  },
+  spellChecker: false
 };

@@ -5,10 +5,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
-  
-})
+import Vue from "vue";
+export default Vue.extend({});
 </script>
 
 <style scoped>
@@ -21,7 +19,7 @@ export default Vue.extend({
   color: #fff;
   font-size: 16px;
   text-align: left;
-  transition: .3s;
+  transition: 0.3s;
   box-sizing: border-box;
   outline: none;
 }
@@ -35,5 +33,3 @@ export default Vue.extend({
   background-color: rgba(0, 79, 153, 0.492);
 }
 </style>
-
-

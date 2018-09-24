@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NavItem from '@/components/Base/NavItem.vue'
+import Vue from "vue";
+import NavItem from "@/components/Base/NavItem.vue";
 
-import PageTreeEntity from '@/entities/PageTree'
+import PageTreeEntity from "@/entities/PageTree";
 
 export default Vue.extend({
   components: {
@@ -20,5 +20,5 @@ export default Vue.extend({
       required: true
     }
   }
-})
+});
 </script>

@@ -12,9 +12,9 @@ export const mutations: MutationTree<UserState> = {
     state.user = user;
   },
   [Types.START_AUTHENTICATION]: state => {
-    state.isAuthenticating = true
+    state.isAuthenticating = true;
   },
   [Types.FINISH_AUTHENTICATION]: state => {
-    state.isAuthenticating = false
+    state.isAuthenticating = false;
   }
 };

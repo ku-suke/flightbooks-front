@@ -13,13 +13,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const types = ['text', 'search', 'email', 'date', 'password'];
+import Vue from "vue";
+const types = ["text", "search", "email", "date", "password"];
 export default Vue.extend({
   props: {
     type: {
       type: String,
-      default: 'text',
+      default: "text",
       validator: (t: any) => types.indexOf(t) !== -1
     },
     placeholder: {
@@ -48,12 +48,12 @@ export default Vue.extend({
     },
     value: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   methods: {
     handleInput(e: any): void {
-      this.$emit('input', e.target.value);
+      this.$emit("input", e.target.value);
     }
   }
 });
@@ -71,7 +71,7 @@ export default Vue.extend({
   outline: none;
   border: 1px solid #dadbe3;
   border-radius: 4px;
-  transition: .3s;
+  transition: 0.3s;
 }
 .Input::-webkit-input-placeholder {
   color: #dadbe3;

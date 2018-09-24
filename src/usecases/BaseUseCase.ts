@@ -1,3 +1,3 @@
 export default interface BaseUseCase {
-  execute: (params?: any) => Promise<any>
+  execute: (params?: any) => Promise<any>;
 }

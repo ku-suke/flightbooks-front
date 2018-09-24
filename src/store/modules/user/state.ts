@@ -2,7 +2,7 @@ import { User } from "firebase";
 
 export interface UserState {
   user: User | null;
-  isAuthenticating: boolean
+  isAuthenticating: boolean;
 }
 
 export const initialState = (): UserState => ({

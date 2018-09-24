@@ -21,11 +21,11 @@
 
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
   methods: {
     handleClose() {
-      this.$emit('close');
+      this.$emit("close");
     }
   }
 });
@@ -72,11 +72,13 @@ export default Vue.extend({
   padding: 0 calc(8px * 3) calc(8px * 6);
 }
 
-.modal-enter-active, .modal-leave-active {
-  transition: opacity .5s;
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.5s;
 }
 
-.modal-enter, .modal-leave-to {
+.modal-enter,
+.modal-leave-to {
   opacity: 0;
 }
 </style>

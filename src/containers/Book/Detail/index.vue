@@ -15,25 +15,25 @@
 <script lang="ts">
 import Vue from "vue";
 import { IBook } from "@/entities/Book";
-import editorConfig from "@/utils/editorConfig"
-import BookRepository from '@/repositories/BookRepository'
-import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
-import ErrorService from '@/services/ErrorService'
-import Editor from '@/components/Modules/Editor.vue'
-import BookNav from '@/containers/Book/Detail/Nav/index.vue'
+import editorConfig from "@/utils/editorConfig";
+import BookRepository from "@/repositories/BookRepository";
+import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+import ErrorService from "@/services/ErrorService";
+import Editor from "@/components/Modules/Editor.vue";
+import BookNav from "@/containers/Book/Detail/Nav/index.vue";
 
 import Presenter, { IPresenter } from "./presenter";
 
 // Use Case
 import LoadContainerUseCase from "./LoadContainerUseCase";
-import UpdateContentUseCase from '@/usecases/UpdateContentUseCase'
-import DestroyContainerUseCase from './DestroyContainerUseCase'
+import UpdateContentUseCase from "@/usecases/UpdateContentUseCase";
+import DestroyContainerUseCase from "./DestroyContainerUseCase";
 
 interface IData {
   showModal: boolean;
   isRegistering: boolean;
-  editorConfig: any,
-  editorContent: string
+  editorConfig: any;
+  editorContent: string;
 }
 
 export default Vue.extend({
@@ -52,23 +52,23 @@ export default Vue.extend({
       showModal: false,
       isRegistering: false,
       editorConfig,
-      editorContent: ''
+      editorContent: ""
     };
   },
   computed: {
     presenter(): IPresenter {
       return Presenter({
-        bookRepository: new BookRepository,
-      })
+        bookRepository: new BookRepository()
+      });
     }
   },
   watch: {
-    'presenter.content': {
+    "presenter.content": {
       immediate: true,
       handler(val, oldVal) {
         // Copy to component state
         if (val) {
-          this.editorContent = val
+          this.editorContent = val;
         }
       }
     }
@@ -76,24 +76,24 @@ export default Vue.extend({
   methods: {
     async loadItem() {
       const usecase = new LoadContainerUseCase({
-        bookRepository: new BookRepository,
+        bookRepository: new BookRepository(),
         projectTreeRepository: new ProjectTreeRepository(),
-        errorService: new ErrorService({context: 'LoadContainer UseCase'}),
+        errorService: new ErrorService({ context: "LoadContainer UseCase" }),
         projectId: this.id
-      })
-      await usecase.execute()
+      });
+      await usecase.execute();
     },
     async updateContent() {
       const usecase = new UpdateContentUseCase({
         bookRepository: new BookRepository(),
-        errorService: new ErrorService({ context: 'UpdateContent UseCase' }),
+        errorService: new ErrorService({ context: "UpdateContent UseCase" }),
         projectId: this.id
-      })
-      await usecase.execute(this.editorContent)
+      });
+      await usecase.execute(this.editorContent);
     }
   },
   async mounted() {
-    await this.loadItem()
+    await this.loadItem();
   },
   async destroyed() {
     await new DestroyContainerUseCase({
@@ -105,7 +105,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-@import '~simplemde/dist/simplemde.min.css';
+@import "~simplemde/dist/simplemde.min.css";
 
 .BookDetail {
   display: flex;
@@ -114,7 +114,7 @@ export default Vue.extend({
 .BookDetail__Left {
   flex: 2;
   height: 100vh;
-  background-color: #2E3235;
+  background-color: #2e3235;
 }
 
 .BookDetail__Center {

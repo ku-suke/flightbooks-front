@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import BookDetailContainer from '@/containers/Book/Detail/index.vue'
+import BookDetailContainer from "@/containers/Book/Detail/index.vue";
 
 export default Vue.extend({
   name: "project",

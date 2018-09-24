@@ -1,6 +1,11 @@
 import firebase from "firebase";
 import store from "@/store";
-import { SignIn, SignOut, StartAuthentication, FinishAuthentication } from "@/store/modules/user/types";
+import {
+  SignIn,
+  SignOut,
+  StartAuthentication,
+  FinishAuthentication
+} from "@/store/modules/user/types";
 
 var config = {
   apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
@@ -14,16 +19,16 @@ var config = {
 const init = () => {
   firebase.initializeApp(config);
 
-  store.commit(new StartAuthentication())
+  store.commit(new StartAuthentication());
 
   firebase.auth().onAuthStateChanged(user => {
-    store.commit(new StartAuthentication())
+    store.commit(new StartAuthentication());
     if (user) {
       store.commit(new SignIn(user));
     } else {
       store.commit(new SignOut());
     }
-    store.commit(new FinishAuthentication())
+    store.commit(new FinishAuthentication());
   });
 
   const firestore = firebase.firestore();

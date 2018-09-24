@@ -1,11 +1,11 @@
 import firebase from "firebase";
-import uuidv4 from "uuid/v4"
+import uuidv4 from "uuid/v4";
 import store from "@/store";
 import {
   StoreItems,
   ResetItems,
   StoreItem,
-  ResetItem,
+  ResetItem
 } from "@/store/modules/book/types";
 import BookEntity, { IBook } from "@/entities/Book";
 
@@ -58,24 +58,30 @@ export default class BookRepository {
   }
 
   async updateContent(identifier: string, content: string) {
-    const ref = firebase.firestore().collection(collection).doc(identifier)
+    const ref = firebase
+      .firestore()
+      .collection(collection)
+      .doc(identifier);
 
     await ref.update({
       content,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    })
+    });
 
     // fetch item again then update local store
     const item = await this.fetchItem(identifier);
     this.saveItem(item);
   }
-  
+
   async removeItem(identifier: string) {
     try {
-    const ref = firebase.firestore().collection(collection).doc(identifier)
-    await ref.delete()
+      const ref = firebase
+        .firestore()
+        .collection(collection)
+        .doc(identifier);
+      await ref.delete();
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
   }
 
@@ -104,15 +110,19 @@ export default class BookRepository {
   }
 
   async registerItem(entity: BookEntity): Promise<string> {
-    const identifier = uuidv4()
+    const identifier = uuidv4();
     const book: IBook = {
       ...entity.getProps(),
       createdAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
       identifier,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp
-    }
+    };
 
-    await firebase.firestore().collection(collection).doc(identifier).set(book)
-    return identifier
+    await firebase
+      .firestore()
+      .collection(collection)
+      .doc(identifier)
+      .set(book);
+    return identifier;
   }
 }

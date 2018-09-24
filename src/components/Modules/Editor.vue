@@ -6,21 +6,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import MarkdownEditor from 'vue-simplemde/src/markdown-editor.vue'
-import Button, { Size as ButtonSize } from '@/components/Base/Button.vue'
+import Vue from "vue";
+import MarkdownEditor from "vue-simplemde/src/markdown-editor.vue";
+import Button, { Size as ButtonSize } from "@/components/Base/Button.vue";
 
 interface IData {
-  editorContent: string,
-  ButtonSize: typeof ButtonSize
+  editorContent: string;
+  ButtonSize: typeof ButtonSize;
 }
 
 export default Vue.extend({
   data(): IData {
     return {
-      editorContent: '',
+      editorContent: "",
       ButtonSize
-    }
+    };
   },
   components: {
     MarkdownEditor,
@@ -29,7 +29,7 @@ export default Vue.extend({
   props: {
     value: {
       type: String,
-      default: ''
+      default: ""
     },
     configs: {
       type: Object as () => any,
@@ -42,20 +42,20 @@ export default Vue.extend({
       handler(val) {
         // Copy to component state
         if (val) {
-          this.editorContent = val
+          this.editorContent = val;
         }
       }
     }
   },
   methods: {
     handleInput(content: string | null) {
-      if (content) this.$emit('input', content)
+      if (content) this.$emit("input", content);
     },
     handleSave() {
-      this.$emit('save')
+      this.$emit("save");
     }
   }
-})
+});
 </script>
 
 <style>

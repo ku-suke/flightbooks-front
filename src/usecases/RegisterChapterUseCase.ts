@@ -1,32 +1,41 @@
-import ErrorService from '@/services/ErrorService'
-import ProjectTreeEntity from '@/entities/ProjectTree'
-import ProjectTreeRepository from '@/repositories/ProjectTreeRepository'
+import ErrorService from "@/services/ErrorService";
+import ProjectTreeEntity from "@/entities/ProjectTree";
+import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 
 export interface IRegisterChapterUseCase {
-  projectTreeEntity: ProjectTreeEntity
-  projectTreeRepository: ProjectTreeRepository
-  errorService: ErrorService
+  projectTreeEntity: ProjectTreeEntity;
+  projectTreeRepository: ProjectTreeRepository;
+  errorService: ErrorService;
 }
 
 export default class RegisterChapterUseCase implements UseCase {
-  projectTreeEntity: ProjectTreeEntity
-  projectTreeRepository: ProjectTreeRepository
-  errorService: ErrorService
+  projectTreeEntity: ProjectTreeEntity;
+  projectTreeRepository: ProjectTreeRepository;
+  errorService: ErrorService;
 
-  constructor({ projectTreeEntity, projectTreeRepository, errorService }: IRegisterChapterUseCase) {
-    this.projectTreeEntity = projectTreeEntity
+  constructor({
+    projectTreeEntity,
+    projectTreeRepository,
+    errorService
+  }: IRegisterChapterUseCase) {
+    this.projectTreeEntity = projectTreeEntity;
     this.projectTreeRepository = projectTreeRepository;
-    this.errorService = errorService
+    this.errorService = errorService;
   }
 
-  async execute({ name, parentId }: { name: string, parentId: string }): Promise<void> {
+  async execute({
+    name,
+    parentId
+  }: {
+    name: string;
+    parentId: string;
+  }): Promise<void> {
     try {
-      this.projectTreeEntity.registerChapter({ name, parentId })
-      this.projectTreeRepository.save(this.projectTreeEntity)
-
+      this.projectTreeEntity.registerChapter({ name, parentId });
+      this.projectTreeRepository.save(this.projectTreeEntity);
     } catch (error) {
-      await this.errorService.handle(error)
-      throw new Error(error)
+      await this.errorService.handle(error);
+      throw new Error(error);
     }
   }
 }
