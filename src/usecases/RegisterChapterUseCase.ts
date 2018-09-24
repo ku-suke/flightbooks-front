@@ -19,9 +19,9 @@ export default class RegisterChapterUseCase implements UseCase {
     this.errorService = errorService
   }
 
-  async execute(name: string): Promise<void> {
+  async execute({ name, parentId }: { name: string, parentId: string }): Promise<void> {
     try {
-      this.projectTreeEntity.registerChapter({ name })
+      this.projectTreeEntity.registerChapter({ name, parentId })
       this.projectTreeRepository.save(this.projectTreeEntity)
 
     } catch (error) {

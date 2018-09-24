@@ -38,6 +38,12 @@ export default Vue.extend({
     BaseInput,
     Icon
   },
+  props: {
+    identifier: {
+      type: String,
+      required: true
+    }
+  },
   data(): IData {
     return {
       showRegisterChapterModal: false,
@@ -46,7 +52,9 @@ export default Vue.extend({
   },
   methods: {
     addChapter() {
-      this.$emit('addChapter', this.newChapterName)
+      const name = this.newChapterName
+      const parentId = this.identifier
+      this.$emit('addChapter', { name, parentId })
       this.newChapterName = ''
       this.showRegisterChapterModal = false
     }
