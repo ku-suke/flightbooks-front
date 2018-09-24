@@ -29,7 +29,7 @@
       </Nav>
       <Nav label="チャプター管理">
         <div slot="menu">
-          <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" :identifier="presenter.projectTree.props.identifier" />
+          <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" @registerPage="registerPage" :identifier="presenter.projectTree.props.identifier" />
         </div>
         <ChapterTree v-for="chapter in presenter.projectTree.chapters" :data="chapter" :key="chapter.props.identifier" @addChapter="registerChapter"/>
       </Nav>
@@ -47,11 +47,13 @@ import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
 import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
+import PageContentRepository from '@/repositories/PageContentRepository'
 import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
 import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
+import RegisterPageUseCase from '@/usecases/RegisterPageUseCase'
 
 export default Vue.extend({
   components: {
@@ -96,6 +98,16 @@ export default Vue.extend({
       });
 
       await usecase.execute({ name, parentId });
+    },
+    async registerPage({ name, parentId }: { name: string, parentId: string }) {
+      const usecase = new RegisterPageUseCase({
+        projectTreeEntity: this.presenter.projectTree,
+        pageContentRepository: new PageContentRepository,
+        projectTreeRepository: new ProjectTreeRepository,
+        errorService: new ErrorService({ context: 'Registering page' })
+      })
+
+      await usecase.execute({ name, parentId })
     }
   },
   watch: {
