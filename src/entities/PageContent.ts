@@ -1,4 +1,3 @@
-import firebase from "firebase";
 import uuid from "uuid/v4";
 
 export interface IPageContent {

@@ -16,8 +16,6 @@
 import Vue from "vue";
 import { IBook } from "@/entities/Book";
 import editorConfig from "@/utils/editorConfig";
-import BookRepository from "@/repositories/BookRepository";
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import ErrorService from "@/services/ErrorService";
 import Editor from "@/components/Modules/Editor.vue";
 import BookNav from "@/containers/Book/Detail/Nav/index.vue";
@@ -28,6 +26,10 @@ import Presenter, { IPresenter } from "./presenter";
 import LoadContainerUseCase from "./LoadContainerUseCase";
 import UpdateContentUseCase from "@/usecases/UpdateContentUseCase";
 import DestroyContainerUseCase from "./DestroyContainerUseCase";
+
+// Repositories
+import BookRepository from "@/repositories/BookRepository";
+import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 
 interface IData {
   showModal: boolean;
