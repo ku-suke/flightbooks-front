@@ -30,6 +30,7 @@ import DestroyContainerUseCase from "./DestroyContainerUseCase";
 // Repositories
 import BookRepository from "@/repositories/BookRepository";
 import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+import PageContentRepository from '@/repositories/PageContentRepository'
 
 interface IData {
   showModal: boolean;
@@ -60,7 +61,8 @@ export default Vue.extend({
   computed: {
     presenter(): IPresenter {
       return Presenter({
-        bookRepository: new BookRepository()
+        bookRepository: new BookRepository(),
+        pageContentRepository: new PageContentRepository()
       });
     }
   },

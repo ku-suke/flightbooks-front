@@ -34,4 +34,9 @@ export default class ProjectTreeRepository {
   storeItem(item: IPageContent) {
     store.commit(new StoreItem(item))
   }
+
+  getItem(): PageContentEntity {
+    const pageContent = store.state.pageContent.item
+    return pageContent ? new PageContentEntity(pageContent) : null
+  }
 }
