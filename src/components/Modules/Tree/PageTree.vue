@@ -1,5 +1,5 @@
 <template>
-  <NavItem :label="data.props.name" :nestLevel="nestLevel">
+  <NavItem :label="data.props.name" :nestLevel="nestLevel" @click="handleClick">
     <div slot="menu">
     </div>
   </NavItem>
@@ -23,6 +23,11 @@ export default Vue.extend({
       type: Number,
       default: 0
     },
+  },
+  methods: {
+    handleClick() {
+      this.$emit('onPageClick', this.data)
+    }
   }
 });
 </script>
