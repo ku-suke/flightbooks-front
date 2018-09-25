@@ -20,7 +20,7 @@
           <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" @registerPage="registerPage" :identifier="presenter.projectTree.props.identifier" />
         </div>
         <ChapterTree v-for="chapter in presenter.projectTree.chapters" :nestLevel="1" :data="chapter" :key="chapter.props.identifier" @addChapter="registerChapter"/>
-        <PageTree v-for="page in presenter.projectTree.pages" :nestLevel="1" :data="page" :key="page.props.identifier" />
+        <PageTree v-for="page in presenter.projectTree.pages" :nestLevel="1" :data="page" :key="page.props.identifier" @onPageClick="selectPage" />
       </Nav>
     </div>
   </div>
@@ -29,6 +29,7 @@
 <script lang="ts">
 import Vue from "vue";
 import BookEntity from "@/entities/Book";
+import PageEntity from '@/entities/Page'
 import Nav from "@/components/Base/Nav.vue";
 import NavItem from "@/components/Base/NavItem.vue";
 import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
@@ -37,13 +38,16 @@ import PageTree from '@/components/Modules/Tree/PageTree.vue'
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
 import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
-import PageContentRepository from '@/repositories/PageContentRepository'
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
 import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
 import RegisterPageUseCase from '@/usecases/RegisterPageUseCase'
+import SelectPageUseCase from '@/usecases/SelectPageUseCase'
+
+// Repositories
+import PageContentRepository from '@/repositories/PageContentRepository'
+import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 
 export default Vue.extend({
   components: {
@@ -99,6 +103,14 @@ export default Vue.extend({
       })
 
       await usecase.execute({ name, parentId })
+    },
+    async selectPage(pageEntity: PageEntity) {
+      const usecase = new SelectPageUseCase({
+        pagecontentRepository: new PageContentRepository(),
+        errorService: new ErrorService({ context: 'Selecting Page' })
+      })
+
+      await usecase.execute(pageEntity)
     }
   },
   watch: {
