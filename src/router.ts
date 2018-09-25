@@ -4,6 +4,7 @@ import Home from "./pages/Home.vue";
 import About from "./pages/About.vue";
 import Project from "./pages/Project.vue";
 import Signin from "./pages/Signin.vue";
+import Jobs from './pages/Jobs.vue'
 import store from "@/store";
 
 Vue.use(Router);
@@ -45,6 +46,14 @@ let router = new Router({
       component: Signin,
       meta: {
         checkAuth: true
+      }
+    },
+    {
+      path: '/jobs',
+      name: 'jobs',
+      component: Jobs,
+      meta: {
+        requireAuth: true
       }
     }
   ]
