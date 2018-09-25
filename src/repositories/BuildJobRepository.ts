@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import store from '@/store'
 import { StoreItems, StoreItem } from '@/store/modules/buildJob/types'
-import { IBuildJob } from '@/entities/buildJob'
+import BuildJobEntity, { IBuildJob } from '@/entities/BuildJob'
 
 const collection = 'generation'
 
@@ -30,5 +30,10 @@ export default class BuildJobRepository {
 
   storeItem(item: IBuildJob) {
     store.commit(new StoreItem(item))
+  }
+
+  getItems(): BuildJobEntity[] {
+    return []
+    return store.state.buildJob.items.map(item => new BuildJobEntity(item))
   }
 }

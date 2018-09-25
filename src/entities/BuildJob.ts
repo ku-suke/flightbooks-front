@@ -1,5 +1,6 @@
 export enum JobStatus {
-  JOB_CREATED = 'job created'
+  JOB_CREATED = 'job created',
+  JOB_ERROR = 'job error'
 }
 
 export interface IBuildJob {
