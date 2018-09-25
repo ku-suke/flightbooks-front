@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 // modules
 import * as book from "@/store/modules/book";
-import * as chapter from "@/store/modules/chapter";
+import * as pageContent from "@/store/modules/pageContent";
 import * as projectTree from "@/store/modules/projectTree";
 import * as user from "@/store/modules/user";
 
@@ -11,7 +11,7 @@ Vue.use(Vuex);
 
 export interface Rootstate {
   book: book.IBookState;
-  chapter: chapter.IChapterState;
+  pageContent: pageContent.IPageContentState;
   projectTree: projectTree.IProjectTreeState;
   user: user.UserState;
 }
@@ -19,7 +19,7 @@ export interface Rootstate {
 export default new Vuex.Store<Rootstate>({
   modules: {
     book: book.store,
-    chapter: chapter.store,
+    pageContent: pageContent.store,
     projectTree: projectTree.store,
     user: user.store
   }
