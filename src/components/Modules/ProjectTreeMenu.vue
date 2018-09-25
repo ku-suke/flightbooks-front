@@ -1,7 +1,7 @@
 <template>
   <div class="ProjectMenu">
     <button class="ProjectMenu__Item" title="ページを追加" @click="showRegisterPageModal = true">
-      <Icon name="add-folder" />
+      <Icon name="add-file" />
     </button>
     <button class="ProjectMenu__Item" title="チャプターを追加" @click="showRegisterChapterModal = true">
       <Icon name="add-folder" />
