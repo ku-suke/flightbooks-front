@@ -17,10 +17,8 @@ export default class SelectPageUseCase implements UseCase {
   }
 
   async execute(pageEntity: PageEntity): Promise<void> {
-    console.log('usecase called')
     try {
       const ref = pageEntity.props.pageContent
-      console.log(ref)
       const pageContent = await this.pagecontentRepository.fetchItemByRef(ref)
 
       this.pagecontentRepository.addItem(pageContent)
