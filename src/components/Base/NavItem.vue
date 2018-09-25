@@ -1,5 +1,5 @@
 <template>
-  <div class="NavItem" :style="nestStyle">
+  <div class="NavItem" :style="nestStyle" @click="$emit('click')">
     <div class="NavItem__Label">{{ label }}</div>
       <div class="NavItem__Menu" v-if="$slots['menu']">
         <slot name="menu" />
