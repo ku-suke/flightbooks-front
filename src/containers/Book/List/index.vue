@@ -6,7 +6,7 @@
     <div class="BookList__Body">
       <div class="BookList__Projects">
         <BookEmpty class="BookList__Project" @click="showModal = !showModal" />
-        <BookCard v-for="book in presenter.books" class="BookList__Project" :book="book" :key="book.identifier" @remove="removeItem" />
+        <BookCard v-for="book in presenter.books" class="BookList__Project" :book="book" :key="book.identifier" />
       </div>
     </div>
     <Modal v-show="showModal" @close="showModal = false">
@@ -32,7 +32,7 @@ import ErrorService from "@/services/ErrorService";
 
 // Use Case
 import RegisterBookUseCase from "@/usecases/RegisterBookUseCase";
-import LoadContainerUseCase from "./LoadContainerUseCase";
+import FetchBookListUseCase from "@/usecases/Book/FetchBookListUseCase";
 import DestroyContainerUseCase from "./DestroyContainerUseCase";
 
 // components
@@ -72,7 +72,7 @@ export default Vue.extend({
     }
   },
   methods: {
-    async register(name: string) {
+    async register({ name }: { name: string }) {
       this.isRegistering = true;
       const usecase = new RegisterBookUseCase({
         bookRepository: new BookRepository(),
@@ -106,15 +106,15 @@ export default Vue.extend({
     //   location.reload(true);
     // },
     async loadContainer() {
-      const usecase = new LoadContainerUseCase({
+      const usecase = new FetchBookListUseCase({
         bookRepository: new BookRepository(),
         userId: this.presenter.userId,
-        errorService: new ErrorService({ context: "LoadContainerUseCase" })
+        errorService: new ErrorService({ context: "FetchBookListUseCase" })
       });
       await usecase.execute();
     },
     createBookValidator(data: IFormData): boolean {
-      return data.title.length > 0;
+      return data.name.length > 0;
     }
   },
   async mounted() {
