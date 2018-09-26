@@ -1,9 +1,9 @@
 import firebase from "firebase";
-import store from '@/store'
-import { StoreItems, StoreItem } from '@/store/modules/buildJob/types'
-import BuildJobEntity, { IBuildJob } from '@/entities/BuildJob'
+import store from "@/store";
+import { StoreItems, StoreItem } from "@/store/modules/buildJob/types";
+import BuildJobEntity, { IBuildJob } from "@/entities/BuildJob";
 
-const collection = 'generation'
+const collection = "generation";
 
 export default class BuildJobRepository {
   constructor() {}
@@ -25,15 +25,14 @@ export default class BuildJobRepository {
   }
 
   storeItmes(items: IBuildJob[]) {
-    store.commit(new StoreItems(items))
+    store.commit(new StoreItems(items));
   }
 
   storeItem(item: IBuildJob) {
-    store.commit(new StoreItem(item))
+    store.commit(new StoreItem(item));
   }
 
   getItems(): BuildJobEntity[] {
-    return []
-    return store.state.buildJob.items.map(item => new BuildJobEntity(item))
+    return store.state.buildJob.items.map(item => new BuildJobEntity(item));
   }
 }

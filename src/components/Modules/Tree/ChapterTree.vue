@@ -31,16 +31,16 @@ export default Vue.extend({
     nestLevel: {
       type: Number,
       default: 0
-    },
+    }
   },
   methods: {
     handleAddChapter({ name, parentId }: { name: string; parentId: string }) {
-      console.log('handleAddChapter called')
+      console.log("handleAddChapter called");
       this.$emit("addChapter", { name, parentId });
     },
     handleRenameChapter(name: string) {
       this.$emit("renameChapter", name);
     }
-  },
+  }
 });
 </script>

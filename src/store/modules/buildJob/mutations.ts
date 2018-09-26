@@ -1,10 +1,6 @@
 import { MutationTree } from "vuex";
 import { IBuildJobState, initialState } from "@/store/modules/buildJob/state";
-import {
-  Types,
-  StoreItems,
-  StoreItem,
-} from "@/store/modules/buildJob/types";
+import { Types, StoreItems, StoreItem } from "@/store/modules/buildJob/types";
 
 export const mutations: MutationTree<IBuildJobState> = {
   [Types.STORE_ITEMS]: (state, action: StoreItems) => {

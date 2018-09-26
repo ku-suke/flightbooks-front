@@ -41,7 +41,7 @@ export default Vue.extend({
   props: {
     user: {
       type: Object as () => User,
-      default: null,
+      default: null
     },
     isAuthenticating: {
       type: Boolean,
@@ -50,7 +50,7 @@ export default Vue.extend({
   },
   methods: {
     handleSignOut() {
-      console.log('handleSignOut called')
+      console.log("handleSignOut called");
       this.$emit("signOut");
     }
   }
@@ -64,7 +64,7 @@ export default Vue.extend({
   align-items: center;
   padding: 0 3%;
   height: 100%;
-  background-color: #004F99;
+  background-color: #004f99;
   color: #fff;
 }
 
@@ -78,14 +78,13 @@ export default Vue.extend({
 }
 
 .Header__Logo:hover > img {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .Header__Logo > img {
   width: 100%;
-  transition: .3s;
+  transition: 0.3s;
 }
-
 
 .Header__Nav > a {
   font-size: 18px;

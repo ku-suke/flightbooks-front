@@ -1,4 +1,4 @@
-import { IBuildJob } from '@/entities/BuildJob'
+import { IBuildJob } from "@/entities/BuildJob";
 
 export enum Types {
   STORE_ITEMS = "buildJob/store_items",

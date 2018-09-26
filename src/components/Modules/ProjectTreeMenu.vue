@@ -44,7 +44,7 @@ import Icon from "@/components/Base/Icon.vue";
 
 interface IData {
   showRegisterChapterModal: boolean;
-  showRegisterPageModal: boolean
+  showRegisterPageModal: boolean;
   newChapterName: string;
   newPageName: string;
 }
@@ -67,7 +67,7 @@ export default Vue.extend({
       showRegisterChapterModal: false,
       showRegisterPageModal: false,
       newChapterName: "",
-      newPageName: ''
+      newPageName: ""
     };
   },
   methods: {
@@ -79,11 +79,11 @@ export default Vue.extend({
       this.showRegisterChapterModal = false;
     },
     registerPage() {
-      const name = this.newPageName
-      const parentId = this.identifier
-      this.$emit('registerPage', { name, parentId })
-      this.newPageName = ''
-      this.showRegisterPageModal = false
+      const name = this.newPageName;
+      const parentId = this.identifier;
+      this.$emit("registerPage", { name, parentId });
+      this.newPageName = "";
+      this.showRegisterPageModal = false;
     }
   }
 });

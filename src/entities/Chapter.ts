@@ -1,4 +1,4 @@
-import PageEntity, { IPage } from '@/entities/Page'
+import PageEntity, { IPage } from "@/entities/Page";
 
 export interface IChapter {
   identifier?: Identifier;
@@ -6,7 +6,7 @@ export interface IChapter {
   isRenaming?: boolean;
   owner: string;
   chapters?: IChapter[];
-  pages?: IPage[]
+  pages?: IPage[];
 }
 
 export default class ChapterEntity {

@@ -1,10 +1,9 @@
 import { MutationTree } from "vuex";
-import { IPageContentState, initialState } from "@/store/modules/pageContent/state";
 import {
-  Types,
-  AddItem,
-  StoreItem,
-} from "@/store/modules/pageContent/types";
+  IPageContentState,
+  initialState
+} from "@/store/modules/pageContent/state";
+import { Types, AddItem, StoreItem } from "@/store/modules/pageContent/types";
 
 export const mutations: MutationTree<IPageContentState> = {
   [Types.ADD_ITEM]: (state, action: AddItem) => {
@@ -12,7 +11,7 @@ export const mutations: MutationTree<IPageContentState> = {
     state.items = {
       ...state.items,
       [item.identifier]: item
-    }
+    };
   },
   [Types.RESET_ITEMS]: state => {
     const { items } = initialState();
@@ -25,5 +24,5 @@ export const mutations: MutationTree<IPageContentState> = {
   [Types.RESET_ITEM]: state => {
     const { item } = initialState();
     state.item = item;
-  },
+  }
 };

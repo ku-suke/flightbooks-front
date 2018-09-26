@@ -8,10 +8,10 @@ import {
   ResetItem
 } from "@/store/modules/book/types";
 import BookEntity, { IBook } from "@/entities/Book";
-import { IProjectTree } from '@/entities/ProjectTree'
-import { IPageContent } from '@/entities/PageContent'
-import { IPage } from '@/entities/Page'
-import { IChapter } from '@/entities/Chapter'
+import { IProjectTree } from "@/entities/ProjectTree";
+import { IPageContent } from "@/entities/PageContent";
+import { IPage } from "@/entities/Page";
+import { IChapter } from "@/entities/Chapter";
 
 const collection = "test-projects";
 

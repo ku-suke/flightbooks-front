@@ -1,19 +1,19 @@
 import ErrorService from "@/services/ErrorService";
-import PageContentEntity from '@/entities/PageContent'
+import PageContentEntity from "@/entities/PageContent";
 import ProjectTreeEntity from "@/entities/ProjectTree";
-import PageContentRepository from '@/repositories/PageContentRepository'
+import PageContentRepository from "@/repositories/PageContentRepository";
 import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 
 export interface IRegisterPageUseCase {
   projectTreeEntity: ProjectTreeEntity;
-  pageContentRepository: PageContentRepository
+  pageContentRepository: PageContentRepository;
   projectTreeRepository: ProjectTreeRepository;
   errorService: ErrorService;
 }
 
 export default class RegisterPageUseCase implements UseCase {
   projectTreeEntity: ProjectTreeEntity;
-  pageContentRepository: PageContentRepository
+  pageContentRepository: PageContentRepository;
   projectTreeRepository: ProjectTreeRepository;
   errorService: ErrorService;
 
@@ -24,7 +24,7 @@ export default class RegisterPageUseCase implements UseCase {
     errorService
   }: IRegisterPageUseCase) {
     this.projectTreeEntity = projectTreeEntity;
-    this.pageContentRepository = pageContentRepository
+    this.pageContentRepository = pageContentRepository;
     this.projectTreeRepository = projectTreeRepository;
     this.errorService = errorService;
   }
@@ -38,12 +38,14 @@ export default class RegisterPageUseCase implements UseCase {
   }): Promise<void> {
     try {
       // Register New Page Content
-      const owner = this.projectTreeEntity.props.owner
-      const pageContentEntity = PageContentEntity.newEntity(owner)
-      const pageContentRef = await this.pageContentRepository.create(pageContentEntity)
+      const owner = this.projectTreeEntity.props.owner;
+      const pageContentEntity = PageContentEntity.newEntity(owner);
+      const pageContentRef = await this.pageContentRepository.create(
+        pageContentEntity
+      );
 
       // Register to ProjectTree
-      this.projectTreeEntity.registerPage({ name, pageContentRef , parentId });
+      this.projectTreeEntity.registerPage({ name, pageContentRef, parentId });
       this.projectTreeRepository.save(this.projectTreeEntity);
     } catch (error) {
       await this.errorService.handle(error);

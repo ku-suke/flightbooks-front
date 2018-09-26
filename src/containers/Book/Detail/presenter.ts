@@ -1,10 +1,10 @@
-import PageContentRepository from '@/repositories/PageContentRepository'
+import PageContentRepository from "@/repositories/PageContentRepository";
 import BookRepository from "@/repositories/BookRepository";
 import BookEntity from "@/entities/Book";
 
 export interface PresenterParams {
   bookRepository: BookRepository;
-  pageContentRepository: PageContentRepository
+  pageContentRepository: PageContentRepository;
 }
 
 export interface IPresenter {
@@ -12,9 +12,12 @@ export interface IPresenter {
   content: string;
 }
 
-export default ({ bookRepository, pageContentRepository }: PresenterParams): IPresenter => {
+export default ({
+  bookRepository,
+  pageContentRepository
+}: PresenterParams): IPresenter => {
   const item = bookRepository.getItem();
-  const pageContent = pageContentRepository.getItem()
+  const pageContent = pageContentRepository.getItem();
   return {
     book: item ? new BookEntity(item) : null,
     content: pageContent ? pageContent.props.content : ""

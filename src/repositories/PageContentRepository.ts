@@ -1,21 +1,26 @@
 import firebase from "firebase";
-import store from '@/store'
-import { AddItem, StoreItem } from '@/store/modules/pageContent/types'
-import PageContentEntity, { IPageContent } from '@/entities/PageContent'
+import store from "@/store";
+import { AddItem, StoreItem } from "@/store/modules/pageContent/types";
+import PageContentEntity, { IPageContent } from "@/entities/PageContent";
 
-const collection = 'pages'
+const collection = "pages";
 
 export default class ProjectTreeRepository {
   constructor() {}
 
-  async create(item: PageContentEntity): Promise<firebase.firestore.DocumentReference> {
-    const props = item.props
-    const ref = firebase.firestore().collection(collection).doc(props.identifier)
-    
+  async create(
+    item: PageContentEntity
+  ): Promise<firebase.firestore.DocumentReference> {
+    const props = item.props;
+    const ref = firebase
+      .firestore()
+      .collection(collection)
+      .doc(props.identifier);
+
     await ref.set({
       ...props
-    })
-    return ref
+    });
+    return ref;
   }
 
   async fetchItemByRef(
@@ -28,15 +33,15 @@ export default class ProjectTreeRepository {
   }
 
   addItem(item: IPageContent) {
-    store.commit(new AddItem(item))
+    store.commit(new AddItem(item));
   }
 
   storeItem(item: IPageContent) {
-    store.commit(new StoreItem(item))
+    store.commit(new StoreItem(item));
   }
 
   getItem(): PageContentEntity {
-    const pageContent = store.state.pageContent.item
-    return pageContent ? new PageContentEntity(pageContent) : null
+    const pageContent = store.state.pageContent.item;
+    return pageContent ? new PageContentEntity(pageContent) : null;
   }
 }

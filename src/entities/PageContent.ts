@@ -3,7 +3,7 @@ import uuid from "uuid/v4";
 export interface IPageContent {
   identifier: Identifier;
   owner: string;
-  content: string
+  content: string;
 }
 
 export default class PageContentEntity {
@@ -11,7 +11,7 @@ export default class PageContentEntity {
 
   constructor(params: IPageContent) {
     this._props = {
-      content: '',
+      content: "",
       ...params
     };
   }
@@ -19,9 +19,9 @@ export default class PageContentEntity {
   static newEntity(owner: string): PageContentEntity {
     return new PageContentEntity({
       identifier: uuid(),
-      content: '',
+      content: "",
       owner
-    })
+    });
   }
 
   get props(): IPageContent {

@@ -1,32 +1,31 @@
-import PageContentRepository from '@/repositories/PageContentRepository'
-import ErrorService from '@/services/ErrorService'
-import PageEntity from '@/entities/Page'
+import PageContentRepository from "@/repositories/PageContentRepository";
+import ErrorService from "@/services/ErrorService";
+import PageEntity from "@/entities/Page";
 
 export interface ISelectPageUseCase {
-  pagecontentRepository: PageContentRepository
-  errorService: ErrorService
+  pagecontentRepository: PageContentRepository;
+  errorService: ErrorService;
 }
 
 export default class SelectPageUseCase implements UseCase {
-  pagecontentRepository: PageContentRepository
-  errorService: ErrorService
+  pagecontentRepository: PageContentRepository;
+  errorService: ErrorService;
 
   constructor({ pagecontentRepository, errorService }: ISelectPageUseCase) {
-    this.pagecontentRepository = pagecontentRepository
-    this.errorService = errorService
+    this.pagecontentRepository = pagecontentRepository;
+    this.errorService = errorService;
   }
 
   async execute(pageEntity: PageEntity): Promise<void> {
     try {
-      const ref = pageEntity.props.pageContent
-      const pageContent = await this.pagecontentRepository.fetchItemByRef(ref)
+      const ref = pageEntity.props.pageContent;
+      const pageContent = await this.pagecontentRepository.fetchItemByRef(ref);
 
-      this.pagecontentRepository.addItem(pageContent)
-      this.pagecontentRepository.storeItem(pageContent)
-
+      this.pagecontentRepository.addItem(pageContent);
+      this.pagecontentRepository.storeItem(pageContent);
     } catch (error) {
-      await this.errorService.handle(error)
-      throw new Error(error)
+      await this.errorService.handle(error);
+      throw new Error(error);
     }
   }
 }

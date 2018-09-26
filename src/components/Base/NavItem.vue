@@ -23,9 +23,9 @@ export default Vue.extend({
   computed: {
     nestStyle(): any {
       return {
-        'padding-left': `${ (this.nestLevel * 16) + 4 }px`
-      }
-    },
+        "padding-left": `${this.nestLevel * 16 + 4}px`
+      };
+    }
   }
 });
 </script>

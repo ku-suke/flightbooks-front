@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 // modules
 import * as book from "@/store/modules/book";
-import * as buildJob from '@/store/modules/buildJob'
+import * as buildJob from "@/store/modules/buildJob";
 import * as pageContent from "@/store/modules/pageContent";
 import * as projectTree from "@/store/modules/projectTree";
 import * as user from "@/store/modules/user";
@@ -12,7 +12,7 @@ Vue.use(Vuex);
 
 export interface Rootstate {
   book: book.IBookState;
-  buildJob: buildJob.IBuildJobState
+  buildJob: buildJob.IBuildJobState;
   pageContent: pageContent.IPageContentState;
   projectTree: projectTree.IProjectTreeState;
   user: user.UserState;

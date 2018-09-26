@@ -1,13 +1,13 @@
 import firebase from "firebase";
 import uuid from "uuid/v4";
 import ChapterEntity, { IChapter } from "@/entities/Chapter";
-import PageEntity, { IPage } from '@/entities/Page'
+import PageEntity, { IPage } from "@/entities/Page";
 
 export interface IProjectTree {
   identifier: Identifier;
   owner: string;
   chapters?: IChapter[];
-  pages?: IPage[]
+  pages?: IPage[];
 }
 
 export default class ProjectTreeEntity {
@@ -60,13 +60,21 @@ export default class ProjectTreeEntity {
     }
   }
 
-  registerPage({ name, pageContentRef, parentId }: { name: string, pageContentRef: firebase.firestore.DocumentReference; parentId: string }) {
+  registerPage({
+    name,
+    pageContentRef,
+    parentId
+  }: {
+    name: string;
+    pageContentRef: firebase.firestore.DocumentReference;
+    parentId: string;
+  }) {
     const pageEntity = new PageEntity({
       name,
       owner: this._props.owner,
       pageContent: pageContentRef,
       identifier: uuid()
-    })
+    });
 
     const pushToParent = (chapters: IChapter[]): IChapter[] => {
       return chapters.reduce((prev, chapter) => {

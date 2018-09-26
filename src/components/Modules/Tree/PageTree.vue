@@ -8,11 +8,11 @@
 <script lang="ts">
 import Vue from "vue";
 import NavItem from "@/components/Base/NavItem.vue";
-import PageEntity from '@/entities/Page'
+import PageEntity from "@/entities/Page";
 
 export default Vue.extend({
   components: {
-    NavItem,
+    NavItem
   },
   props: {
     data: {
@@ -22,11 +22,11 @@ export default Vue.extend({
     nestLevel: {
       type: Number,
       default: 0
-    },
+    }
   },
   methods: {
     handleClick() {
-      this.$emit('onPageClick', this.data)
+      this.$emit("onPageClick", this.data);
     }
   }
 });

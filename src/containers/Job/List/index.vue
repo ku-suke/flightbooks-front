@@ -27,10 +27,10 @@ import UserRepository from "@/repositories/UserRepository";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
-import FetchBuildJobListUseCase from '@/usecases/FetchBuildJobListUseCase'
+import FetchBuildJobListUseCase from "@/usecases/FetchBuildJobListUseCase";
 
 // Repositories
-import BuildJobRepository from '@/repositories/BuildJobRepository'
+import BuildJobRepository from "@/repositories/BuildJobRepository";
 
 // components
 import Modal from "@/components/Base/Modal.vue";
@@ -41,11 +41,11 @@ interface IData {
 
 export default Vue.extend({
   components: {
-    Modal,
+    Modal
   },
   data(): IData {
     return {
-      showModal: false,
+      showModal: false
     };
   },
   computed: {
@@ -60,14 +60,14 @@ export default Vue.extend({
     async fetchBuildJobList() {
       const usecase = new FetchBuildJobListUseCase({
         buildJobRepository: new BuildJobRepository(),
-        errorService: new ErrorService({ context: 'Fetching BuildJob' })
-      })
-      await usecase.execute(this.presenter.userId)
+        errorService: new ErrorService({ context: "Fetching BuildJob" })
+      });
+      await usecase.execute(this.presenter.userId);
     }
   },
   async mounted() {
     await this.fetchBuildJobList();
-  },
+  }
 });
 </script>
 

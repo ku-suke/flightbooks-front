@@ -29,12 +29,12 @@
 <script lang="ts">
 import Vue from "vue";
 import BookEntity from "@/entities/Book";
-import PageEntity from '@/entities/Page'
+import PageEntity from "@/entities/Page";
 import Nav from "@/components/Base/Nav.vue";
 import NavItem from "@/components/Base/NavItem.vue";
 import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
 import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
-import PageTree from '@/components/Modules/Tree/PageTree.vue'
+import PageTree from "@/components/Modules/Tree/PageTree.vue";
 
 import Presenter, { PresenterParams, IPresenter } from "./presenter";
 import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
@@ -42,11 +42,11 @@ import ErrorService from "@/services/ErrorService";
 
 // Use Case
 import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
-import RegisterPageUseCase from '@/usecases/RegisterPageUseCase'
-import SelectPageUseCase from '@/usecases/SelectPageUseCase'
+import RegisterPageUseCase from "@/usecases/RegisterPageUseCase";
+import SelectPageUseCase from "@/usecases/SelectPageUseCase";
 
 // Repositories
-import PageContentRepository from '@/repositories/PageContentRepository'
+import PageContentRepository from "@/repositories/PageContentRepository";
 import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 
 export default Vue.extend({
@@ -94,23 +94,23 @@ export default Vue.extend({
 
       await usecase.execute({ name, parentId });
     },
-    async registerPage({ name, parentId }: { name: string, parentId: string }) {
+    async registerPage({ name, parentId }: { name: string; parentId: string }) {
       const usecase = new RegisterPageUseCase({
         projectTreeEntity: this.presenter.projectTree,
-        pageContentRepository: new PageContentRepository,
-        projectTreeRepository: new ProjectTreeRepository,
-        errorService: new ErrorService({ context: 'Registering page' })
-      })
+        pageContentRepository: new PageContentRepository(),
+        projectTreeRepository: new ProjectTreeRepository(),
+        errorService: new ErrorService({ context: "Registering page" })
+      });
 
-      await usecase.execute({ name, parentId })
+      await usecase.execute({ name, parentId });
     },
     async selectPage(pageEntity: PageEntity) {
       const usecase = new SelectPageUseCase({
         pagecontentRepository: new PageContentRepository(),
-        errorService: new ErrorService({ context: 'Selecting Page' })
-      })
+        errorService: new ErrorService({ context: "Selecting Page" })
+      });
 
-      await usecase.execute(pageEntity)
+      await usecase.execute(pageEntity);
     }
   },
   watch: {

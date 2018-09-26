@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import Vue, { VNode } from "vue";
-import uuid from 'uuid/v4'
+import uuid from "uuid/v4";
 
 interface IData {
   isExpanded: boolean;
@@ -36,15 +36,15 @@ export default Vue.extend({
     nestLevel: {
       type: Number,
       default: 0
-    },
+    }
   },
   computed: {
     nestStyle(): any {
       return {
-        'padding-left': `${ (this.nestLevel * 16) + 4 }px`
-      }
-    },
-  },
+        "padding-left": `${this.nestLevel * 16 + 4}px`
+      };
+    }
+  }
 });
 </script>
 

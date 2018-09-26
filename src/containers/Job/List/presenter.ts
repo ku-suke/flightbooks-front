@@ -1,15 +1,15 @@
 import UserRepository from "@/repositories/UserRepository";
-import BuildJobsRepository from '@/repositories/BuildJobRepository'
-import BuildJobEntity from '@/entities/BuildJob'
+import BuildJobsRepository from "@/repositories/BuildJobRepository";
+import BuildJobEntity from "@/entities/BuildJob";
 
 export interface PresenterParams {
-  buildJobRepository: BuildJobsRepository
+  buildJobRepository: BuildJobsRepository;
   userRepository: UserRepository;
 }
 
 export interface IPresenter {
   userId: string;
-  jobs: BuildJobEntity[]
+  jobs: BuildJobEntity[];
 }
 
 export default ({
