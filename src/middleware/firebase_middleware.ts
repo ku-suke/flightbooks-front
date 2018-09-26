@@ -16,14 +16,24 @@ var config = {
   messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID
 };
 
+export enum Error {
+  WEAK_PASSWORD = "auth/weak-password",
+  ALREADY_INUSE = "auth/email-already-in-use",
+  WRONG_PASSWORD = "auth/wrong-password",
+  INVALID_EMAIL = "auth/invalid-email",
+  USER_NOT_FOUND = "auth/user-not-found"
+}
+
 const init = () => {
   firebase.initializeApp(config);
 
   store.commit(new StartAuthentication());
 
   firebase.auth().onAuthStateChanged(user => {
+    console.log("Middleware: Auth State changed!");
+    console.log(user);
     store.commit(new StartAuthentication());
-    if (user) {
+    if (user && user.emailVerified) {
       store.commit(new SignIn(user));
     } else {
       store.commit(new SignOut());
