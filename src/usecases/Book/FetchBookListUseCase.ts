@@ -1,19 +1,18 @@
-import BaseUseCase from "@/usecases/BaseUseCase";
 import BookRepository from "@/repositories/BookRepository";
 import ErrorService from "@/services/ErrorService";
 
-export interface ILoadContainerUseCase {
+export interface IFetchBookListUseCase {
   bookRepository: BookRepository;
   userId: string;
   errorService: ErrorService;
 }
 
-export default class LoadContainerUseCase implements BaseUseCase {
+export default class FetchBookListUseCase implements UseCase {
   bookRepository: BookRepository;
   userId: string;
   errorService: ErrorService;
 
-  constructor({ bookRepository, userId, errorService }: ILoadContainerUseCase) {
+  constructor({ bookRepository, userId, errorService }: IFetchBookListUseCase) {
     this.bookRepository = bookRepository;
     this.userId = userId;
     this.errorService = errorService;
