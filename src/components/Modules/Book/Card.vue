@@ -8,9 +8,6 @@
         <div class="BookCard__Title">{{ book.props.title }}</div>
         <div class="BookCard__UpdatedAt">作成日: {{ updatedAt }}</div>
       </div>
-      <div class="BookCard__Remove" @click="handleRemove">
-        <el-button type="danger" icon="el-icon-close" circle />
-      </div>
     </router-link>
   </transition>
 </template>
@@ -32,11 +29,6 @@ export default Vue.extend({
       const updatedAt = this.book.props.updatedAt;
 
       return updatedAt ? formatDate(updatedAt) : "";
-    }
-  },
-  methods: {
-    handleRemove() {
-      this.$emit("remove", this.book.props.identifier);
     }
   }
 });
@@ -98,20 +90,6 @@ export default Vue.extend({
   color: var(--color-gray);
   font-size: var(--fontSize-subText);
   font-weight: var(--fontWeight-bold);
-}
-
-.BookCard__Remove {
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(50%, -50%);
-  display: none;
-  transition: var(--transition-slow);
-}
-
-.BookCard:hover > .BookCard__Remove,
-.BookCard:focus > .BookCard__Remove {
-  display: block;
 }
 
 .book-enter-active,
