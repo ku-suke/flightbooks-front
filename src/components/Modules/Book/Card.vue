@@ -5,7 +5,7 @@
         <img :src="book.props.thumbanilUrl || 'https://images-na.ssl-images-amazon.com/images/I/5191wb7GxtL._SX350_BO1,204,203,200_.jpg'" alt="">
       </div>
       <div class="BookCard__Info">
-        <div class="BookCard__Title">{{ book.props.title }}</div>
+        <div class="BookCard__Title">{{ book.props.name }}</div>
         <div class="BookCard__UpdatedAt">作成日: {{ updatedAt }}</div>
       </div>
     </router-link>

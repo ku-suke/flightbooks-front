@@ -1,7 +1,7 @@
 <template>
   <Form submitLabel="作成" :isSubmitting="isSubmitting" :validator="validator" :data="innerFormData" @submit="handleSubmit">
     <FormBlock label="プロジェクト名" :required="true">
-      <BaseInput placeholder="My New Project" v-model="innerFormData.title"/>
+      <BaseInput placeholder="My New Project" v-model="innerFormData.name"/>
     </FormBlock>
     <FormBlock label="技術カテゴリ">
       <BaseInput/>
@@ -16,7 +16,7 @@ import FormBlock from "@/components/Base/FormBlock.vue";
 import BaseInput from "@/components/Base/Input.vue";
 
 export interface IFormData {
-  title: string;
+  name: string;
 }
 
 interface IData {
@@ -32,7 +32,7 @@ export default Vue.extend({
   data(): IData {
     return {
       innerFormData: {
-        title: ""
+        name: ""
       }
     };
   },
@@ -40,7 +40,7 @@ export default Vue.extend({
     formData: {
       type: Object as () => IFormData,
       default: (): IFormData => ({
-        title: ""
+        name: ""
       })
     },
     validator: {
