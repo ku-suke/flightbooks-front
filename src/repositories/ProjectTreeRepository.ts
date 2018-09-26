@@ -8,6 +8,19 @@ const projectTreeCollection = "projectTree";
 export default class ProjectTreeRepository {
   constructor() {}
 
+  async create(
+    item: ProjectTreeEntity
+  ): Promise<firebase.firestore.DocumentReference> {
+    const itemProps = item.props;
+    const identifier = itemProps.identifier;
+    const ref = firebase
+      .firestore()
+      .collection(projectTreeCollection)
+      .doc(identifier);
+    await ref.set(itemProps);
+    return ref;
+  }
+
   async fetchItemByRef(
     ref: firebase.firestore.DocumentReference
   ): Promise<IProjectTree> {

@@ -155,20 +155,13 @@ export default class BookRepository {
     store.commit(new ResetItem());
   }
 
-  async registerItem(entity: BookEntity): Promise<string> {
-    const identifier = uuidv4();
-    const book: IBook = {
-      ...entity.getProps(),
-      createdAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
-      identifier,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp
-    };
-
-    await firebase
+  async create(item: BookEntity): Promise<void> {
+    const itemProps = item.props;
+    const identifier = itemProps.identifier;
+    const ref = firebase
       .firestore()
       .collection(collection)
-      .doc(identifier)
-      .set(book);
-    return identifier;
+      .doc(identifier);
+    await ref.set(itemProps);
   }
 }
