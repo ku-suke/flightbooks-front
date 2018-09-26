@@ -52,6 +52,8 @@ export default Vue.extend({
 
 
 <style>
+@import "./assets/css/variables.css";
+
 body {
   margin: 0;
 }
