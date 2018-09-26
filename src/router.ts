@@ -4,7 +4,8 @@ import Home from "./pages/Home.vue";
 import About from "./pages/About.vue";
 import Project from "./pages/Project.vue";
 import Signin from "./pages/Signin.vue";
-import Jobs from './pages/Jobs.vue'
+import Signup from "./pages/Signup.vue";
+import Jobs from "./pages/Jobs.vue";
 import store from "@/store";
 
 Vue.use(Router);
@@ -49,8 +50,16 @@ let router = new Router({
       }
     },
     {
-      path: '/jobs',
-      name: 'jobs',
+      path: "/signup",
+      name: "signup",
+      component: Signup,
+      meta: {
+        checkAuth: true
+      }
+    },
+    {
+      path: "/jobs",
+      name: "jobs",
       component: Jobs,
       meta: {
         requireAuth: true
@@ -67,7 +76,7 @@ router.beforeEach((to, _, next) => {
   if (requireAuth) {
     if (!currentUser) {
       next({
-        path: "/signin",
+        path: "/signup",
         query: { redirect: to.fullPath }
       });
     } else {
