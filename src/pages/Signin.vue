@@ -20,6 +20,7 @@
 <script lang="ts">
 import Vue from "vue";
 import firebase, { User } from "firebase";
+import { Error } from "@/middleware/firebase_middleware";
 import Input from "@/components/Base/Input.vue";
 import FormBlock from "@/components/Base/FormBlock.vue";
 import Button, {
@@ -65,16 +66,40 @@ export default Vue.extend({
   },
   methods: {
     async signin() {
+      if (!this.verified) {
+        alert("不正なリクエストです。");
+        this.loading = false;
+        return;
+      }
+
       this.loading = true;
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(
-          user => this.redirect(),
-          err => {
-            alert(err.message);
-          }
-        );
+
+      try {
+        const user = await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password);
+        if (!user.user.emailVerified) {
+          alert("メール認証が完了していません。受信箱を確認してください。");
+          firebase.auth().signOut();
+        } else {
+          this.redirect();
+        }
+      } catch (error) {
+        const code = error.code || "";
+        if (code === Error.WRONG_PASSWORD) {
+          alert("パスワードが正しくありません。");
+        } else if (code === Error.INVALID_EMAIL) {
+          alert("メールアドレスが正しくありません。");
+        } else if (code === Error.USER_NOT_FOUND) {
+          alert("存在しないユーザーです。");
+        } else {
+          alert(
+            "登録時にエラーが発生しました。もう一度情報を入力してください。"
+          );
+        }
+      }
+
+      this.loading = false;
     },
     redirect() {
       const redirect = this.$route.query.redirect;
