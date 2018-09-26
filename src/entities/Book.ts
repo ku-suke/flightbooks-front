@@ -4,7 +4,7 @@ import uuid from "uuid/v4";
 export interface IBook {
   identifier: string;
   name: string;
-  owner?: string;
+  owner: string;
   genre?: number;
   createdAt: firebase.firestore.Timestamp;
   updatedAt: firebase.firestore.Timestamp;

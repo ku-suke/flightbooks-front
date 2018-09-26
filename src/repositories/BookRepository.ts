@@ -65,7 +65,7 @@ export default class BookRepository {
     const snapshot = await firebase
       .firestore()
       .collection(collection)
-      .where("userId", "==", userId)
+      .where("owner", "==", userId)
       .get();
 
     snapshot.forEach(doc => {
