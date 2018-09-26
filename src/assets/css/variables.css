@@ -1,7 +1,31 @@
 :root {
+  /* Color */
+  --color-black: #070707;
+  --color-gray: #999;
+  --color-light-gray: #eee;
+
   /* Space */
   --space-base: 8px;
+  --space-lv1: var(--space-base);
+  --space-lv2: calc(var(--space-base) * 2);
+  --space-lv4: calc(var(--space-base) * 4);
 
   /* Font */
-  --font-size-normal: 16px;
+  --fontSize-subText: 12px;
+  --fontSize-normal: 16px;
+  --fontSize-h1: 24px;
+
+  /* Radius */
+  --radius-base: 4px;
+  --radius-lv2: calc(var(--radius-base) * 2);
+
+  /* Shadow */
+  --shadow-normal: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+
+  /* Transition */
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+
+  /* FontWeight */
+  --fontWeight-bold: 700;
 }
