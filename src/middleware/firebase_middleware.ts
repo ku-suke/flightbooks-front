@@ -30,8 +30,6 @@ const init = () => {
   store.commit(new StartAuthentication());
 
   firebase.auth().onAuthStateChanged(user => {
-    console.log("Middleware: Auth State changed!");
-    console.log(user);
     store.commit(new StartAuthentication());
     if (user && user.emailVerified) {
       store.commit(new SignIn(user));
