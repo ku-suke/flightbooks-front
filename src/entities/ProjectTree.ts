@@ -21,6 +21,13 @@ export default class ProjectTreeEntity {
     };
   }
 
+  static newEntity({ owner }: { owner: string }): ProjectTreeEntity {
+    return new ProjectTreeEntity({
+      identifier: uuid(),
+      owner
+    });
+  }
+
   get props() {
     return this._props;
   }
