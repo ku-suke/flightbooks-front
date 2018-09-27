@@ -23,7 +23,7 @@ import BookNav from "@/containers/Book/Detail/Nav/index.vue";
 import Presenter, { IPresenter } from "./presenter";
 
 // Use Case
-import LoadContainerUseCase from "./LoadContainerUseCase";
+import FetchBookUseCase from "@/usecases/Book/FetchBookUseCase";
 import UpdateContentUseCase from "@/usecases/UpdateContentUseCase";
 import DestroyContainerUseCase from "./DestroyContainerUseCase";
 
@@ -78,14 +78,12 @@ export default Vue.extend({
     }
   },
   methods: {
-    async loadItem() {
-      const usecase = new LoadContainerUseCase({
+    async fetchBook() {
+      const usecase = new FetchBookUseCase({
         bookRepository: new BookRepository(),
-        projectTreeRepository: new ProjectTreeRepository(),
-        errorService: new ErrorService({ context: "LoadContainer UseCase" }),
-        projectId: this.id
+        errorService: new ErrorService({ context: "LoadContainer UseCase" })
       });
-      await usecase.execute();
+      await usecase.execute(this.id);
     },
     async updateContent() {
       const usecase = new UpdateContentUseCase({
@@ -97,7 +95,7 @@ export default Vue.extend({
     }
   },
   async mounted() {
-    await this.loadItem();
+    await this.fetchBook();
   },
   async destroyed() {
     await new DestroyContainerUseCase({
