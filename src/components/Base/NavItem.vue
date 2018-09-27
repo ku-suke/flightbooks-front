@@ -1,9 +1,12 @@
 <template>
   <div class="NavItem" :class="{ 'is-active': isActive }" :style="nestStyle" @click="$emit('click')">
-    <div class="NavItem__Label">{{ label }}</div>
-      <div class="NavItem__Menu" v-if="$slots['menu']">
-        <slot name="menu" />
-      </div>
+    <div class="NavItem__Label">
+      <span class="NavItem__Icon" v-if="$slots['icon']"><slot name="icon" /></span>
+      {{ label }}
+    </div>
+    <div class="NavItem__Menu" v-if="$slots['menu']">
+      <slot name="menu" />
+    </div>
   </div>
 </template>
 
@@ -59,5 +62,9 @@ export default Vue.extend({
 .NavItem:hover,
 .NavItem:focus {
   background-color: rgba(0, 79, 153, 0.492);
+}
+
+.NavItem__Icon {
+  margin-right: var(--space-lv1);
 }
 </style>
