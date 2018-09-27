@@ -21,6 +21,13 @@ export default class BuildJobRepository {
     return ref;
   }
 
+  async createSnapshot(item: BuildJobEntity) {
+    const buildSnapshot = firebase.functions().httpsCallable("buildSnapshot");
+    const res = await buildSnapshot({ ref: item.props.identifier });
+    console.log("res");
+    console.log(res);
+  }
+
   async fetchItemsByUser(userId: string): Promise<IBuildJob[]> {
     const items: IBuildJob[] = [];
     const snapshot = await firebase

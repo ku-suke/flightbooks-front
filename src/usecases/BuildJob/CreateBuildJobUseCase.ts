@@ -37,6 +37,7 @@ export default class CreateBuildJobUseCase implements UseCase {
         pageIds
       });
       await this.buildJobRepository.create(buildJobEntity);
+      await this.buildJobRepository.createSnapshot(buildJobEntity);
     } catch (error) {
       await this.errorService.handle(error);
       throw new Error(error);
