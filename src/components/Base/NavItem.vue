@@ -1,5 +1,5 @@
 <template>
-  <div class="NavItem" :style="nestStyle" @click="$emit('click')">
+  <div class="NavItem" :class="{ 'is-active': isActive }" :style="nestStyle" @click="$emit('click')">
     <div class="NavItem__Label">{{ label }}</div>
       <div class="NavItem__Menu" v-if="$slots['menu']">
         <slot name="menu" />
@@ -18,6 +18,10 @@ export default Vue.extend({
     nestLevel: {
       type: Number,
       default: 1
+    },
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -51,6 +55,7 @@ export default Vue.extend({
   cursor: pointer;
 }
 
+.NavItem.is-active,
 .NavItem:hover,
 .NavItem:focus {
   background-color: rgba(0, 79, 153, 0.492);
