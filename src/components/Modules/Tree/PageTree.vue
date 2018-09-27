@@ -1,5 +1,5 @@
 <template>
-  <NavItem :label="data.props.name" :nestLevel="nestLevel" @click="handleClick">
+  <NavItem :label="data.props.name" :nestLevel="nestLevel" :isActive="data.props.pageContent.id === currentPage" @click="handleClick">
     <div slot="menu">
     </div>
   </NavItem>
@@ -22,6 +22,10 @@ export default Vue.extend({
     nestLevel: {
       type: Number,
       default: 0
+    },
+    currentPage: {
+      type: String,
+      default: ""
     }
   },
   methods: {

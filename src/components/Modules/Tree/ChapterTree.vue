@@ -4,7 +4,7 @@
       <ChapterMenu :identifier="data.props.identifier" @addChapter="handleAddChapter" @renameChapter="handleRenameChapter" />
     </div>
     <ChapterTree v-for="chapter in data.chapters" :nestLevel="nestLevel + 1" :data="chapter" :key="chapter.props.identifier" @addChapter="handleAddChapter"/>
-    <PageTree v-for="page in data.pages" :key="page.props.title" :data="page" />
+    <PageTree v-for="page in data.pages" :key="page.props.title" :data="page" :currentPage="currentPage" />
   </Nav>
 </template>
 
@@ -31,6 +31,10 @@ export default Vue.extend({
     nestLevel: {
       type: Number,
       default: 0
+    },
+    currentPage: {
+      type: String,
+      default: ""
     }
   },
   methods: {

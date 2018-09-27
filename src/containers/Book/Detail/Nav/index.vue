@@ -19,8 +19,8 @@
         <div slot="menu">
           <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" @registerPage="registerPage" :identifier="presenter.projectTree.props.identifier" />
         </div>
-        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :nestLevel="1" :data="chapter" :key="chapter.props.identifier" @addChapter="registerChapter"/>
-        <PageTree v-for="page in presenter.projectTree.pages" :nestLevel="1" :data="page" :key="page.props.identifier" @onPageClick="selectPage" />
+        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :nestLevel="1" :data="chapter" :key="chapter.props.identifier" :currentPage="presenter.currentPage" @addChapter="registerChapter"/>
+        <PageTree v-for="page in presenter.projectTree.pages" :nestLevel="1" :data="page" :key="page.props.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
       </Nav>
     </div>
   </div>
@@ -65,7 +65,8 @@ export default Vue.extend({
   computed: {
     presenter(): IPresenter {
       return Presenter({
-        projectTreeRepository: new ProjectTreeRepository()
+        projectTreeRepository: new ProjectTreeRepository(),
+        pageContentRepository: new PageContentRepository()
       });
     }
   },
