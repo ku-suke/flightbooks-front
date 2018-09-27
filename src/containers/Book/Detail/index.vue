@@ -4,7 +4,8 @@
       <BookNav :book="presenter.book" />
     </div>
     <div class="BookDetail__Center">
-      <Editor v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig" @save="updateContent"/>
+      <Editor v-if="presenter.content" v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig" @save="updateContent"/>
+      <div v-else class="BookDetail__EditorEmpty">← 左のサイドメニューから編集するページを選択、もしくは作成してください。</div>
     </div>
     <div class="BookDetail__Right">
       ここに画像管理UI(TBD)
@@ -130,5 +131,11 @@ export default Vue.extend({
 
 .BookDetail__Editor {
   text-align: left;
+}
+
+.BookDetail__EditorEmpty {
+  font-size: var(--fontSize-h3);
+  font-weight: var(--fontWeight-bold);
+  margin: var(--space-lv4) auto;
 }
 </style>
