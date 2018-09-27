@@ -129,9 +129,9 @@ export default Vue.extend({
   cursor: not-allowed;
 }
 .Button.-secondary {
-  color: #070707;
-  border: 1px solid #070707;
-  background: #fff;
+  color: var(--color-blue);
+  border: 1px solid var(--color-blue);
+  background: var(--color-white);
 }
 .Button.-secondary:hover {
   background: #e6f5fb; /* TODO カラーパレットが修正され次第変更 */
