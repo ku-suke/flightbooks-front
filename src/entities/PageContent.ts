@@ -27,4 +27,8 @@ export default class PageContentEntity {
   get props(): IPageContent {
     return this._props;
   }
+
+  updateContent(content: string) {
+    this._props.content = content;
+  }
 }
