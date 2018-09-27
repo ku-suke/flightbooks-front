@@ -73,7 +73,7 @@ export default Vue.extend({
     async fetch() {
       const usecase = new FetchProjectTreeUseCase({
         projectTreeRepository: new ProjectTreeRepository(),
-        ref: this.book.props.projectTree,
+        ref: this.book.props.projectTreeRef,
         errorService: new ErrorService({ context: "Fetching projectTree" })
       });
 
