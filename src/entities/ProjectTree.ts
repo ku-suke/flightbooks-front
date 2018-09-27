@@ -102,4 +102,35 @@ export default class ProjectTreeEntity {
       this._props.chapters = pushToParent(this._props.chapters);
     }
   }
+
+  getAllPages(): firebase.firestore.DocumentReference[] {
+    // Method to scan all pages in single chapter
+    const walk = (chapter: IChapter): IPage[] => {
+      const pagesInChapters = chapter.chapters
+        ? chapter.chapters.reduce(
+            (prev, current) => {
+              return [...prev, ...walk(current)];
+            },
+            [] as IPage[]
+          )
+        : [];
+
+      const pagesInRoot = chapter.pages ? chapter.pages : [];
+
+      return [...pagesInChapters, ...pagesInRoot];
+    };
+
+    // Get all page IDs on the project
+    const pagesInChapters = this._props.chapters.reduce(
+      (prev, current) => {
+        return [...prev, ...walk(current)];
+      },
+      [] as IPage[]
+    );
+    const pagesInRoot = this._props.pages;
+    const pageRefs = [...pagesInChapters, ...pagesInRoot].map(
+      page => page.pageContent
+    );
+    return pageRefs;
+  }
 }

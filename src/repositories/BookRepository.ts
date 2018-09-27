@@ -13,48 +13,6 @@ const collection = "test-projects";
 export default class BookRepository {
   constructor() {}
 
-  // async getAllPages(identifier: string) {
-  //   // Get Project Tree
-  //   const projectSnapshot = await firebase.firestore().collection('test-projects').doc(identifier).get()
-  //   const projectTreeIdentifier = await (projectSnapshot.data() as IBook).identifier
-  //   const projectTreeSnapshot = await firebase.firestore().collection('projectTree').doc(projectTreeIdentifier).get()
-  //   const projectTree = await projectTreeSnapshot.data() as IProjectTree
-
-  //   // Method to scan all pages in single chapter
-  //   const walk = (chapter: IChapter): IPage[] => {
-  //     const pagesInChapters = chapter.chapters.reduce((prev, current) => {
-  //       const pages = [
-  //         ...prev,
-  //         ...walk(current)
-  //       ]
-  //       return pages
-  //     }, ([] as IPage[]))
-
-  //     return [
-  //       ...pagesInChapters,
-  //       ...chapter.pages
-  //     ]
-  //   }
-
-  //   // Get all page IDs on the project
-  //   const pagesByRefs = [
-  //     ...projectTree.chapters.reduce((prev, current) => {
-  //       const pages = [
-  //         ...prev,
-  //         ...walk(current)
-  //       ]
-  //       return pages
-  //     }, ([] as IPage[])),
-  //     ...projectTree.pages
-  //   ].map(page => page.pageContent)
-
-  //   // Get all pageContents
-  //   const pageContents = pagesByRefs.map(async (ref) => {
-  //     const pageContentRef = await ref.get()
-  //     return await pageContentRef.data() as IPageContent
-  //   })
-  // }
-
   async fetchItemsByUser(userId: string): Promise<IBook[]> {
     const items: IBook[] = [];
     const snapshot = await firebase
