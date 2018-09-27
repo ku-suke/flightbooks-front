@@ -1,6 +1,9 @@
 <template>
   <div class="BookNavi">
     <div class="BookNavi__Navi">
+      <NavItem label="書籍をビルド">
+        <i class="el-icon-printer" slot="icon" />
+      </NavItem>
       <Nav label="設定">
         <NavItem label="プロジェクト設定" />
         <NavItem label="出版設定" />
@@ -30,17 +33,12 @@
 import Vue from "vue";
 import BookEntity from "@/entities/Book";
 import PageEntity from "@/entities/Page";
-import Nav from "@/components/Base/Nav.vue";
-import NavItem from "@/components/Base/NavItem.vue";
-import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
-import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
-import PageTree from "@/components/Modules/Tree/PageTree.vue";
 
-import Presenter, { PresenterParams, IPresenter } from "./presenter";
-import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
+import Presenter, { IPresenter } from "./presenter";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
+import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
 import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
 import RegisterPageUseCase from "@/usecases/RegisterPageUseCase";
 import SelectPageUseCase from "@/usecases/SelectPageUseCase";
@@ -48,6 +46,13 @@ import SelectPageUseCase from "@/usecases/SelectPageUseCase";
 // Repositories
 import PageContentRepository from "@/repositories/PageContentRepository";
 import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+
+// Components
+import Nav from "@/components/Base/Nav.vue";
+import NavItem from "@/components/Base/NavItem.vue";
+import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
+import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
+import PageTree from "@/components/Modules/Tree/PageTree.vue";
 
 export default Vue.extend({
   components: {
