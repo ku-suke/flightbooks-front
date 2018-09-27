@@ -1,6 +1,7 @@
 import PageContentRepository from "@/repositories/PageContentRepository";
 import BookRepository from "@/repositories/BookRepository";
 import BookEntity from "@/entities/Book";
+import PageContentEntity from "@/entities/PageContent";
 
 export interface PresenterParams {
   bookRepository: BookRepository;
@@ -9,7 +10,8 @@ export interface PresenterParams {
 
 export interface IPresenter {
   book: BookEntity;
-  content: string;
+  content: string; // TODO: こいつを消す
+  pageContent: PageContentEntity;
 }
 
 export default ({
@@ -20,6 +22,7 @@ export default ({
   const pageContent = pageContentRepository.getItem();
   return {
     book: item ? new BookEntity(item) : null,
-    content: pageContent ? pageContent.props.content : ""
+    content: pageContent ? pageContent.props.content : "",
+    pageContent
   };
 };

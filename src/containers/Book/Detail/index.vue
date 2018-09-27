@@ -4,7 +4,7 @@
       <BookNav :book="presenter.book" />
     </div>
     <div class="BookDetail__Center">
-      <Editor v-if="presenter.content" v-model="editorContent" class="BookDetail__Editor" :configs="editorConfig" @save="updateContent"/>
+      <Editor v-if="presenter.content" :data="presenter.pageContent" :content="presenter.content" :isSaving="isSaving" class="BookDetail__Editor" :configs="editorConfig" @save="saveContent"/>
       <div v-else class="BookDetail__EditorEmpty">← 左のサイドメニューから編集するページを選択、もしくは作成してください。</div>
     </div>
     <div class="BookDetail__Right">
@@ -16,6 +16,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { IBook } from "@/entities/Book";
+import PageContentEntity from "@/entities/PageContent";
 import editorConfig from "@/utils/editorConfig";
 import ErrorService from "@/services/ErrorService";
 import Editor from "@/components/Modules/Editor.vue";
@@ -25,7 +26,7 @@ import Presenter, { IPresenter } from "./presenter";
 
 // Use Case
 import FetchBookUseCase from "@/usecases/Book/FetchBookUseCase";
-import UpdateContentUseCase from "@/usecases/UpdateContentUseCase";
+import SavePageContentUseCase from "@/usecases/PageContent/SavePageContentUseCase";
 import DestroyContainerUseCase from "./DestroyContainerUseCase";
 
 // Repositories
@@ -36,8 +37,8 @@ import PageContentRepository from "@/repositories/PageContentRepository";
 interface IData {
   showModal: boolean;
   isRegistering: boolean;
+  isSaving: boolean;
   editorConfig: any;
-  editorContent: string;
 }
 
 export default Vue.extend({
@@ -55,8 +56,8 @@ export default Vue.extend({
     return {
       showModal: false,
       isRegistering: false,
-      editorConfig,
-      editorContent: ""
+      isSaving: false,
+      editorConfig
     };
   },
   computed: {
@@ -67,17 +68,6 @@ export default Vue.extend({
       });
     }
   },
-  watch: {
-    "presenter.content": {
-      immediate: true,
-      handler(val, oldVal) {
-        // Copy to component state
-        if (val) {
-          this.editorContent = val;
-        }
-      }
-    }
-  },
   methods: {
     async fetchBook() {
       const usecase = new FetchBookUseCase({
@@ -86,13 +76,20 @@ export default Vue.extend({
       });
       await usecase.execute(this.id);
     },
-    async updateContent() {
-      const usecase = new UpdateContentUseCase({
-        bookRepository: new BookRepository(),
-        errorService: new ErrorService({ context: "UpdateContent UseCase" }),
-        projectId: this.id
-      });
-      await usecase.execute(this.editorContent);
+    async saveContent(pageContent: PageContentEntity) {
+      this.isSaving = true;
+
+      try {
+        const usecase = new SavePageContentUseCase({
+          pageContentRepository: new PageContentRepository(),
+          errorService: new ErrorService({ context: "UpdateContent UseCase" })
+        });
+        await usecase.execute(pageContent);
+      } catch (error) {
+        console.log(error);
+      }
+
+      this.isSaving = false;
     }
   },
   async mounted() {
