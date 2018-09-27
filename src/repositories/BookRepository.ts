@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import uuidv4 from "uuid/v4";
 import store from "@/store";
 import {
   StoreItems,
@@ -8,10 +7,6 @@ import {
   ResetItem
 } from "@/store/modules/book/types";
 import BookEntity, { IBook } from "@/entities/Book";
-import { IProjectTree } from "@/entities/ProjectTree";
-import { IPageContent } from "@/entities/PageContent";
-import { IPage } from "@/entities/Page";
-import { IChapter } from "@/entities/Chapter";
 
 const collection = "test-projects";
 
@@ -100,7 +95,7 @@ export default class BookRepository {
 
     // fetch item again then update local store
     const item = await this.fetchItem(identifier);
-    this.saveItem(item);
+    this.storeItem(item);
   }
 
   async updateContent(identifier: string, content: string) {
@@ -116,7 +111,7 @@ export default class BookRepository {
 
     // fetch item again then update local store
     const item = await this.fetchItem(identifier);
-    this.saveItem(item);
+    this.storeItem(item);
   }
 
   async removeItem(identifier: string) {
@@ -135,7 +130,7 @@ export default class BookRepository {
     store.commit(new StoreItems(items));
   }
 
-  saveItem(item: IBook) {
+  storeItem(item: IBook) {
     store.commit(new StoreItem(item));
   }
 
