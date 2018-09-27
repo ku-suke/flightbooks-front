@@ -3,10 +3,23 @@ import store from "@/store";
 import { StoreItems, StoreItem } from "@/store/modules/buildJob/types";
 import BuildJobEntity, { IBuildJob } from "@/entities/BuildJob";
 
-const collection = "generation";
+const collection = "build-job";
 
 export default class BuildJobRepository {
   constructor() {}
+
+  async create(
+    item: BuildJobEntity
+  ): Promise<firebase.firestore.DocumentReference> {
+    const itemProps = item.props;
+    const identifier = itemProps.identifier;
+    const ref = firebase
+      .firestore()
+      .collection(collection)
+      .doc(identifier);
+    await ref.set(itemProps);
+    return ref;
+  }
 
   async fetchItemsByUser(userId: string): Promise<IBuildJob[]> {
     const items: IBuildJob[] = [];
