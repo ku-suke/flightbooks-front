@@ -32,6 +32,17 @@ export default class ProjectTreeRepository {
     return item as IPageContent;
   }
 
+  async save(item: PageContentEntity): Promise<void> {
+    const itemProps = item.props;
+    const ref = firebase
+      .firestore()
+      .collection(collection)
+      .doc(itemProps.identifier);
+    await ref.update({
+      ...itemProps
+    });
+  }
+
   addItem(item: IPageContent) {
     store.commit(new AddItem(item));
   }
