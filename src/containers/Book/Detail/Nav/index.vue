@@ -1,7 +1,7 @@
 <template>
   <div class="BookNavi">
     <div class="BookNavi__Navi">
-      <NavItem label="書籍をビルド">
+      <NavItem label="書籍をビルド" @click="build">
         <i class="el-icon-printer" slot="icon" />
       </NavItem>
       <Nav label="設定">
@@ -38,6 +38,7 @@ import Presenter, { IPresenter } from "./presenter";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
+import CreateBuildJobUseCase from "@/usecases/BuildJob/CreateBuildJobUseCase";
 import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
 import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
 import RegisterPageUseCase from "@/usecases/RegisterPageUseCase";
@@ -46,6 +47,8 @@ import SelectPageUseCase from "@/usecases/SelectPageUseCase";
 // Repositories
 import PageContentRepository from "@/repositories/PageContentRepository";
 import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+import BuildJobRepository from "@/repositories/BuildJobRepository";
+import UserRepository from "@/repositories/UserRepository";
 
 // Components
 import Nav from "@/components/Base/Nav.vue";
@@ -70,6 +73,7 @@ export default Vue.extend({
   computed: {
     presenter(): IPresenter {
       return Presenter({
+        userRepository: new UserRepository(),
         projectTreeRepository: new ProjectTreeRepository(),
         pageContentRepository: new PageContentRepository()
       });
@@ -117,6 +121,18 @@ export default Vue.extend({
       });
 
       await usecase.execute(pageEntity);
+    },
+    async build() {
+      const usecase = new CreateBuildJobUseCase({
+        buildJobRepository: new BuildJobRepository(),
+        errorService: new ErrorService({ context: "CreateBuildJob UseCase" })
+      });
+
+      await usecase.execute({
+        owner: this.presenter.userId,
+        bookId: this.book.props.identifier,
+        projectTreeEntity: this.presenter.projectTree
+      });
     }
   },
   watch: {
