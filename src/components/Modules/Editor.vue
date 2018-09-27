@@ -1,7 +1,7 @@
 <template>
   <div class="Editor">
-    <MarkdownEditor :value="editorContent" :configs="configs" @input="handleInput"/>
-    <Button class="Editor__Save" text="保存" :size="ButtonSize.Small" @click="handleSave"/>
+    <MarkdownEditor :value="pageContent.props.content" @input="updateContent" :configs="configs" />
+    <Button class="Editor__Save" text="保存" :loading="isSaving" :size="ButtonSize.Small" @click="handleSave"/>
   </div>
 </template>
 
@@ -9,17 +9,18 @@
 import Vue from "vue";
 import MarkdownEditor from "vue-simplemde/src/markdown-editor.vue";
 import Button, { Size as ButtonSize } from "@/components/Base/Button.vue";
+import PageContentEntity from "@/entities/PageContent";
 
 interface IData {
-  editorContent: string;
   ButtonSize: typeof ButtonSize;
+  pageContent: PageContentEntity;
 }
 
 export default Vue.extend({
   data(): IData {
     return {
-      editorContent: "",
-      ButtonSize
+      ButtonSize,
+      pageContent: null
     };
   },
   components: {
@@ -27,32 +28,36 @@ export default Vue.extend({
     Button
   },
   props: {
-    value: {
-      type: String,
-      default: ""
-    },
     configs: {
       type: Object as () => any,
       default: {}
+    },
+    isSaving: {
+      type: Boolean,
+      default: false
+    },
+    data: {
+      type: Object as () => PageContentEntity,
+      required: true
     }
   },
   watch: {
-    value: {
+    data: {
       immediate: true,
-      handler(val) {
+      handler(pageContent: PageContentEntity) {
         // Copy to component state
-        if (val) {
-          this.editorContent = val;
+        if (pageContent) {
+          this.pageContent = pageContent;
         }
       }
     }
   },
   methods: {
-    handleInput(content: string | null) {
-      if (content) this.$emit("input", content);
-    },
     handleSave() {
-      this.$emit("save");
+      this.$emit("save", this.pageContent);
+    },
+    updateContent(content: string) {
+      (this.pageContent as PageContentEntity).updateContent(content);
     }
   }
 });
@@ -66,7 +71,7 @@ export default Vue.extend({
 .Editor__Save {
   position: absolute;
   top: 8px;
-  right: 0;
+  right: 16px;
 }
 
 .editor-toolbar {
