@@ -4,7 +4,7 @@
       <BookNav :book="presenter.book" />
     </div>
     <div class="BookDetail__Center">
-      <Editor v-if="presenter.content" :data="presenter.pageContent" :content="presenter.content" :isSaving="isSaving" class="BookDetail__Editor" :configs="editorConfig" @save="saveContent"/>
+      <Editor v-if="presenter.pageContent" :data="presenter.pageContent" :isSaving="isSaving" class="BookDetail__Editor" :configs="editorConfig" @save="saveContent"/>
       <div v-else class="BookDetail__EditorEmpty">← 左のサイドメニューから編集するページを選択、もしくは作成してください。</div>
     </div>
     <div class="BookDetail__Right">
