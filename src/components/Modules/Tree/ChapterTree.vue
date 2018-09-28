@@ -1,9 +1,9 @@
 <template>
   <Nav :label="data.props.name" :nestLevel="nestLevel">
     <div slot="menu">
-      <ChapterMenu :identifier="data.props.identifier" @addChapter="handleAddChapter" @renameChapter="handleRenameChapter" />
+      <ChapterMenu :identifier="data.props.identifier" @addChapter="handleAddChapter" @renameChapter="handleRenameChapter" @registerPage="handleRegisterPage" />
     </div>
-    <ChapterTree v-for="chapter in data.chapters" :nestLevel="nestLevel + 1" :data="chapter" :key="chapter.props.identifier" @addChapter="handleAddChapter"/>
+    <ChapterTree v-for="chapter in data.chapters" :nestLevel="nestLevel + 1" :data="chapter" :key="chapter.props.identifier" @addChapter="handleAddChapter" @registerPage="handleRegisterPage"/>
     <PageTree v-for="page in data.pages" :key="page.props.title" :data="page" :currentPage="currentPage" />
   </Nav>
 </template>
@@ -39,11 +39,13 @@ export default Vue.extend({
   },
   methods: {
     handleAddChapter({ name, parentId }: { name: string; parentId: string }) {
-      console.log("handleAddChapter called");
       this.$emit("addChapter", { name, parentId });
     },
     handleRenameChapter(name: string) {
       this.$emit("renameChapter", name);
+    },
+    handleRegisterPage({ name, parentId }: { name: string; parentId: string }) {
+      this.$emit("registerPage", { name, parentId });
     }
   }
 });

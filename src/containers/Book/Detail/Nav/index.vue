@@ -22,7 +22,7 @@
         <div slot="menu">
           <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" @registerPage="registerPage" :identifier="presenter.projectTree.props.identifier" />
         </div>
-        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :nestLevel="1" :data="chapter" :key="chapter.props.identifier" :currentPage="presenter.currentPage" @addChapter="registerChapter"/>
+        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :nestLevel="1" :data="chapter" :key="chapter.props.identifier" :currentPage="presenter.currentPage" @addChapter="registerChapter" @registerPage="registerPage"/>
         <PageTree v-for="page in presenter.projectTree.pages" :nestLevel="1" :data="page" :key="page.props.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
       </Nav>
     </div>
