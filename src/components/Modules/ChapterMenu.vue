@@ -1,5 +1,8 @@
 <template>
   <div class="ChapterMenu">
+    <button class="ChapterMenu__Item" title="ページを追加" @click="showRegisterPageModal = true">
+      <Icon name="add-file" />
+    </button>
     <button class="ChapterMenu__Item" title="チャプターを追加" @click="showRegisterChapterModal = true">
       <Icon name="add-folder" />
     </button>
@@ -32,6 +35,19 @@
         </form>
       </template>
     </Modal>
+    <Modal v-show="showRegisterPageModal" @close="showRegisterPageModal = false">
+      <div slot="header">
+        <h2>ページを追加</h2>
+      </div>
+      <template slot="body">
+        <form class="ProjectMenu__Form" @submit.prevent="registerPage">
+          <FormBlock label="ページ名">
+            <BaseInput placeholder="My New Project" v-model="newPageName"/>
+          </FormBlock>
+          <el-button type="primary" native-type="submit" :disabled="!newPageName" round>追加</el-button>
+        </form>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -44,8 +60,10 @@ import Icon from "@/components/Base/Icon.vue";
 
 interface IData {
   showRegisterChapterModal: boolean;
+  showRegisterPageModal: boolean;
   showRenameChapterModal: boolean;
   newChapterName: string;
+  newPageName: string;
 }
 
 export default Vue.extend({
@@ -64,8 +82,10 @@ export default Vue.extend({
   data(): IData {
     return {
       showRegisterChapterModal: false,
+      showRegisterPageModal: false,
       showRenameChapterModal: false,
-      newChapterName: ""
+      newChapterName: "",
+      newPageName: ""
     };
   },
   methods: {
@@ -83,6 +103,13 @@ export default Vue.extend({
       this.$emit("renameChapter", this.newChapterName);
       this.newChapterName = "";
       this.showRenameChapterModal = false;
+    },
+    registerPage() {
+      const name = this.newPageName;
+      const parentId = this.identifier;
+      this.$emit("registerPage", { name, parentId });
+      this.newPageName = "";
+      this.showRegisterPageModal = false;
     }
   }
 });
