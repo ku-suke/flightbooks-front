@@ -4,7 +4,7 @@ import "@/assets/css/element/index.css";
 import App from "./App.vue";
 import router from "@/router";
 import store from "@/store";
-import "@/registerServiceWorker";
+// import "@/registerServiceWorker";
 import initFirebase from "@/middleware/firebase_middleware";
 
 Vue.config.productionTip = false;
