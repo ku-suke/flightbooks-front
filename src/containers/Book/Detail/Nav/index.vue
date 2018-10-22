@@ -1,22 +1,14 @@
 <template>
   <div class="BookNavi">
     <div class="BookNavi__Navi">
-      <NavItem label="書籍をビルド" @click="build">
-        <i class="el-icon-printer" slot="icon" />
-      </NavItem>
+      <router-link :to="{ name: 'buildSetting', params: { id: presenter.projectTree.props.identifier }}">
+        <NavItem label="書籍をビルド">
+          <i class="el-icon-printer" slot="icon" />
+        </NavItem>
+      </router-link>
       <Nav label="設定">
         <NavItem label="プロジェクト設定" />
         <NavItem label="出版設定" />
-        <Nav label="設定">
-          <NavItem label="プロジェクト設定" />
-          <NavItem label="出版設定" />
-          <Nav label="設定">
-            <div slot="menu">
-            </div>
-            <NavItem label="プロジェクト設定" />
-            <NavItem label="出版設定" />
-          </Nav>
-        </Nav>
       </Nav>
       <Nav label="チャプター管理">
         <div slot="menu">
@@ -121,19 +113,19 @@ export default Vue.extend({
       });
 
       await usecase.execute(pageEntity);
-    },
-    async build() {
-      const usecase = new CreateBuildJobUseCase({
-        buildJobRepository: new BuildJobRepository(),
-        errorService: new ErrorService({ context: "CreateBuildJob UseCase" })
-      });
-
-      await usecase.execute({
-        owner: this.presenter.userId,
-        bookId: this.book.props.identifier,
-        projectTreeEntity: this.presenter.projectTree
-      });
     }
+    // async build() {
+    //   const usecase = new CreateBuildJobUseCase({
+    //     buildJobRepository: new BuildJobRepository(),
+    //     errorService: new ErrorService({ context: "CreateBuildJob UseCase" })
+    //   });
+
+    //   await usecase.execute({
+    //     owner: this.presenter.userId,
+    //     bookId: this.book.props.identifier,
+    //     projectTreeEntity: this.presenter.projectTree
+    //   });
+    // }
   },
   watch: {
     book: {

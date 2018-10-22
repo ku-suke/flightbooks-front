@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./pages/Home.vue";
 import About from "./pages/About.vue";
+import BuildSetting from "./pages/BuildSetting.vue";
 import Project from "./pages/Project.vue";
 import Signin from "./pages/Signin.vue";
 import Signup from "./pages/Signup.vue";
@@ -32,6 +33,14 @@ let router = new Router({
       path: "/projects/:id",
       name: "project",
       component: Project,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: "/projects/:id/buildSetting",
+      name: "buildSetting",
+      component: BuildSetting,
       meta: {
         requireAuth: true
       }
