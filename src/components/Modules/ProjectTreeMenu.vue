@@ -115,7 +115,6 @@ export default Vue.extend({
 }
 
 .ProjectMenu__Item svg {
-  display: none;
   fill: #fff;
 }
 
