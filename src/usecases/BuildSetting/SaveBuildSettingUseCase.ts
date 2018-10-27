@@ -21,7 +21,15 @@ export default class SaveBuildSettingUseCase implements UseCase {
 
   async execute(item: BuildSettingEntity): Promise<void> {
     try {
-      await this.buildSettingRepository.save(item);
+      // upsertする
+      const exists = await this.buildSettingRepository.fetchItem(
+        item.props.identifier
+      );
+      if (exists) {
+        await this.buildSettingRepository.save(item);
+      } else {
+        await this.buildSettingRepository.create(item);
+      }
     } catch (error) {
       await this.errorService.handle(error);
       throw new Error(error);
