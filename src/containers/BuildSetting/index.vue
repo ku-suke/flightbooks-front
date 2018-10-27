@@ -5,11 +5,11 @@
     </div>
     <div class="content">
       <FormBlock label="ビルド環境">
-        <select v-model="presenter.buildSetting.environment" :disabled="isLoading">
+        <Select v-model="presenter.buildSetting.environment" :disabled="isLoading">
           <option disabled value="">Please select one</option>
           <option value="preview">著者確認（preview）</option>
           <option value="production">本番（production）</option>
-        </select>
+        </Select>
       </FormBlock>
       <FormBlock label="通知先メールアドレス">
         <Input v-model="presenter.buildSetting.email" placeholder="j.smith@example.com" :disabled="isLoading"/>
@@ -53,6 +53,7 @@ import BuildJobRepository from "@/repositories/BuildJobRepository";
 import ErrorService from "@/services/ErrorService";
 
 import Input from "@/components/Base/Input.vue";
+import Select from "@/components/Base/Select.vue";
 import FormBlock from "@/components/Base/FormBlock.vue";
 import Button, {
   Type as ButtonType,
@@ -67,6 +68,7 @@ export default Vue.extend({
   components: {
     FormBlock,
     Input,
+    Select,
     Button
   },
   props: {
