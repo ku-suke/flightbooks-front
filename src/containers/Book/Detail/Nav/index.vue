@@ -113,18 +113,6 @@ export default Vue.extend({
 
       await usecase.execute(pageEntity);
     }
-    // async build() {
-    //   const usecase = new CreateBuildJobUseCase({
-    //     buildJobRepository: new BuildJobRepository(),
-    //     errorService: new ErrorService({ context: "CreateBuildJob UseCase" })
-    //   });
-
-    //   await usecase.execute({
-    //     owner: this.presenter.userId,
-    //     bookId: this.book.props.identifier,
-    //     projectTreeEntity: this.presenter.projectTree
-    //   });
-    // }
   },
   watch: {
     book: {
