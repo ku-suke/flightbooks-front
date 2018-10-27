@@ -5,22 +5,26 @@
     </div>
     <div class="content">
       <FormBlock label="ビルド環境">
-        <input type="checkbox" v-model="presenter.buildSetting.enviroment" />
+        <select v-model="presenter.buildSetting.environment" :disabled="isLoading">
+          <option disabled value="">Please select one</option>
+          <option value="preview">著者確認（preview）</option>
+          <option value="production">本番（production）</option>
+        </select>
       </FormBlock>
-      <FormBlock label="メールアドレス">
-        <Input v-model="presenter.buildSetting.email" placeholder="j.smith@example.com" />
+      <FormBlock label="通知先メールアドレス">
+        <Input v-model="presenter.buildSetting.email" placeholder="j.smith@example.com" :disabled="isLoading"/>
       </FormBlock>
       <FormBlock label="初版日">
-        <Input v-model="presenter.buildSetting.createdAt" placeholder="yyyy/mm/dd" />
+        <Input v-model="presenter.buildSetting.createdAt" placeholder="yyyy/mm/dd" :disabled="isLoading"/>
       </FormBlock>
       <FormBlock label="ビルドバージョン">
-        <Input v-model="presenter.buildSetting.version" placeholder="1.0" />
+        <Input v-model="presenter.buildSetting.version" placeholder="1.0" :disabled="isLoading"/>
       </FormBlock>
       <FormBlock label="印刷所">
-        <Input v-model="presenter.buildSetting.printingOffice" placeholder="株式会社グラフィック" />
+        <Input v-model="presenter.buildSetting.printingOffice" placeholder="株式会社グラフィック" :disabled="isLoading"/>
       </FormBlock>
       <FormBlock>
-        <Button text="ビルドする"/>
+        <Button text="ビルドする" @click="build" :loading="isLoading" :disabled="isLoading"/>
       </FormBlock>
     </div>
   </div>
@@ -28,12 +32,24 @@
 
 <script lang="ts">
 import Vue from "vue";
+import moment from "moment";
 
 import Presenter, { IPresenter } from "./presenter";
 
 import FetchBuildSettingUseCase from "@/usecases/BuildSetting/FetchBuildSettingUseCase";
+import SaveBuildSettingUseCase from "@/usecases/BuildSetting/SaveBuildSettingUseCase";
+import CreateBuildJobUseCase from "@/usecases/BuildJob/CreateBuildJobUseCase";
+
+import BuildSettingEntity, {
+  IBuildSettingEnvironment
+} from "@/entities/BuildSetting";
 
 import BuildSettingRepository from "@/repositories/BuildSettingRepository";
+import UserRepository from "@/repositories/UserRepository";
+import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+import PageContentRepository from "@/repositories/PageContentRepository";
+
+import BuildJobRepository from "@/repositories/BuildJobRepository";
 import ErrorService from "@/services/ErrorService";
 
 import Input from "@/components/Base/Input.vue";
@@ -44,11 +60,7 @@ import Button, {
 } from "@/components/Base/Button.vue";
 
 interface IData {
-  enviroment: boolean;
-  email: string;
-  createdAt: string;
-  version: string;
-  printingOffice: string;
+  isLoading: boolean;
 }
 
 export default Vue.extend({
@@ -65,17 +77,16 @@ export default Vue.extend({
   },
   data(): IData {
     return {
-      enviroment: false,
-      email: null,
-      createdAt: null,
-      version: null,
-      printingOffice: null
+      isLoading: false
     };
   },
   computed: {
     presenter(): IPresenter {
       return Presenter({
-        buildSettingRepository: new BuildSettingRepository()
+        buildSettingRepository: new BuildSettingRepository(),
+        userRepository: new UserRepository(),
+        projectTreeRepository: new ProjectTreeRepository(),
+        pageContentRepository: new PageContentRepository()
       });
     }
   },
@@ -83,9 +94,39 @@ export default Vue.extend({
     async fetchBuildSetting() {
       const usecase = new FetchBuildSettingUseCase({
         buildSettingRepository: new BuildSettingRepository(),
-        errorService: new ErrorService({ context: "Fetching BuildSetting" })
+        errorService: new ErrorService({ context: "Saving BuildSetting" })
       });
       await usecase.execute(this.id);
+    },
+    async build() {
+      this.isLoading = true;
+
+      // BuildSettingを保存する
+      const saveBuildSettingUseCase = new SaveBuildSettingUseCase({
+        buildSettingRepository: new BuildSettingRepository(),
+        errorService: new ErrorService({ context: "CreateBuildJob UseCase" })
+      });
+
+      const item = new BuildSettingEntity({
+        ...this.presenter.buildSetting,
+        identifier: this.id
+      });
+      await saveBuildSettingUseCase.execute(item);
+
+      // Buildする
+      const createBuildJobUseCase = new CreateBuildJobUseCase({
+        buildJobRepository: new BuildJobRepository(),
+        errorService: new ErrorService({ context: "CreateBuildJob UseCase" })
+      });
+
+      await createBuildJobUseCase.execute({
+        owner: this.presenter.userId,
+        bookId: this.id,
+        projectTreeEntity: this.presenter.projectTree
+      });
+
+      this.isLoading = false;
+      alert("ビルドに成功しました");
     }
   },
   async mounted() {

@@ -30,7 +30,6 @@ import Presenter, { IPresenter } from "./presenter";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
-import CreateBuildJobUseCase from "@/usecases/BuildJob/CreateBuildJobUseCase";
 import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
 import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
 import RegisterPageUseCase from "@/usecases/RegisterPageUseCase";

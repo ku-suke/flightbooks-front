@@ -1,8 +1,13 @@
 import firebase from "firebase";
 
+export enum IBuildSettingEnvironment {
+  PREVIEW = "preview",
+  PRODUCTION = "production"
+}
+
 export interface IBuildSetting {
   identifier?: Identifier;
-  isProduction: boolean;
+  environment: IBuildSettingEnvironment;
   email: string;
   createdAt: string;
   version: string;
