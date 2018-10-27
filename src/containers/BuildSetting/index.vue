@@ -5,11 +5,11 @@
     </div>
     <div class="content">
       <FormBlock label="ビルド環境">
-        <Select v-model="presenter.buildSetting.environment" :disabled="isLoading">
+        <select class="select" v-model="presenter.buildSetting.environment" :disabled="isLoading">
           <option disabled value="">Please select one</option>
           <option value="preview">著者確認（preview）</option>
           <option value="production">本番（production）</option>
-        </Select>
+        </select>
       </FormBlock>
       <FormBlock label="通知先メールアドレス">
         <Input v-model="presenter.buildSetting.email" placeholder="j.smith@example.com" :disabled="isLoading"/>
@@ -68,7 +68,6 @@ export default Vue.extend({
   components: {
     FormBlock,
     Input,
-    Select,
     Button
   },
   props: {
@@ -128,7 +127,7 @@ export default Vue.extend({
       });
 
       this.isLoading = false;
-      alert("ビルドに成功しました");
+      alert("ビルドキューを作成しました");
     }
   },
   async mounted() {
@@ -146,5 +145,20 @@ export default Vue.extend({
 .content {
   width: 640px;
   margin: 0 auto;
+}
+
+.select {
+  box-sizing: border-box;
+  font-size: 14px;
+  min-height: 50px;
+  padding: 10px 18px;
+  line-height: 30px;
+  color: #070707;
+  background-color: #f6f6f6;
+  outline: none;
+  border: 1px solid #dadbe3;
+  border-radius: 4px;
+  transition: 0.3s;
+  appearance: none;
 }
 </style>
