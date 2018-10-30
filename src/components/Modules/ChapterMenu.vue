@@ -141,7 +141,6 @@ export default Vue.extend({
 }
 
 .ChapterMenu__Item svg {
-  display: none;
   fill: #fff;
 }
 
