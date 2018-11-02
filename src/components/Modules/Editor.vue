@@ -12,6 +12,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+import store from "@/store";
+import firebase from "firebase";
 import MarkdownEditor from "vue-simplemde/src/markdown-editor.vue";
 import Button, { Size as ButtonSize } from "@/components/Base/Button.vue";
 import PageContentEntity from "@/entities/PageContent";
@@ -60,6 +62,15 @@ export default Vue.extend({
   computed: {
     simplemde() {
       return this.$refs.markdownEditor.simplemde;
+    },
+    fileAllowedTypes() {
+      return {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/jpg": "jpg",
+        "image/gif": "gif",
+        "image/svg+xml": "svg"
+      };
     }
   },
   methods: {
@@ -69,34 +80,36 @@ export default Vue.extend({
     updateContent(content: string) {
       (this.pageContent as PageContentEntity).updateContent(content);
     },
+    uploadFileName(file, filename) {
+      return `books/${store.state.book.item.identifier}/assets/${filename}.${
+        this.fileAllowedTypes[file.type]
+      }`;
+    },
     onDrop(event) {
       console.log(event);
-      let allowedtype = {
-        "image/jpeg": "jpg",
-        "image/png": "png",
-        "image/jpg": "jpg",
-        "image/gif": "gif",
-        "image/svg+xml": "svg"
-      };
       // Check if files were dropped
       let files = event.target.files
         ? event.target.files
         : event.dataTransfer.files;
       if (files.length > 0) {
         let file = files[0];
-        if (file.type in allowedtype) {
+        if (file.type in this.fileAllowedTypes) {
           var cm = this.simplemde.codemirror;
           var line = cm.getCursor().line;
           var ch = cm.getCursor().ch;
-          // var fileName = 'books/' + bookId + '/assets/' + (new Date()).getTime() + "." + allowedtype[file.type];
-          // var storageRef = firebase.storage().ref(fileName);
-          // storageRef.put(file).then(function(snapshot) {
-          //   console.log('Uploaded a blob or file!'+fileName);
-          //   storageRef.getDownloadURL().then(function(url) {
-          //     var text = "\n!["+file.name+']('+url+")\n";
-          //         cm.replaceRange(text,{line:line,ch:ch},{line:line,ch:ch});
-          //   })
-          // });
+          var fileName = this.uploadFileName(file, new Date().getTime());
+          var storageRef = firebase.storage().ref(fileName);
+          storageRef.put(file).then(function(snapshot) {
+            console.log("Uploaded a blob or file: " + fileName);
+            storageRef.getDownloadURL().then(function(url) {
+              var text = "\n![" + file.name + "](" + url + ")\n";
+              cm.replaceRange(
+                text,
+                { line: line, ch: ch },
+                { line: line, ch: ch }
+              );
+            });
+          });
         } else {
           console.log(file.type);
         }
