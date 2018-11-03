@@ -86,8 +86,6 @@ export default Vue.extend({
       }`;
     },
     onDrop(event) {
-      console.log(event);
-      // Check if files were dropped
       let files = event.target.files
         ? event.target.files
         : event.dataTransfer.files;
@@ -100,7 +98,6 @@ export default Vue.extend({
           var fileName = this.uploadFileName(file, new Date().getTime());
           var storageRef = firebase.storage().ref(fileName);
           storageRef.put(file).then(function(snapshot) {
-            console.log("Uploaded a blob or file: " + fileName);
             storageRef.getDownloadURL().then(function(url) {
               var text = "\n![" + file.name + "](" + url + ")\n";
               cm.replaceRange(
@@ -111,8 +108,10 @@ export default Vue.extend({
             });
           });
         } else {
-          console.log(file.type);
+          console.log(`unknown file type: ${file.type}`);
         }
+      } else {
+        console.log("files.length <= 0");
       }
     }
   }
