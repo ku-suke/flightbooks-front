@@ -1,12 +1,19 @@
 <template>
-  <div class="Editor">
-    <MarkdownEditor :value="pageContent.props.content" @input="updateContent" :configs="configs" />
+  <div class="Editor" @drop.prevent="onDrop" >
+    <MarkdownEditor
+      ref="markdownEditor"
+      :value="pageContent.props.content"
+      @input="updateContent"
+      :configs="configs"
+    />
     <Button class="Editor__Save" text="保存" :loading="isSaving" :size="ButtonSize.Small" @click="handleSave"/>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import store from "@/store";
+import firebase from "firebase";
 import MarkdownEditor from "vue-simplemde/src/markdown-editor.vue";
 import Button, { Size as ButtonSize } from "@/components/Base/Button.vue";
 import PageContentEntity from "@/entities/PageContent";
@@ -52,12 +59,60 @@ export default Vue.extend({
       }
     }
   },
+  computed: {
+    simplemde() {
+      return this.$refs.markdownEditor.simplemde;
+    },
+    fileAllowedTypes() {
+      return {
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/jpg": "jpg",
+        "image/gif": "gif",
+        "image/svg+xml": "svg"
+      };
+    }
+  },
   methods: {
     handleSave() {
       this.$emit("save", this.pageContent);
     },
     updateContent(content: string) {
       (this.pageContent as PageContentEntity).updateContent(content);
+    },
+    uploadFileName(file, filename) {
+      return `books/${store.state.book.item.identifier}/assets/${filename}.${
+        this.fileAllowedTypes[file.type]
+      }`;
+    },
+    onDrop(event) {
+      let files = event.target.files
+        ? event.target.files
+        : event.dataTransfer.files;
+      if (files.length > 0) {
+        let file = files[0];
+        if (file.type in this.fileAllowedTypes) {
+          var cm = this.simplemde.codemirror;
+          var line = cm.getCursor().line;
+          var ch = cm.getCursor().ch;
+          var fileName = this.uploadFileName(file, new Date().getTime());
+          var storageRef = firebase.storage().ref(fileName);
+          storageRef.put(file).then(function(snapshot) {
+            storageRef.getDownloadURL().then(function(url) {
+              var text = "\n![" + file.name + "](" + url + ")\n";
+              cm.replaceRange(
+                text,
+                { line: line, ch: ch },
+                { line: line, ch: ch }
+              );
+            });
+          });
+        } else {
+          console.log(`unknown file type: ${file.type}`);
+        }
+      } else {
+        console.log("files.length <= 0");
+      }
     }
   }
 });
