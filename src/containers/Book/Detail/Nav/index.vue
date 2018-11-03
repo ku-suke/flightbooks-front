@@ -8,7 +8,6 @@
       </router-link>
       <Nav label="設定">
         <NavItem label="プロジェクト設定" />
-        <NavItem label="出版設定" />
       </Nav>
       <Nav label="チャプター管理">
         <div slot="menu">
