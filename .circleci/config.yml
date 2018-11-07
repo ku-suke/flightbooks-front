@@ -34,5 +34,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: echo "$FIREBASE_ENV" > .env && yarn build && ./node_modules/.bin/firebase deploy --project "$FIREBASE_PRJ" --token "$FIREBASE_TOKEN"
+      - run: base64 --decode $FIREBASE_ENV64 > .env && yarn build && ./node_modules/.bin/firebase deploy --project "$FIREBASE_PRJ" --token "$FIREBASE_TOKEN"
 
