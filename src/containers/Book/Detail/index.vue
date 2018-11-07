@@ -113,6 +113,7 @@ export default Vue.extend({
 
 .BookDetail__Left {
   flex: 2;
+  min-width: 200px;
   height: 100vh;
   background-color: #2e3235;
 }
