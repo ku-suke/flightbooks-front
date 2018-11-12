@@ -2,7 +2,7 @@
   <transition name="book">
     <router-link class="BookCard" :to="{name: 'project', params: {id: book.props.identifier}}">
       <div class="BookCard__Thumbnail">
-        <img :src="book.props.thumbanilUrl || 'https://images-na.ssl-images-amazon.com/images/I/5191wb7GxtL._SX350_BO1,204,203,200_.jpg'" alt="">
+        <img :src="book.props.thumbanilUrl || 'https://via.placeholder.com/350.png?text=No Image'" alt="">
       </div>
       <div class="BookCard__Info">
         <div class="BookCard__Title">{{ book.props.name }}</div>
