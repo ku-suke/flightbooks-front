@@ -8,7 +8,7 @@ import {
 } from "@/store/modules/book/types";
 import BookEntity, { IBook } from "@/entities/Book";
 
-const collection = "test-projects";
+const collection = "books";
 
 export default class BookRepository {
   constructor() {}
@@ -116,5 +116,23 @@ export default class BookRepository {
       .collection(collection)
       .doc(identifier);
     await ref.set(itemProps);
+  }
+
+  async save(item: BookEntity) {
+    const itemProps = item.props;
+    const identifier = itemProps.identifier;
+    const serialized = {
+      ...itemProps
+    };
+
+    const ref = firebase
+      .firestore()
+      .collection(collection)
+      .doc(identifier);
+    await ref.update(serialized);
+
+    // fetch item again then update local store
+    const latestItem = await this.fetchItem(identifier);
+    this.storeItem(latestItem);
   }
 }

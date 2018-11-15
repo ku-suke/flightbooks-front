@@ -6,6 +6,7 @@ export interface IBook {
   name: string;
   owner: string;
   genre?: number;
+  copyright: string;
   createdAt: firebase.firestore.Timestamp;
   updatedAt: firebase.firestore.Timestamp;
   thumbanilUrl?: string;
@@ -36,6 +37,7 @@ export default class BookEntity {
       identifier: uuid(),
       name,
       owner,
+      copyright: "",
       projectTreeRef,
       createdAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp
