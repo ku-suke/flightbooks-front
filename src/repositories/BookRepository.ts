@@ -8,7 +8,7 @@ import {
 } from "@/store/modules/book/types";
 import BookEntity, { IBook } from "@/entities/Book";
 
-const collection = "test-projects";
+const collection = "books";
 
 export default class BookRepository {
   constructor() {}
