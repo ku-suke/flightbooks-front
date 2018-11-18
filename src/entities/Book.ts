@@ -43,9 +43,11 @@ export default class BookEntity {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp
     });
   }
+
   get pages(): PageEntity[] {
     return this._props.pages.map(page => new PageEntity(page));
   }
+
   registerPage({
     pageContentEntity
   }: {

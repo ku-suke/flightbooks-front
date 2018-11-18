@@ -19,7 +19,7 @@
           <Icon name="add-file" />
         </button>
         </div>
-        <PageTree v-for="page in presenter.book.pages" :nestLevel="1" :data="page" :key="page.props.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
+        <PageTree v-for="page in presenter.book.pages" :nestLevel="1" :data="page" :key="page.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
       </Nav>
     </div>
   </div>
@@ -28,7 +28,7 @@
 <script lang="ts">
 import Vue from "vue";
 import BookEntity from "@/entities/Book";
-import PageEntity from "@/entities/Page";
+import PageEntity, { IPage } from "@/entities/Page";
 
 import Presenter, { IPresenter } from "./presenter";
 import ErrorService from "@/services/ErrorService";
@@ -73,20 +73,20 @@ export default Vue.extend({
   methods: {
     async registerPage({ name, parentId }: { name: string; parentId: string }) {
       const usecase = new RegisterPageUseCase({
-        bookEntity: this.presenter.book,
         pageContentRepository: new PageContentRepository(),
         bookRepository: new BookRepository(),
         errorService: new ErrorService({ context: "Registering page" })
       });
+      const bookEntity = new BookEntity(this.presenter.book);
       const content = "# Hello new chapter!\n";
-      await usecase.execute({ content });
+      await usecase.execute({ content, bookEntity });
     },
-    async selectPage(pageEntity: PageEntity) {
+    async selectPage(page: IPage) {
       const usecase = new SelectPageUseCase({
         pagecontentRepository: new PageContentRepository(),
         errorService: new ErrorService({ context: "Selecting Page" })
       });
-
+      const pageEntity = new PageEntity(page);
       await usecase.execute(pageEntity);
     }
   },
