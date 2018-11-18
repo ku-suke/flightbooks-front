@@ -1,16 +1,19 @@
 <template>
   <div class="BookNavi">
-    <div class="BookNavi__Navi">
+    <div class="BookNavi__Navi" v-if="presenter.projectTree">
       <router-link :to="{ name: 'buildSetting', params: { id: presenter.projectTree.props.identifier }}">
         <NavItem label="書籍をビルド">
           <i class="el-icon-printer" slot="icon" />
         </NavItem>
       </router-link>
-      <Nav label="設定">
+      <Nav label="設定" v-if="presenter.book">
         <NavItem label="プロジェクト設定" />
         <NavItem label="出版設定" />
+        <router-link :to="{ name: 'bookSetting', params: { id: presenter.book.identifier }}">
+          <NavItem label="書籍設定" />
+        </router-link>
       </Nav>
-      <Nav label="チャプター管理">
+      <Nav label="チャプター管理" v-if="presenter.projectTree">
         <div slot="menu">
           <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" @registerPage="registerPage" :identifier="presenter.projectTree.props.identifier" />
         </div>
@@ -47,6 +50,7 @@ import NavItem from "@/components/Base/NavItem.vue";
 import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
 import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
 import PageTree from "@/components/Modules/Tree/PageTree.vue";
+import BookRepository from "@/repositories/BookRepository";
 
 export default Vue.extend({
   components: {
@@ -65,6 +69,7 @@ export default Vue.extend({
     presenter(): IPresenter {
       return Presenter({
         userRepository: new UserRepository(),
+        bookRepository: new BookRepository(),
         projectTreeRepository: new ProjectTreeRepository(),
         pageContentRepository: new PageContentRepository()
       });
