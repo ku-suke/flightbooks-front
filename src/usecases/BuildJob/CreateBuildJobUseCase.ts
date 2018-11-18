@@ -1,7 +1,7 @@
 import BuildJobRepository from "@/repositories/BuildJobRepository";
 import { buildJobEntityFactory } from "@/entities/BuildJob";
 import ErrorService from "@/services/ErrorService";
-import ProjectTreeEntity from "@/entities/ProjectTree";
+import BookEntity from "@/entities/Book";
 
 export interface ICreateBuildJobUseCase {
   buildJobRepository: BuildJobRepository;
@@ -19,22 +19,18 @@ export default class CreateBuildJobUseCase implements UseCase {
 
   async execute({
     owner,
-    projectTreeEntity,
+    bookEntity,
     bookId
   }: {
     owner: string;
-    projectTreeEntity: ProjectTreeEntity;
+    bookEntity: BookEntity;
     bookId: string;
   }): Promise<void> {
     try {
-      // Get pageRefs
-      const pageIds = projectTreeEntity.getAllPages();
-
       // Register New Buildjob
       const buildJobEntity = buildJobEntityFactory({
         bookId,
-        owner,
-        pageIds
+        owner
       });
       await this.buildJobRepository.create(buildJobEntity);
       await this.buildJobRepository.createSnapshot(buildJobEntity);

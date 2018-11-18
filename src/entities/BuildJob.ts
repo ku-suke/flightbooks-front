@@ -12,24 +12,20 @@ export interface IBuildJob {
   key?: string;
   owner: string;
   status: JobStatus;
-  pageIds: firebase.firestore.DocumentReference[];
 }
 
 export const buildJobEntityFactory = ({
   bookId,
-  owner,
-  pageIds
+  owner
 }: {
   bookId: string;
   owner: string;
-  pageIds: firebase.firestore.DocumentReference[];
 }) => {
   return new BuildJobEntity({
     identifier: uuid(),
     bookId,
     owner,
-    status: JobStatus.JOB_CREATED,
-    pageIds
+    status: JobStatus.JOB_CREATED
   });
 };
 

@@ -1,24 +1,25 @@
 <template>
   <div class="BookNavi">
-    <div class="BookNavi__Navi" v-if="presenter.projectTree">
-      <router-link :to="{ name: 'buildSetting', params: { id: presenter.projectTree.props.identifier }}">
+    <div class="BookNavi__Navi" v-if="presenter.book">
+      <router-link :to="{ name: 'buildSetting', params: { id: presenter.book.identifier }}">
         <NavItem label="書籍をビルド">
           <i class="el-icon-printer" slot="icon" />
         </NavItem>
       </router-link>
-      <Nav label="設定" v-if="presenter.book">
+      <Nav label="設定">
         <NavItem label="プロジェクト設定" />
         <NavItem label="出版設定" />
         <router-link :to="{ name: 'bookSetting', params: { id: presenter.book.identifier }}">
           <NavItem label="書籍設定" />
         </router-link>
       </Nav>
-      <Nav label="チャプター管理" v-if="presenter.projectTree">
+      <Nav label="章立て">
         <div slot="menu">
-          <ProjectTreeMenu v-if="presenter.projectTree.props.identifier" @addChapter="registerChapter" @registerPage="registerPage" :identifier="presenter.projectTree.props.identifier" />
+          <button class="Menu__Item" title="章を追加" @click="registerPage">
+          <Icon name="add-file" />
+        </button>
         </div>
-        <ChapterTree v-for="chapter in presenter.projectTree.chapters" :nestLevel="1" :data="chapter" :key="chapter.props.identifier" :currentPage="presenter.currentPage" @addChapter="registerChapter" @registerPage="registerPage" @onPageClick="selectPage"/>
-        <PageTree v-for="page in presenter.projectTree.pages" :nestLevel="1" :data="page" :key="page.props.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
+        <PageTree v-for="page in presenter.book.pages" :nestLevel="1" :data="page" :key="page.props.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
       </Nav>
     </div>
   </div>
@@ -33,22 +34,18 @@ import Presenter, { IPresenter } from "./presenter";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
-import FetchProjectTreeUseCase from "@/usecases/projectTree/FetchProjectTreeUseCase";
-import RegisterChapterUseCase from "@/usecases/RegisterChapterUseCase";
 import RegisterPageUseCase from "@/usecases/RegisterPageUseCase";
 import SelectPageUseCase from "@/usecases/SelectPageUseCase";
 
 // Repositories
 import PageContentRepository from "@/repositories/PageContentRepository";
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import BuildJobRepository from "@/repositories/BuildJobRepository";
 import UserRepository from "@/repositories/UserRepository";
 
 // Components
 import Nav from "@/components/Base/Nav.vue";
 import NavItem from "@/components/Base/NavItem.vue";
-import ProjectTreeMenu from "@/components/Modules/ProjectTreeMenu.vue";
-import ChapterTree from "@/components/Modules/Tree/ChapterTree.vue";
+import Icon from "@/components/Base/Icon.vue";
 import PageTree from "@/components/Modules/Tree/PageTree.vue";
 import BookRepository from "@/repositories/BookRepository";
 
@@ -56,9 +53,8 @@ export default Vue.extend({
   components: {
     Nav,
     NavItem,
-    ProjectTreeMenu,
-    ChapterTree,
-    PageTree
+    PageTree,
+    Icon
   },
   props: {
     book: {
@@ -70,45 +66,20 @@ export default Vue.extend({
       return Presenter({
         userRepository: new UserRepository(),
         bookRepository: new BookRepository(),
-        projectTreeRepository: new ProjectTreeRepository(),
         pageContentRepository: new PageContentRepository()
       });
     }
   },
   methods: {
-    async fetch() {
-      const usecase = new FetchProjectTreeUseCase({
-        projectTreeRepository: new ProjectTreeRepository(),
-        ref: this.book.props.projectTreeRef,
-        errorService: new ErrorService({ context: "Fetching projectTree" })
-      });
-
-      await usecase.execute();
-    },
-    async registerChapter({
-      name,
-      parentId
-    }: {
-      name: string;
-      parentId: string;
-    }) {
-      const usecase = new RegisterChapterUseCase({
-        projectTreeEntity: this.presenter.projectTree,
-        projectTreeRepository: new ProjectTreeRepository(),
-        errorService: new ErrorService({ context: "Registering chapter" })
-      });
-
-      await usecase.execute({ name, parentId });
-    },
     async registerPage({ name, parentId }: { name: string; parentId: string }) {
       const usecase = new RegisterPageUseCase({
-        projectTreeEntity: this.presenter.projectTree,
+        bookEntity: this.presenter.book,
         pageContentRepository: new PageContentRepository(),
-        projectTreeRepository: new ProjectTreeRepository(),
+        bookRepository: new BookRepository(),
         errorService: new ErrorService({ context: "Registering page" })
       });
-
-      await usecase.execute({ name, parentId });
+      const content = "# Hello new chapter!\n";
+      await usecase.execute({ content });
     },
     async selectPage(pageEntity: PageEntity) {
       const usecase = new SelectPageUseCase({
@@ -123,7 +94,6 @@ export default Vue.extend({
     book: {
       async handler(val: BookEntity) {
         if (!val) return;
-        await this.fetch();
       }
     }
   }
@@ -136,5 +106,29 @@ export default Vue.extend({
   height: 100%;
   width: 100%;
   background-color: #2e3235;
+}
+.Menu__Item {
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+  transition: 0.3s;
+  border: none;
+}
+.Menu__Item:hover {
+  cursor: pointer;
+}
+.Menu__Item:hover,
+.Menu__Item:focus {
+  box-shadow: 0px 0px 0px 2px rgba(85, 85, 85, 1);
+}
+.Menu__Item svg {
+  fill: #fff;
+}
+.Menu__Item:hover svg,
+.Menu__Item:focus svg {
+  display: block;
 }
 </style>

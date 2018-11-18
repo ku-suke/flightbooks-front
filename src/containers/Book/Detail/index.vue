@@ -31,7 +31,6 @@ import DestroyContainerUseCase from "./DestroyContainerUseCase";
 
 // Repositories
 import BookRepository from "@/repositories/BookRepository";
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import PageContentRepository from "@/repositories/PageContentRepository";
 
 interface IData {
@@ -97,8 +96,7 @@ export default Vue.extend({
   },
   async destroyed() {
     await new DestroyContainerUseCase({
-      bookRepository: new BookRepository(),
-      projectTreeRepository: new ProjectTreeRepository()
+      bookRepository: new BookRepository()
     }).execute();
   }
 });

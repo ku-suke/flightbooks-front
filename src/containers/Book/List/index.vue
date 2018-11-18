@@ -27,7 +27,6 @@ import Presenter, { IPresenter } from "./presenter";
 
 import BookRepository from "@/repositories/BookRepository";
 import UserRepository from "@/repositories/UserRepository";
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import ErrorService from "@/services/ErrorService";
 
 // Use Case
@@ -76,7 +75,6 @@ export default Vue.extend({
       this.isRegistering = true;
       const usecase = new RegisterBookUseCase({
         bookRepository: new BookRepository(),
-        projectTreeRepository: new ProjectTreeRepository(),
         errorService: new ErrorService({ context: "RegisterBook UseCase" })
       });
 
