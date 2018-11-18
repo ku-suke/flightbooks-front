@@ -86,7 +86,7 @@ export default Vue.extend({
       });
 
       const item = new BookEntity({
-        ...this.presenter.Book,
+        ...this.presenter.book,
         identifier: this.id
       });
       await saveBookUseCase.execute(item);
