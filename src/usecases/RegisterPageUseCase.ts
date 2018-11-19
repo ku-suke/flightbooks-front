@@ -1,52 +1,50 @@
 import ErrorService from "@/services/ErrorService";
 import PageContentEntity from "@/entities/PageContent";
-import ProjectTreeEntity from "@/entities/ProjectTree";
+import BookEntity from "@/entities/Book";
 import PageContentRepository from "@/repositories/PageContentRepository";
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
+import BookRepository from "@/repositories/BookRepository";
 
 export interface IRegisterPageUseCase {
-  projectTreeEntity: ProjectTreeEntity;
   pageContentRepository: PageContentRepository;
-  projectTreeRepository: ProjectTreeRepository;
+  bookRepository: BookRepository;
   errorService: ErrorService;
 }
 
 export default class RegisterPageUseCase implements UseCase {
-  projectTreeEntity: ProjectTreeEntity;
   pageContentRepository: PageContentRepository;
-  projectTreeRepository: ProjectTreeRepository;
+  bookRepository: BookRepository;
   errorService: ErrorService;
 
   constructor({
-    projectTreeEntity,
     pageContentRepository,
-    projectTreeRepository,
+    bookRepository,
     errorService
   }: IRegisterPageUseCase) {
-    this.projectTreeEntity = projectTreeEntity;
     this.pageContentRepository = pageContentRepository;
-    this.projectTreeRepository = projectTreeRepository;
+    this.bookRepository = bookRepository;
     this.errorService = errorService;
   }
 
   async execute({
-    name,
-    parentId
+    content,
+    bookEntity
   }: {
-    name: string;
-    parentId: string;
+    content: string;
+    bookEntity: BookEntity;
   }): Promise<void> {
     try {
       // Register New Page Content
-      const owner = this.projectTreeEntity.props.owner;
+      // FirebaseにはPageContentを、Bookにはその一部メタデータを保存
+      const owner = bookEntity.props.owner;
       const pageContentEntity = PageContentEntity.newEntity(owner);
+      pageContentEntity.updateContent(content);
       const pageContentRef = await this.pageContentRepository.create(
         pageContentEntity
       );
 
-      // Register to ProjectTree
-      this.projectTreeEntity.registerPage({ name, pageContentRef, parentId });
-      this.projectTreeRepository.save(this.projectTreeEntity);
+      // Register to Book
+      bookEntity.registerPage({ pageContentEntity });
+      this.bookRepository.save(bookEntity);
     } catch (error) {
       await this.errorService.handle(error);
       throw new Error(error);

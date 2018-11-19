@@ -2,9 +2,8 @@ import firebase from "firebase";
 
 export interface IPage {
   identifier?: Identifier;
-  name: any;
-  owner: string;
-  pageContent?: firebase.firestore.DocumentReference;
+  tagline: any;
+  order: number;
 }
 
 export default class PageEntity {

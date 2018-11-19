@@ -1,5 +1,5 @@
 <template>
-  <NavItem :label="data.props.name" :nestLevel="nestLevel" :isActive="data.props.pageContent.id === currentPage" @click="handleClick">
+  <NavItem :label="data.tagline" :nestLevel="nestLevel" :isActive="data.identifier === currentPage" @click="handleClick">
     <div slot="menu">
     </div>
   </NavItem>

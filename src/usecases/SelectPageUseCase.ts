@@ -17,10 +17,13 @@ export default class SelectPageUseCase implements UseCase {
   }
 
   async execute(pageEntity: PageEntity): Promise<void> {
+    // Bookから指定されたPageEntityを使って、PageContentを取得する
     try {
-      const ref = pageEntity.props.pageContent;
-      const pageContent = await this.pagecontentRepository.fetchItemByRef(ref);
-
+      const identifier = pageEntity.props.identifier;
+      const pageContent = await this.pagecontentRepository.fetchItemById(
+        identifier
+      );
+      // @TODO この2つの違いが判らない。Addはmutationsでstate.itemsに追加している
       this.pagecontentRepository.addItem(pageContent);
       this.pagecontentRepository.storeItem(pageContent);
     } catch (error) {

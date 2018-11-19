@@ -46,7 +46,6 @@ import BuildSettingEntity, {
 
 import BuildSettingRepository from "@/repositories/BuildSettingRepository";
 import UserRepository from "@/repositories/UserRepository";
-import ProjectTreeRepository from "@/repositories/ProjectTreeRepository";
 import PageContentRepository from "@/repositories/PageContentRepository";
 
 import BuildJobRepository from "@/repositories/BuildJobRepository";
@@ -59,6 +58,7 @@ import Button, {
   Type as ButtonType,
   Size as ButtonSize
 } from "@/components/Base/Button.vue";
+import BookEntity from "@/entities/Book";
 
 interface IData {
   isLoading: boolean;
@@ -74,6 +74,10 @@ export default Vue.extend({
     id: {
       type: String,
       required: true
+    },
+    book: {
+      type: BookEntity,
+      required: true
     }
   },
   data(): IData {
@@ -86,7 +90,6 @@ export default Vue.extend({
       return Presenter({
         buildSettingRepository: new BuildSettingRepository(),
         userRepository: new UserRepository(),
-        projectTreeRepository: new ProjectTreeRepository(),
         pageContentRepository: new PageContentRepository()
       });
     }
@@ -122,8 +125,8 @@ export default Vue.extend({
 
       await createBuildJobUseCase.execute({
         owner: this.presenter.userId,
-        bookId: this.id,
-        projectTreeEntity: this.presenter.projectTree
+        bookEntity: this.book,
+        bookId: this.id
       });
 
       this.isLoading = false;

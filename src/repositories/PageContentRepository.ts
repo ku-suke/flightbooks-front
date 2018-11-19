@@ -5,7 +5,7 @@ import PageContentEntity, { IPageContent } from "@/entities/PageContent";
 
 const collection = "pages";
 
-export default class ProjectTreeRepository {
+export default class PageContentRepository {
   constructor() {}
 
   async create(
@@ -23,10 +23,12 @@ export default class ProjectTreeRepository {
     return ref;
   }
 
-  async fetchItemByRef(
-    ref: firebase.firestore.DocumentReference
-  ): Promise<IPageContent> {
-    const snapshot = await ref.get();
+  async fetchItemById(identifier: string): Promise<IPageContent> {
+    const snapshot = await firebase
+      .firestore()
+      .collection(collection)
+      .doc(identifier)
+      .get();
     const item = snapshot.data();
 
     return item as IPageContent;
