@@ -1,7 +1,6 @@
 import BuildJobRepository from "@/repositories/BuildJobRepository";
 import { buildJobEntityFactory } from "@/entities/BuildJob";
 import ErrorService from "@/services/ErrorService";
-import BookEntity from "@/entities/Book";
 
 export interface ICreateBuildJobUseCase {
   buildJobRepository: BuildJobRepository;
@@ -19,11 +18,9 @@ export default class CreateBuildJobUseCase implements UseCase {
 
   async execute({
     owner,
-    bookEntity,
     bookId
   }: {
     owner: string;
-    bookEntity: BookEntity;
     bookId: string;
   }): Promise<void> {
     try {
@@ -33,7 +30,6 @@ export default class CreateBuildJobUseCase implements UseCase {
         owner
       });
       await this.buildJobRepository.create(buildJobEntity);
-      await this.buildJobRepository.createSnapshot(buildJobEntity);
     } catch (error) {
       await this.errorService.handle(error);
       throw new Error(error);

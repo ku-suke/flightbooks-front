@@ -59,6 +59,7 @@ import Button, {
   Size as ButtonSize
 } from "@/components/Base/Button.vue";
 import BookEntity from "@/entities/Book";
+import BookRepository from "@/repositories/BookRepository";
 
 interface IData {
   isLoading: boolean;
@@ -74,10 +75,6 @@ export default Vue.extend({
     id: {
       type: String,
       required: true
-    },
-    book: {
-      type: BookEntity,
-      required: true
     }
   },
   data(): IData {
@@ -89,6 +86,7 @@ export default Vue.extend({
     presenter(): IPresenter {
       return Presenter({
         buildSettingRepository: new BuildSettingRepository(),
+        bookRepository: new BookRepository(),
         userRepository: new UserRepository(),
         pageContentRepository: new PageContentRepository()
       });
@@ -125,12 +123,12 @@ export default Vue.extend({
 
       await createBuildJobUseCase.execute({
         owner: this.presenter.userId,
-        bookEntity: this.book,
         bookId: this.id
       });
 
       this.isLoading = false;
       alert("ビルドキューを作成しました");
+      this.$router.go(-1);
     }
   },
   async mounted() {
