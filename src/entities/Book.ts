@@ -56,10 +56,22 @@ export default class BookEntity {
     // Bookには全データ格納しない。1行目、並び順、contentのID
     const page = new PageEntity({
       identifier: pageContentEntity.props.identifier,
-      order: this._props.pages.length,
+      order: this._props.pages ? this._props.pages.length : 0,
       tagline: pageContentEntity.props.content.split("\n")[0].trim()
     });
     this._props.pages.push(page.props);
+  }
+
+  updatePage({ pageContentEntity }: { pageContentEntity: PageContentEntity }) {
+    let newPages: IPage[] = [];
+    // pagesからデータを探索
+    this._props.pages.forEach((value: IPage, index: Number, array: IPage[]) => {
+      if (value.identifier == pageContentEntity.props.identifier) {
+        value.tagline = pageContentEntity.props.content.split("\n")[0].trim();
+      }
+      newPages.push(value);
+    });
+    this._props.pages = newPages;
   }
 
   get props(): IBook {
