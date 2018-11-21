@@ -81,9 +81,13 @@ export default Vue.extend({
       try {
         const usecase = new SavePageContentUseCase({
           pageContentRepository: new PageContentRepository(),
+          bookRepository: new BookRepository(),
           errorService: new ErrorService({ context: "UpdateContent UseCase" })
         });
-        await usecase.execute(pageContent);
+        await usecase.execute({
+          pageContentEntity: pageContent,
+          book: this.presenter.book
+        });
       } catch (error) {
         console.log(error);
       }
