@@ -2,7 +2,8 @@
   <main class="Signin">
     <el-card class="Signin__Card">
       <div slot="header" class="clearfix">
-        <span>ログイン</span>
+        <p>ログイン</p>
+        <p>（<router-link :to="{ name: 'signup' }" >&raquo; 新規登録はこちら</router-link >）</p>
       </div>
       <form class="Signin__Form" @submit.prevent="signin">
         <FormBlock label="メールアドレス">
@@ -13,6 +14,14 @@
         </FormBlock>
         <Button text="ログイン" nativeType="submit" :type="ButtonType.Primary" :disabled="!verified" :loading="loading" />
       </form>
+    </el-card>
+    
+    <el-card class="Signup__Card">
+      <div slot="header" class="clearfix">
+        <span>ソーシャルログイン</span>
+      </div>
+      <Button text="Googleでログイン" nativeType="button" :type="ButtonType.Primary" :loading="loading" @click="signInWithGoogle" />
+      <br><Button text="GitHubでログイン" nativeType="button" :type="ButtonType.Primary" :loading="loading" @click="signInWithGithub" />
     </el-card>
   </main>
 </template>
@@ -101,6 +110,25 @@ export default Vue.extend({
 
       this.loading = false;
     },
+
+    async signInWithGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await firebase
+        .auth()
+        .signInWithPopup(provider)
+        .catch(error => alert("🤕" + error.message));
+
+      this.loading = false;
+    },
+    async signInWithGithub() {
+      const provider = new firebase.auth.GithubAuthProvider();
+      await firebase
+        .auth()
+        .signInWithPopup(provider)
+        .catch(error => alert("🤕" + error.message));
+
+      this.loading = false;
+    },
     redirect() {
       const redirect = this.$route.query.redirect;
       if (redirect) {
@@ -123,6 +151,7 @@ export default Vue.extend({
 
 .Signin__Card {
   width: 400px;
+  margin: 10px;
 }
 
 .Signin__Form {
