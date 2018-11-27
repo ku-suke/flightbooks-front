@@ -10,7 +10,6 @@ export interface PresenterParams {
 
 export interface IPresenter {
   book: BookEntity;
-  content: string; // TODO: こいつを消す
   pageContent: PageContentEntity;
 }
 
@@ -22,7 +21,6 @@ export default ({
   const pageContent = pageContentRepository.getItem();
   return {
     book: item ? new BookEntity(item) : null,
-    content: pageContent ? pageContent.props.content : "",
     pageContent
   };
 };

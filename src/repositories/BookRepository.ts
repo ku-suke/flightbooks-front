@@ -132,7 +132,7 @@ export default class BookRepository {
     await ref.update(serialized);
 
     // fetch item again then update local store
-    const latestItem = await this.fetchItem(identifier);
-    this.storeItem(latestItem);
+    //const latestItem = await this.fetchItem(identifier);
+    this.storeItem(item.props);
   }
 }

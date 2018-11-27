@@ -43,6 +43,8 @@ export default class PageContentRepository {
     await ref.update({
       ...itemProps
     });
+
+    this.storeItem(item.props);
   }
 
   addItem(item: IPageContent) {
