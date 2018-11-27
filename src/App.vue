@@ -79,7 +79,6 @@ main {
 
 .App__Header {
   padding: 0;
-  z-index: 10;
 }
 
 .App__Sidebar {

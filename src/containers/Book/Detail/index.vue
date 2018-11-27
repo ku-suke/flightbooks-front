@@ -7,9 +7,6 @@
       <Editor v-if="presenter.pageContent" :data="presenter.pageContent" :isSaving="isSaving" class="BookDetail__Editor" :configs="editorConfig" @save="saveContent"/>
       <div v-else class="BookDetail__EditorEmpty">← 左のサイドメニューから編集するページを選択、もしくは作成してください。</div>
     </div>
-    <div class="BookDetail__Right">
-      ここに画像管理UI(TBD)
-    </div>
   </div>
 </template>
 
@@ -121,12 +118,7 @@ export default Vue.extend({
 }
 
 .BookDetail__Center {
-  flex: 6;
-}
-
-.BookDetail__Right {
-  flex: 3;
-  padding: 40px 20px;
+  flex: 8;
 }
 
 .BookDetail__Editor {

@@ -74,7 +74,7 @@ export default Vue.extend({
 }
 
 .Header__Logo {
-  width: 200px;
+  width: 150px;
 }
 
 .Header__Logo:hover > img {
