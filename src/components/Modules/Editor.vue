@@ -21,13 +21,19 @@ import PageContentEntity from "@/entities/PageContent";
 interface IData {
   ButtonSize: typeof ButtonSize;
   pageContent: PageContentEntity;
+  configs: Object;
 }
 
 export default Vue.extend({
   data(): IData {
     return {
       ButtonSize,
-      pageContent: null
+      pageContent: null,
+      configs: {
+        showIcons: ["code", "table"],
+        spellChecker: false,
+        codeSyntaxHighlighting: true
+      }
     };
   },
   components: {
@@ -35,10 +41,6 @@ export default Vue.extend({
     Button
   },
   props: {
-    configs: {
-      type: Object as () => any,
-      default: {}
-    },
     isSaving: {
       type: Boolean,
       default: false
