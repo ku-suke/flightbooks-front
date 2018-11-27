@@ -28,8 +28,12 @@ export default ({
   const currentUser = userRepository.getCurrentUser();
   const pageContent = pageContentRepository.getItem();
   const item = bookRepository.getItem();
+  const buildSetting = buildSettingRepository.getData().props;
+  if (!buildSetting.email) {
+    buildSetting.email = currentUser.email;
+  }
   return {
-    buildSetting: buildSettingRepository.getData().props,
+    buildSetting: buildSetting,
     userId: currentUser ? currentUser.uid : "",
     book: item ? new BookEntity(item) : null,
     currentPage: pageContent ? pageContent.props.identifier : null
