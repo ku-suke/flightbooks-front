@@ -4,6 +4,7 @@
       <router-link class="Header__Logo" to="/">
         <img src="/logo.png" />
       </router-link>
+      <small>💥まだ作りたてのアルファバージョンです。🛠<br >不具合報告は<a href="https://twitter.com/ku_suke">@ku_suke</a> または<a href="https://github.com/ku-suke/flightbooks-front/issues">GitHub Issue</a>までお願いいたします。</small>
     </div>
     <div class="Header__Right">
         <!-- <el-button round @click="handleSignOut">Sign Out</el-button> -->
@@ -71,6 +72,17 @@ export default Vue.extend({
 .Hedaer__Left {
   display: flex;
   align-items: flex-end;
+}
+
+.Hedaer__Left small {
+  text-align: left;
+  height: 50px;
+}
+
+.Hedaer__Left small a,
+.Hedaer__Left small a:visited,
+.Hedaer__Left small a:active {
+  color: white;
 }
 
 .Header__Logo {
