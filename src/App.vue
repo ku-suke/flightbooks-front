@@ -6,7 +6,7 @@
       </el-header>
       <el-container>
         <template v-if="presenter.isAuthenticating">
-          <h2>読み込み中だお</h2>
+          <h2>Loading...</h2>
         </template>
         <router-view v-else/>
       </el-container>

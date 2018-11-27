@@ -25,7 +25,7 @@ interface IData {
 export default Vue.extend({
   data(): IData {
     return {
-      isExpanded: false
+      isExpanded: true
     };
   },
   props: {

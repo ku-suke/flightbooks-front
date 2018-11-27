@@ -93,6 +93,7 @@ export default Vue.extend({
 
       this.isLoading = false;
       alert("Bookを保存しました");
+      this.$router.go(-1);
     }
   },
   async mounted() {

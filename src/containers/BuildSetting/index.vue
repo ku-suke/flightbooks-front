@@ -127,7 +127,9 @@ export default Vue.extend({
       });
 
       this.isLoading = false;
-      alert("ビルドキューを作成しました");
+      alert(
+        "ビルドキューを作成しました。 1～2分ほどで記入いただいたメールあてにダウンロードリンクをお届けします。"
+      );
       this.$router.go(-1);
     }
   },

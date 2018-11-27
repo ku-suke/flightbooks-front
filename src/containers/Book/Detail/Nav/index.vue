@@ -6,13 +6,9 @@
           <i class="el-icon-printer" slot="icon" />
         </NavItem>
       </router-link>
-      <Nav label="設定">
-        <NavItem label="プロジェクト設定" />
-        <NavItem label="出版設定" />
         <router-link :to="{ name: 'bookSetting', params: { id: presenter.book.identifier }}">
           <NavItem label="書籍設定" />
         </router-link>
-      </Nav>
       <Nav label="章立て">
         <div slot="menu">
           <button class="Menu__Item" title="章を追加" @click="registerPage">
