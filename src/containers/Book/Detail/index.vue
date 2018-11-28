@@ -105,6 +105,7 @@ export default Vue.extend({
 
 <style scoped>
 @import "~simplemde/dist/simplemde.min.css";
+@import "~highlight.js/styles/default.css";
 
 .BookDetail {
   display: flex;
