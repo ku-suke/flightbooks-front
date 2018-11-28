@@ -67,4 +67,9 @@ export default Vue.extend({
 .NavItem__Icon {
   margin-right: var(--space-lv1);
 }
+.NavItem__Label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 </style>

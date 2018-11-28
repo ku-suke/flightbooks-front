@@ -153,8 +153,7 @@ export default Vue.extend({
   font-style: normal;
   font-weight: 300;
   src: local("GenShinGothic"),
-    url(https://storage.googleapis.com/flightbooks-a72f0.appspot.com/generate/GenShinGothic-P-Regular.ttf)
-      format("truetype");
+    url(/font/GenShinGothic-P-Regular.ttf) format("truetype");
 }
 
 @font-face {
@@ -162,17 +161,14 @@ export default Vue.extend({
   font-style: normal;
   font-weight: 500;
   src: local("GenShinGothic"),
-    url(https://storage.googleapis.com/flightbooks-a72f0.appspot.com/generate/GenShinGothic-P-Medium.ttf)
-      format("truetype");
+    url(/font/GenShinGothic-P-Medium.ttf) format("truetype");
 }
 
 @font-face {
   font-family: "Myrica";
   font-style: normal;
   font-weight: 400;
-  src: local("Myrica"),
-    url(https://storage.googleapis.com/flightbooks-a72f0.appspot.com/generate/Myrica.TTC)
-      format("truetype");
+  src: local("Myrica"), url(/font/Myrica.TTC) format("truetype");
 }
 .editor-preview-side {
   font-size: 11pt;
