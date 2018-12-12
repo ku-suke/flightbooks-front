@@ -1,5 +1,5 @@
 <template>
-  <div class="Editor" @drop.prevent="onDrop" >
+  <div class="Editor" @drop.prevent="onDrop">
     <MarkdownEditor
       ref="markdownEditor"
       :value="pageContent.props.content"
@@ -7,7 +7,13 @@
       :highlight="true"
       :configs="configs"
     />
-    <Button class="Editor__Save" text="保存" :loading="isSaving" :size="ButtonSize.Small" @click="handleSave"/>
+    <Button
+      class="Editor__Save"
+      text="保存"
+      :loading="isSaving"
+      :size="ButtonSize.Small"
+      @click="handleSave"
+    />
   </div>
 </template>
 
@@ -15,6 +21,7 @@
 import Vue from "vue";
 import store from "@/store";
 import firebase from "firebase";
+import jsmd5 from "js-md5";
 import MarkdownEditor from "vue-simplemde/src/markdown-editor.vue";
 import Button, { Size as ButtonSize } from "@/components/Base/Button.vue";
 import PageContentEntity from "@/entities/PageContent";
@@ -24,6 +31,8 @@ interface Window {
 }
 declare var window: Window;
 window.hljs = hljs;
+let limitter = null;
+let contentHash = "";
 
 interface IData {
   ButtonSize: typeof ButtonSize;
@@ -64,6 +73,7 @@ export default Vue.extend({
         // Copy to component state
         if (pageContent) {
           this.pageContent = pageContent;
+          contentHash = jsmd5(pageContent.props.content);
         }
       }
     }
@@ -87,7 +97,15 @@ export default Vue.extend({
       this.$emit("save", this.pageContent);
     },
     updateContent(content: string) {
+      let hash = jsmd5(content);
       (this.pageContent as PageContentEntity).updateContent(content);
+      if (limitter != null) {
+        clearTimeout(limitter);
+        limitter = null;
+      }
+      if (hash != contentHash) {
+        limitter = setTimeout(this.handleSave, 4000);
+      }
     },
     uploadFileName(file, filename) {
       return `books/${store.state.book.item.identifier}/assets/${filename}.${
