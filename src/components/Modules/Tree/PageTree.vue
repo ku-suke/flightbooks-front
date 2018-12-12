@@ -1,6 +1,12 @@
 <template>
-  <NavItem :label="data.tagline" :nestLevel="nestLevel" :isActive="data.identifier === currentPage" @click="handleClick">
+  <NavItem
+    :label="data.tagline"
+    :nestLevel="nestLevel"
+    :isActive="data.identifier === currentPage"
+    @click="handleClick"
+  >
     <div slot="menu">
+      <PageMenu :identifier="data.identifier" @deletePage="handleDeletePage"/>
     </div>
   </NavItem>
 </template>
@@ -8,11 +14,13 @@
 <script lang="ts">
 import Vue from "vue";
 import NavItem from "@/components/Base/NavItem.vue";
+import PageMenu from "@/components/Modules/PageMenu.vue";
 import PageEntity from "@/entities/Page";
 
 export default Vue.extend({
   components: {
-    NavItem
+    NavItem,
+    PageMenu
   },
   props: {
     data: {
@@ -31,6 +39,9 @@ export default Vue.extend({
   methods: {
     handleClick() {
       this.$emit("onPageClick", this.data);
+    },
+    handleDeletePage() {
+      this.$emit("onDeletePage", this.data);
     }
   }
 });

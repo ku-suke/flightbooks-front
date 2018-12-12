@@ -13,6 +13,7 @@ export interface IBook {
   updatedAt: firebase.firestore.Timestamp;
   thumbanilUrl?: string;
   pages: IPage[];
+  trash: IPage[];
 }
 
 export default class BookEntity {
@@ -39,6 +40,7 @@ export default class BookEntity {
       owner,
       copyright: "",
       pages: [],
+      trash: [],
       createdAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp() as firebase.firestore.Timestamp
     });
@@ -72,6 +74,24 @@ export default class BookEntity {
       newPages.push(value);
     });
     this._props.pages = newPages;
+  }
+
+  deletePage({ identifier }: { identifier: string }) {
+    let newPages: IPage[] = [];
+    let movePage: IPage = null;
+    // pagesからデータを探索しtrashに移動
+    this._props.pages.forEach((value: IPage, index: Number, array: IPage[]) => {
+      if (value.identifier == identifier) {
+        movePage = value;
+      } else {
+        newPages.push(value);
+      }
+    });
+    this._props.pages = newPages;
+    if (this._props.trash == null) {
+      this._props.trash = [];
+    }
+    this._props.trash.push(movePage);
   }
 
   get props(): IBook {

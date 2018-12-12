@@ -3,19 +3,27 @@
     <div class="BookNavi__Navi" v-if="presenter.book">
       <router-link :to="{ name: 'buildSetting', params: { id: presenter.book.identifier }}">
         <NavItem label="書籍をビルド">
-          <i class="el-icon-printer" slot="icon" />
+          <i class="el-icon-printer" slot="icon"/>
         </NavItem>
       </router-link>
-        <router-link :to="{ name: 'bookSetting', params: { id: presenter.book.identifier }}">
-          <NavItem label="書籍設定" />
-        </router-link>
+      <router-link :to="{ name: 'bookSetting', params: { id: presenter.book.identifier }}">
+        <NavItem label="書籍設定"/>
+      </router-link>
       <Nav label="章立て">
         <div slot="menu">
           <button class="Menu__Item" title="章を追加" @click="registerPage">
-          <Icon name="add-file" />
-        </button>
+            <Icon name="add-file"/>
+          </button>
         </div>
-        <PageTree v-for="page in presenter.book.pages" :nestLevel="1" :data="page" :key="page.identifier" :currentPage="presenter.currentPage" @onPageClick="selectPage" />
+        <PageTree
+          v-for="page in presenter.book.pages"
+          :nestLevel="1"
+          :data="page"
+          :key="page.identifier"
+          :currentPage="presenter.currentPage"
+          @onPageClick="selectPage"
+          @onDeletePage="deletePage"
+        />
       </Nav>
     </div>
   </div>
@@ -31,6 +39,7 @@ import ErrorService from "@/services/ErrorService";
 
 // Use Case
 import RegisterPageUseCase from "@/usecases/RegisterPageUseCase";
+import DeletePageUseCase from "@/usecases/DeletePageUseCase";
 import SelectPageUseCase from "@/usecases/SelectPageUseCase";
 
 // Repositories
@@ -84,6 +93,15 @@ export default Vue.extend({
       });
       const pageEntity = new PageEntity(page);
       await usecase.execute(pageEntity);
+    },
+    async deletePage(page: IPage) {
+      const usecase = new DeletePageUseCase({
+        bookRepository: new BookRepository(),
+        errorService: new ErrorService({ context: "Deleting Page" })
+      });
+      const bookEntity = new BookEntity(this.presenter.book);
+      console.log(page.identifier);
+      await usecase.execute({ bookEntity, identifier: page.identifier });
     }
   },
   watch: {
